@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Todo } from '../class/todo';
 
+import { FirebaseService } from '../service/firebase.service';
+
 @Component({
   selector: 'app-todo',
   templateUrl: './todo.component.html',
@@ -9,11 +11,23 @@ import { Todo } from '../class/todo';
 export class TodoComponent implements OnInit {
   todos: Todo[] = [];
 
-  constructor() { }
+  constructor(private firebase: FirebaseService) { }
 
   ngOnInit() {
-    this.todos.push(new Todo('hoge1'));
-    this.todos.push(new Todo('hoge2'));
+    this.firebase.getItems('/todos').subscribe((snapshots: any[]) => {
+      this.todos = [];
+      snapshots.forEach((snapshot: any) => {
+        this.todos.push(new Todo(snapshot.title, snapshot.done, snapshot.due).setKey(snapshot));
+      });
+    });
+  }
+
+  addTodo(todo: Todo) {
+    this.firebase.addItem(new Todo('hoge1'));
+  }
+
+  deleteTodo(todo: Todo) {
+    this.firebase.deleteItem(todo);
   }
 
 }
