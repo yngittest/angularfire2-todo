@@ -1,0 +1,7 @@
+angular2:
+    build: .
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - "4200:4200"
+    command: npm start
