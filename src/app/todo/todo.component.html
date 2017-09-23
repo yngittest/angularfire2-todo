@@ -1,0 +1,13 @@
+<table>
+  <tbody>
+    <ng-container *ngFor="let todo of todos">
+      <tr>
+        <td>
+          <input type="checkbox" [(ngModel)]="todo.done"/>
+        </td>
+        <td>{{todo.title}}</td>
+        <td>{{todo.due | date: 'short'}}</td>
+      </tr>
+    </ng-container>
+  </tbody>
+</table>
