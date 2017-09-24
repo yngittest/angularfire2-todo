@@ -1,3 +1,28 @@
-<app-todo-form (submit)="addTodo($event)"></app-todo-form>
+<button type="button" class="btn btn-primary" (click)="openModal(add)">Add</button>
 
-<app-todo-list [todos]="todos" (onUpdate)="updateTodo($event)" (onDelete)="deleteTodo($event)"></app-todo-list>
+<app-todo-list [todos]="todos" (onUpdate)="updateTodo($event)" (onDelete)="deleteTodo($event)" (onEdit)="editTodo($event); openModal(edit)"></app-todo-list>
+
+
+<ng-template #add>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Add</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-todo-form (submit)="addTodo($event)"></app-todo-form>
+  </div>
+</ng-template>
+
+<ng-template #edit>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Edit</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-todo-edit [todo]="selected" (edited)="onEdited($event)"></app-todo-edit>
+  </div>
+</ng-template>

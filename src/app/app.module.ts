@@ -5,6 +5,9 @@ import { FormsModule } from '@angular/forms';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
+
+import { ModalModule } from 'ngx-bootstrap';
+
 import { environment } from '../environments/environment';
 
 import { AppComponent } from './app.component';
@@ -21,14 +24,15 @@ import { TodoEditComponent } from './todo-edit/todo-edit.component';
     TodoComponent,
     TodoFormComponent,
     TodoListComponent,
-    TodoEditComponent
+    TodoEditComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    ModalModule.forRoot()
   ],
   providers: [
     FirebaseService

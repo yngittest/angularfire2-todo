@@ -1,7 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+
 import { Todo } from '../class/todo';
 
 import { FirebaseService } from '../service/firebase.service';
+
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
+import { ModalContentComponent } from '../modal-content/modal-content.component';
 
 @Component({
   selector: 'app-todo',
@@ -10,8 +15,10 @@ import { FirebaseService } from '../service/firebase.service';
 })
 export class TodoComponent implements OnInit {
   todos: Todo[] = [];
+  bsModalRef: BsModalRef;
+  selected: Todo;
 
-  constructor(private firebase: FirebaseService) { }
+  constructor(private firebase: FirebaseService, private modalService: BsModalService) { }
 
   ngOnInit() {
     this.firebase.getItems('/todos').subscribe((snapshots: any[]) => {
@@ -24,6 +31,7 @@ export class TodoComponent implements OnInit {
 
   addTodo(todo: Todo) {
     this.firebase.addItem(todo);
+    this.bsModalRef.hide();
   }
 
   updateTodo(todo: Todo) {
@@ -32,6 +40,22 @@ export class TodoComponent implements OnInit {
 
   deleteTodo(todo: Todo) {
     this.firebase.deleteItem(todo);
+  }
+
+  editTodo(todo: Todo) {
+    this.selected = todo;
+  }
+
+  onEdited(todo: Todo) {
+    if(todo) {
+      this.updateTodo(todo);
+    }
+    this.selected = null;
+    this.bsModalRef.hide();
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.bsModalRef = this.modalService.show(template);
   }
 
 }
