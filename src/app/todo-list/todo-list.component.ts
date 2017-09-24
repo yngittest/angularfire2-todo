@@ -7,11 +7,12 @@ import { Todo } from '../class/todo';
   styleUrls: ['./todo-list.component.css']
 })
 export class TodoListComponent implements OnInit {
+  selected: Todo;
 
   @Input() todos: Todo[];
 
-  @Output() updateOutput = new EventEmitter<Todo>();
-  @Output() deleteOutput = new EventEmitter<Todo>();
+  @Output() onUpdate = new EventEmitter<Todo>();
+  @Output() onDelete = new EventEmitter<Todo>();
 
   constructor() { }
 
@@ -19,11 +20,22 @@ export class TodoListComponent implements OnInit {
   }
 
   update(todo: Todo) {
-    this.updateOutput.emit(todo);
+    this.onUpdate.emit(todo);
   }
 
   delete(todo: Todo) {
-    this.deleteOutput.emit(todo);
+    this.onDelete.emit(todo);
+  }
+
+  edit(todo: Todo) {
+    this.selected = todo;
+  }
+
+  onEdited(todo: Todo) {
+    if(todo) {
+      this.update(todo);
+    }
+    this.selected = null;
   }
 
 }

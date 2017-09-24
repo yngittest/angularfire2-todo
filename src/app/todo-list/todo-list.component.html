@@ -6,7 +6,7 @@
           <td>
             <input type="checkbox" [(ngModel)]="todo.done" (ngModelChange)="update(todo)"/>
           </td>
-          <td>
+          <td (click)="edit(todo)">
             {{todo.title}}
             {{todo.due | date: 'short'}}
           </td>
@@ -14,5 +14,6 @@
         </tr>
       </tbody>
     </table>
+    <app-todo-edit *ngIf="todo===selected" [todo]="selected" (edited)="onEdited($event)"></app-todo-edit>
   </li>
 </ul>
