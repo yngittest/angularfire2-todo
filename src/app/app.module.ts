@@ -11,11 +11,13 @@ import { AppComponent } from './app.component';
 import { TodoComponent } from './todo/todo.component';
 
 import { FirebaseService } from './service/firebase.service';
+import { TodoFormComponent } from './todo-form/todo-form.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TodoComponent
+    TodoComponent,
+    TodoFormComponent
   ],
   imports: [
     BrowserModule,

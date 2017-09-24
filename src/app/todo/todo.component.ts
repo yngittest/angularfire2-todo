@@ -23,7 +23,7 @@ export class TodoComponent implements OnInit {
   }
 
   addTodo(todo: Todo) {
-    this.firebase.addItem(new Todo('hoge1'));
+    this.firebase.addItem(todo);
   }
 
   deleteTodo(todo: Todo) {
