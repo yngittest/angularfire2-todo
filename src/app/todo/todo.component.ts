@@ -26,6 +26,10 @@ export class TodoComponent implements OnInit {
     this.firebase.addItem(todo);
   }
 
+  updateTodo(todo: Todo) {
+    this.firebase.updateItem(todo);
+  }
+
   deleteTodo(todo: Todo) {
     this.firebase.deleteItem(todo);
   }

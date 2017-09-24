@@ -11,4 +11,12 @@ export class Todo {
     return this;
   }
 
+  get data() {
+    return {
+      title: this.title,
+      done: this.done,
+      due: this.due
+    };
+  }
+
 }

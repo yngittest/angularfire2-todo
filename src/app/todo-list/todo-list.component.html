@@ -1,0 +1,18 @@
+<ul>
+  <li *ngFor="let todo of todos">
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <input type="checkbox" [(ngModel)]="todo.done" (ngModelChange)="update(todo)"/>
+          </td>
+          <td>
+            {{todo.title}}
+            {{todo.due | date: 'short'}}
+          </td>
+          <td (click)="delete(todo)">&times;</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+</ul>
