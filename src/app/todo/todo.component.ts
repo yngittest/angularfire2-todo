@@ -6,7 +6,6 @@ import { FirebaseService } from '../service/firebase.service';
 
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
-import { ModalContentComponent } from '../modal-content/modal-content.component';
 
 @Component({
   selector: 'app-todo',
