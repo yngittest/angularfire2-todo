@@ -23,7 +23,7 @@ export class TodoComponent implements OnInit {
     this.firebase.getItems('/todos').subscribe((snapshots: any[]) => {
       this.todos = [];
       snapshots.forEach((snapshot: any) => {
-        this.todos.push(new Todo(snapshot.title, snapshot.done, snapshot.due).setKey(snapshot));
+        this.todos.push(new Todo(snapshot.title, snapshot.done, snapshot.due).setKey(snapshot.$key));
       });
     });
   }

@@ -6,8 +6,8 @@ export class Todo {
   constructor(private title: string, private done: boolean = false, private due: number = +moment()) {
   }
 
-  setKey(value: any): Todo {
-    this.key = value.$key
+  setKey(key: string): Todo {
+    this.key = key;
     return this;
   }
 
