@@ -6,7 +6,7 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 
-import { ModalModule } from 'ngx-bootstrap';
+import { ModalModule, BsDatepickerModule, TimepickerModule } from 'ngx-bootstrap';
 
 import { environment } from '../environments/environment';
 
@@ -32,7 +32,9 @@ import { TodoItemComponent } from './todo-item/todo-item.component';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    BsDatepickerModule.forRoot(),
+    TimepickerModule.forRoot()
   ],
   providers: [
     FirebaseService

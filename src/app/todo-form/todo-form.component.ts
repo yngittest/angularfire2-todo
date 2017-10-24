@@ -8,6 +8,8 @@ import { Todo } from '../class/todo';
 })
 export class TodoFormComponent implements OnInit {
   title: string;
+  due: Date;
+
   @Output() submit = new EventEmitter<Todo>();
 
   constructor() { }
@@ -17,7 +19,7 @@ export class TodoFormComponent implements OnInit {
 
   create() {
     if (this.title) {
-      const todo: Todo = new Todo(this.title);
+      const todo: Todo = new Todo(this.title, false, this.due.getTime());
       this.submit.emit(todo);
     }
   }

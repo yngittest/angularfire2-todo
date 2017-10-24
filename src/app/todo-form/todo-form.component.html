@@ -1,2 +1,17 @@
-<input type="text" [(ngModel)]="title">
-<button (click)="create()">Create</button>
+<div class="container">
+  <input class="form-control" type="text" [(ngModel)]="title">
+  <div class="form-group">
+    <div class="input-group">
+      <input class="form-control" type="text" [(ngModel)]="due" bsDatepicker>
+      <timepicker [(ngModel)]="due" [showMeridian]="false"></timepicker>
+    </div>
+  </div>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <button class="btn btn-default" (click)="create()">
+    <i class="glyphicon glyphicon-plus"></i>
+  </button>
+</div>

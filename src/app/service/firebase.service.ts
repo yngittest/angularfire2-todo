@@ -18,14 +18,10 @@ export class FirebaseService {
   }
 
   updateItem(item) {
-    this.items.update(item.key, item.data).then( () => {
-      console.log('更新しました');
-    });
+    this.items.update(item.key, item.data);
   }
 
   deleteItem(item) {
-    this.items.remove(item.key).then(() => {
-      console.log('削除しました');
-    });
+    this.items.remove(item.key);
   }
 }
