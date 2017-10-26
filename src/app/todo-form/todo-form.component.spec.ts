@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core
 
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { BsDatepickerModule, TimepickerModule } from 'ngx-bootstrap';
 import { By } from '@angular/platform-browser';
 import { DebugElement} from '@angular/core';
 
@@ -29,7 +30,11 @@ describe('TodoFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ FormsModule ],
+      imports: [
+        FormsModule,
+        BsDatepickerModule.forRoot(),
+        TimepickerModule.forRoot()
+      ],
       declarations: [ TodoFormComponent, TodoFormTestComponent ]
     })
     .compileComponents();
@@ -45,14 +50,14 @@ describe('TodoFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should tirgger "submit" event which value is entered text when "Create" button clicked',
+  it('should tirgger "submit" event which title is entered text when + button clicked',
     fakeAsync(() => {
-      const enteredText: string = 'hoge';
+      const enteredTitle: string = 'hoge';
 
       fixture.detectChanges();
 
-      let deInput = fixture.debugElement.query(By.css('input'));
-      deInput.nativeElement.value = enteredText;
+      let deInput = fixture.debugElement.query(By.css('#title'));
+      deInput.nativeElement.value = enteredTitle;
       deInput.nativeElement.dispatchEvent(new Event('input'));
 
       tick();
@@ -60,7 +65,7 @@ describe('TodoFormComponent', () => {
       let deUpdate = fixture.debugElement.query(By.css('button'));
       deUpdate.triggerEventHandler('click', null);
       fixture.detectChanges();
-      expect(component.submitted.data.title).toEqual(enteredText);
+      expect(component.submitted.data.title).toEqual(enteredTitle);
     })
   );
 });

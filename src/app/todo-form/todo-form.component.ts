@@ -19,7 +19,12 @@ export class TodoFormComponent implements OnInit {
 
   create() {
     if (this.title) {
-      const todo: Todo = new Todo(this.title, false, this.due.getTime());
+      let todo: Todo;
+      if (this.due) {
+        todo = new Todo(this.title, false, this.due.getTime());
+      } else {
+        todo = new Todo(this.title, false);
+      }
       this.submit.emit(todo);
     }
   }

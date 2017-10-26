@@ -1,10 +1,7 @@
-import * as moment from 'moment';
-
 export class Todo {
   key?: string;
 
-  constructor(private title: string, private done: boolean = false, private due: number = +moment()) {
-  }
+  constructor(private title: string, private done: boolean = false, private due = null) {}
 
   setKey(key: string): Todo {
     this.key = key;
