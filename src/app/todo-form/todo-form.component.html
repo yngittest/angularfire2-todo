@@ -1,11 +1,6 @@
 <div class="container">
   <input id="title" class="form-control" type="text" [(ngModel)]="title">
-  <div class="form-group">
-    <div class="input-group">
-      <input id="due" class="form-control" type="text" [(ngModel)]="due" bsDatepicker>
-      <timepicker [(ngModel)]="due" [showMeridian]="false"></timepicker>
-    </div>
-  </div>
+  <input id="due" class="form-control" type="datetime-local" [(ngModel)]="due">
   <button class="btn btn-default" (click)="create()">
     <i class="glyphicon glyphicon-plus"></i>
   </button>

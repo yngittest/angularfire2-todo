@@ -2,7 +2,6 @@ import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core
 
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { BsDatepickerModule, TimepickerModule } from 'ngx-bootstrap';
 import { By } from '@angular/platform-browser';
 import { DebugElement} from '@angular/core';
 
@@ -30,11 +29,7 @@ describe('TodoFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        FormsModule,
-        BsDatepickerModule.forRoot(),
-        TimepickerModule.forRoot()
-      ],
+      imports: [ FormsModule ],
       declarations: [ TodoFormComponent, TodoFormTestComponent ]
     })
     .compileComponents();
@@ -50,22 +45,26 @@ describe('TodoFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should tirgger "submit" event which title is entered text when + button clicked',
+  it('should tirgger "submit" event when "+" button clicked',
     fakeAsync(() => {
-      const enteredTitle: string = 'hoge';
+      const inputTitle: string = 'hoge';
+      const inputDue: string = '2017-10-28T01:01';
 
-      fixture.detectChanges();
+      let deInputTitle = fixture.debugElement.query(By.css('#title'));
+      deInputTitle.nativeElement.value = inputTitle;
+      deInputTitle.nativeElement.dispatchEvent(new Event('input'));
 
-      let deInput = fixture.debugElement.query(By.css('#title'));
-      deInput.nativeElement.value = enteredTitle;
-      deInput.nativeElement.dispatchEvent(new Event('input'));
+      let deInputDue = fixture.debugElement.query(By.css('#due'));
+      deInputDue.nativeElement.value = inputDue;
+      deInputDue.nativeElement.dispatchEvent(new Event('input'));
 
       tick();
 
-      let deUpdate = fixture.debugElement.query(By.css('button'));
-      deUpdate.triggerEventHandler('click', null);
+      let deBtn = fixture.debugElement.query(By.css('button'));
+      deBtn.triggerEventHandler('click', null);
       fixture.detectChanges();
-      expect(component.submitted.data.title).toEqual(enteredTitle);
+      expect(component.submitted.data.title).toEqual(inputTitle);
+      expect(component.submitted.data.due).toEqual(Date.parse(inputDue));
     })
   );
 });
