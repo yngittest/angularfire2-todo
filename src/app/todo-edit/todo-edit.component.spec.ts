@@ -5,6 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { DebugElement} from '@angular/core';
 
+import * as moment from 'moment';
+
 import { TodoEditComponent } from './todo-edit.component';
 import { Todo } from '../class/todo';
 
@@ -47,33 +49,41 @@ describe('TodoEditComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display the value of "todo" property inside the textbox',
+  it('should display the value of "todo" property',
     fakeAsync(() => {
       fixture.detectChanges();
       tick();
-      let de = fixture.debugElement.query(By.css('input'));
-      expect(de.nativeElement.value).toEqual(component.selected.data.title);
+      let deTitle = fixture.debugElement.query(By.css('#title'));
+      expect(deTitle.nativeElement.value).toEqual(component.selected.data.title);
+      let deDue = fixture.debugElement.query(By.css('#due'));
+      expect(deDue.nativeElement.value).toEqual(moment(component.selected.data.due).format('YYYY-MM-DDTHH:mm'));
     })
   );
 
-  it('should tirgger "edited" event which value is edited title when "OK" button clicked',
+  it('should tirgger "edited" event when "OK" button clicked',
     fakeAsync(() => {
-      fixture.detectChanges();
+      const inputTitle: string = 'title after';
+      const inputDue: string = '2017-10-28T01:01';
 
-      let deInput = fixture.debugElement.query(By.css('input'));
-      deInput.nativeElement.value = 'title after';
-      deInput.nativeElement.dispatchEvent(new Event('input'));
+      let deInputTitle = fixture.debugElement.query(By.css('#title'));
+      deInputTitle.nativeElement.value = inputTitle;
+      deInputTitle.nativeElement.dispatchEvent(new Event('input'));
+
+      let deInputDue = fixture.debugElement.query(By.css('#due'));
+      deInputDue.nativeElement.value = inputDue;
+      deInputDue.nativeElement.dispatchEvent(new Event('input'));
 
       tick();
 
       let deUpdate = fixture.debugElement.query(By.css('#update'));
       deUpdate.triggerEventHandler('click', null);
       fixture.detectChanges();
-      expect(component.updated.data.title).toEqual('title after');
+      expect(component.updated.data.title).toEqual(inputTitle);
+      expect(component.updated.data.due).toEqual(Date.parse(inputDue));
     })
   );
 
-  it('should tirgger "edited" event which value is "undefined" when "Cancel" button clicked',
+  it('should tirgger "edited" event when "Cancel" button clicked',
     () => {
       let de = fixture.debugElement.query(By.css('#cancel'));
       de.triggerEventHandler('click', null);

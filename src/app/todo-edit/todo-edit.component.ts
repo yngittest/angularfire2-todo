@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import * as moment from 'moment';
 import { Todo } from '../class/todo';
 
 @Component({
@@ -7,7 +8,8 @@ import { Todo } from '../class/todo';
   styleUrls: ['./todo-edit.component.css']
 })
 export class TodoEditComponent implements OnInit {
-  editedTodo: Todo;
+  title: string;
+  due: string;
 
   @Input() todo: Todo;
 
@@ -16,16 +18,24 @@ export class TodoEditComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.editedTodo = new Todo(this.todo.data.title, this.todo.data.done, this.todo.data.due);
-    this.editedTodo.key = this.todo.key;
+    this.title = this.todo.data.title;
+    this.due = moment(this.todo.data.due).format('YYYY-MM-DDTHH:mm');
   }
 
   update() {
-    this.edited.emit(this.editedTodo);
+    if (this.title) {
+      let editedTodo: Todo;
+      if (this.due) {
+        editedTodo = new Todo(this.title, this.todo.data.done, Date.parse(this.due));
+      } else {
+        editedTodo = new Todo(this.title, this.todo.data.done);
+      }
+      editedTodo.key = this.todo.key;
+      this.edited.emit(editedTodo);
+    }
   }
 
   cancel() {
     this.edited.emit();
   }
-
 }
