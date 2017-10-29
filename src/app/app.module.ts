@@ -16,6 +16,7 @@ import { FirebaseService } from './service/firebase.service';
 import { TodoFormComponent } from './todo-form/todo-form.component';
 import { TodoEditComponent } from './todo-edit/todo-edit.component';
 import { TodoItemComponent } from './todo-item/todo-item.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { TodoItemComponent } from './todo-item/todo-item.component';
     TodoFormComponent,
     TodoEditComponent,
     TodoItemComponent,
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,

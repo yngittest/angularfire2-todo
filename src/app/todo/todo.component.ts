@@ -16,16 +16,21 @@ export class TodoComponent implements OnInit {
   todos: Todo[] = [];
   bsModalRef: BsModalRef;
   selected: Todo;
+  subscription: any;
 
   constructor(private firebase: FirebaseService, private modalService: BsModalService) { }
 
   ngOnInit() {
-    this.firebase.getItems('/todos').subscribe((snapshots: any[]) => {
+    this.subscription = this.firebase.getItems('/todos').subscribe((snapshots: any[]) => {
       this.todos = [];
       snapshots.forEach((snapshot: any) => {
         this.todos.push(new Todo(snapshot.title, snapshot.done, snapshot.due).setKey(snapshot.$key));
       });
     });
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   addTodo(todo: Todo) {
