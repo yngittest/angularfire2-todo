@@ -1,6 +1,4 @@
-<div class="container">
-  <app-navbar></app-navbar>
-  <ng-container *ngIf="(user | async)?.uid">
-    <app-todo></app-todo>
-  </ng-container>
-</div>
+<app-navbar></app-navbar>
+<ng-container *ngIf="(user | async)?.uid">
+  <app-todo></app-todo>
+</ng-container>
