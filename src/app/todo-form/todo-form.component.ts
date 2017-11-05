@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import * as moment from 'moment';
 import { Todo } from '../class/todo';
 
 @Component({
@@ -15,6 +16,7 @@ export class TodoFormComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    this.due = moment().format('YYYY-MM-DDTHH:mm');
   }
 
   create() {
