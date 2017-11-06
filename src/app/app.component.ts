@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 
-import { AngularFireAuth } from 'angularfire2/auth';
-import { Observable } from 'rxjs/Observable';
-import * as firebase from 'firebase/app';
+import { AuthService } from './service/auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -10,11 +8,5 @@ import * as firebase from 'firebase/app';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  user: Observable<firebase.User>;
-
-  constructor(private afAuth: AngularFireAuth) { }
-
-  ngOnInit() {
-    this.user = this.afAuth.authState;
-  }
+  constructor(private auth: AuthService) { }
 }

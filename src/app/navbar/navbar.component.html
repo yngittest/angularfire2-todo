@@ -11,13 +11,13 @@
     </div>
     <div class="navbar-collapse collapse" [collapse]="isCollapsed">
       <ul class="nav navbar-nav navbar-right">
-        <li *ngIf="(user | async)?.uid">
-          <a>Hello {{ (user | async)?.displayName }}</a>
+        <li *ngIf="auth.authenticated$ | async">
+          <a>Hello {{ auth.name$ | async }}</a>
         </li>
-        <li *ngIf="!(user | async)?.uid">
+        <li *ngIf="!(auth.authenticated$ | async)">
           <a (click)="login()">Login</a>
         </li>
-        <li *ngIf="(user | async)?.uid">
+        <li *ngIf="auth.authenticated$ | async">
           <a (click)="logout()">Logout</a>
         </li>
       </ul>

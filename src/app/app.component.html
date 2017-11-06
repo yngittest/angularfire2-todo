@@ -1,4 +1,4 @@
 <app-navbar></app-navbar>
-<ng-container *ngIf="(user | async)?.uid">
+<ng-container *ngIf="auth.authenticated$ | async">
   <app-todo></app-todo>
 </ng-container>
