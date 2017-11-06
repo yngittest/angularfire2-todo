@@ -26,9 +26,9 @@ export class TodoEditComponent implements OnInit {
     if (this.title) {
       let editedTodo: Todo;
       if (this.due) {
-        editedTodo = new Todo(this.title, this.todo.data.done, Date.parse(this.due));
+        editedTodo = new Todo(this.title, Date.parse(this.due), this.todo.data.done);
       } else {
-        editedTodo = new Todo(this.title, this.todo.data.done);
+        editedTodo = new Todo(this.title, null, this.todo.data.done);
       }
       editedTodo.key = this.todo.key;
       this.edited.emit(editedTodo);

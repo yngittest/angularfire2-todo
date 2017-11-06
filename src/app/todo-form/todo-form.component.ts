@@ -23,9 +23,9 @@ export class TodoFormComponent implements OnInit {
     if (this.title) {
       let todo: Todo;
       if (this.due) {
-        todo = new Todo(this.title, false, Date.parse(this.due));
+        todo = new Todo(this.title, Date.parse(this.due));
       } else {
-        todo = new Todo(this.title, false);
+        todo = new Todo(this.title);
       }
       this.submit.emit(todo);
     }

@@ -15,7 +15,7 @@ import { Todo } from '../class/todo';
   `
 })
 export class TodoItemTestComponent {
-  todo = new Todo('test', false, Date.parse('2017-10-15T21:00:00')).setKey('testkey');
+  todo = new Todo('test', Date.parse('2017-10-15T21:00:00')).setKey('testkey');
 
   updated: Todo;
   deleted: Todo;

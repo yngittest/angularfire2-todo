@@ -17,7 +17,7 @@ import { Todo } from '../class/todo';
   `
 })
 export class TodoEditTestComponent {
-  selected = new Todo('title before', false, Date.now()).setKey('testkey');
+  selected = new Todo('title before', Date.now()).setKey('testkey');
 
   updated: Todo;
 
