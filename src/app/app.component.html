@@ -1,4 +1,5 @@
 <app-navbar></app-navbar>
 <ng-container *ngIf="auth.authenticated$ | async">
-  <app-todo></app-todo>
+  <app-group (submit)="onGetGroup($event)"></app-group>
+  <app-todo [groups]="groups"></app-todo>
 </ng-container>

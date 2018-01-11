@@ -8,8 +8,8 @@ export class FirebaseService {
 
   constructor(private db: AngularFireDatabase) { }
 
-  getItems(url: string): FirebaseListObservable<any[]> {
-    this.items = this.db.list(url);
+  getItems(path: string, options: any): FirebaseListObservable<any[]> {
+    this.items = this.db.list(path, options);
     return this.items;
   }
 

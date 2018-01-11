@@ -7,6 +7,7 @@
       <td id="content" (click)="edit()">
         <h4>{{todo.title}}</h4>
         <div>{{todo.due | date: 'short'}}</div>
+        <div>{{myGroupName}}</div>
       </td>
       <td id="delete" (click)="delete()">
         <span class="pull-right">&times;</span>

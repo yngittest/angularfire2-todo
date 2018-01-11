@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import * as moment from 'moment';
 import { Todo } from '../class/todo';
+import { Group } from '../model/group';
 
 @Component({
   selector: 'app-todo-edit',
@@ -10,8 +11,10 @@ import { Todo } from '../class/todo';
 export class TodoEditComponent implements OnInit {
   title: string;
   due: string;
+  groupKey: string;
 
   @Input() todo: Todo;
+  @Input() groups: Group[];
 
   @Output() edited = new EventEmitter<Todo>();
 
@@ -19,17 +22,29 @@ export class TodoEditComponent implements OnInit {
 
   ngOnInit() {
     this.title = this.todo.data.title;
+    this.groupKey = this.todo.data.groupKey;
     this.due = moment(this.todo.data.due).format('YYYY-MM-DDTHH:mm');
   }
 
   update() {
     if (this.title) {
       let editedTodo: Todo;
-      if (this.due) {
-        editedTodo = new Todo(this.title, Date.parse(this.due), this.todo.data.done);
+
+      let inputDue: number;
+      if(this.due) {
+        inputDue = Date.parse(this.due);
       } else {
-        editedTodo = new Todo(this.title, null, this.todo.data.done);
+        inputDue = null;
       }
+
+      let inputGroupKey: string;
+      if(this.groupKey) {
+        inputGroupKey = this.groupKey;
+      } else {
+        inputGroupKey = this.groups[0].key;
+      }
+
+      editedTodo = new Todo(this.title, inputGroupKey, inputDue, this.todo.data.done);
       editedTodo.key = this.todo.key;
       this.edited.emit(editedTodo);
     }

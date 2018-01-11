@@ -1,5 +1,11 @@
 <div class="container">
   <input id="title" type="text" [(ngModel)]="title">
+  <select [(ngModel)]="groupKey">
+    <option value="">Select Group</option>
+    <option *ngFor="let group of groups" [ngValue]="group.key">
+      {{group.name}}
+    </option>
+  </select>
   <input id="due" type="datetime-local" [(ngModel)]="due">
   <button class="btn btn-default" (click)="create()">
     <i class="glyphicon glyphicon-plus"></i>

@@ -12,12 +12,13 @@ import { environment } from '../environments/environment';
 
 import { AppComponent } from './app.component';
 import { TodoComponent } from './todo/todo.component';
-import { FirebaseService } from './service/firebase.service';
 import { AuthService } from './service/auth/auth.service';
 import { TodoFormComponent } from './todo-form/todo-form.component';
 import { TodoEditComponent } from './todo-edit/todo-edit.component';
 import { TodoItemComponent } from './todo-item/todo-item.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { GroupComponent } from './group/group.component';
+import { GroupFormComponent } from './group/group-form/group-form.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,8 @@ import { NavbarComponent } from './navbar/navbar.component';
     TodoEditComponent,
     TodoItemComponent,
     NavbarComponent,
+    GroupComponent,
+    GroupFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,7 +41,6 @@ import { NavbarComponent } from './navbar/navbar.component';
     CollapseModule.forRoot()
   ],
   providers: [
-    FirebaseService,
     AuthService
   ],
   bootstrap: [AppComponent]

@@ -1,6 +1,7 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import * as moment from 'moment';
 import { Todo } from '../class/todo';
+import { Group } from '../model/group';
 
 @Component({
   selector: 'app-todo-form',
@@ -10,6 +11,9 @@ import { Todo } from '../class/todo';
 export class TodoFormComponent implements OnInit {
   title: string;
   due: string;
+  groupKey: string;
+
+  @Input() groups: Group[];
 
   @Output() submit = new EventEmitter<Todo>();
 
@@ -20,14 +24,25 @@ export class TodoFormComponent implements OnInit {
   }
 
   create() {
-    if (this.title) {
-      let todo: Todo;
-      if (this.due) {
-        todo = new Todo(this.title, Date.parse(this.due));
+    if(this.title) {
+      let createdTodo: Todo;
+
+      let inputDue: number;
+      if(this.due) {
+        inputDue = Date.parse(this.due);
       } else {
-        todo = new Todo(this.title);
+        inputDue = null;
       }
-      this.submit.emit(todo);
+
+      let inputGroupKey: string;
+      if(this.groupKey) {
+        inputGroupKey = this.groupKey;
+      } else {
+        inputGroupKey = this.groups[0].key;
+      }
+
+      createdTodo = new Todo(this.title, inputGroupKey, inputDue);
+      this.submit.emit(createdTodo);
     }
   }
 }

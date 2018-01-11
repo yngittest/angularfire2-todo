@@ -1,5 +1,6 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, Output, EventEmitter } from '@angular/core';
 import { Todo } from '../class/todo';
+import { Group } from '../model/group';
 
 @Component({
   selector: 'app-todo-item',
@@ -7,8 +8,10 @@ import { Todo } from '../class/todo';
   styleUrls: ['./todo-item.component.css']
 })
 export class TodoItemComponent implements OnInit {
+  myGroupName: string;
 
   @Input() todo: Todo;
+  @Input() groups: Group[];
 
   @Output() onUpdate = new EventEmitter<Todo>();
   @Output() onDelete = new EventEmitter<Todo>();
@@ -17,6 +20,12 @@ export class TodoItemComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+  }
+
+  ngOnChanges() {
+    this.myGroupName = this.groups.filter(group => {
+      return group.key == this.todo.data.groupKey;
+    })[0].data.name;
   }
 
   update() {

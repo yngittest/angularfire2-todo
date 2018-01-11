@@ -1,0 +1,11 @@
+<div class="container">
+  <button type="button" class="btn btn-primary">Add Group</button>
+  <app-group-form (submit)="addGroup($event)"></app-group-form>
+
+  <ul class="list-group">
+    <li class="list-group-item" *ngFor="let group of groups">
+      {{group.name}}
+    </li>
+  </ul>
+
+</div>

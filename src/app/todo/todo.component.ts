@@ -1,6 +1,7 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, Input, TemplateRef } from '@angular/core';
 
 import { Todo } from '../class/todo';
+import { Group } from '../model/group';
 
 import { FirebaseService } from '../service/firebase.service';
 
@@ -9,22 +10,27 @@ import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 
 @Component({
   selector: 'app-todo',
+  providers: [
+    FirebaseService
+  ],
   templateUrl: './todo.component.html',
   styleUrls: ['./todo.component.css']
 })
 export class TodoComponent implements OnInit {
-  todos: Todo[] = [];
+  todos: Todo[];
   bsModalRef: BsModalRef;
   selected: Todo;
   subscription: any;
 
+  @Input() groups: Group[];
+
   constructor(private firebase: FirebaseService, private modalService: BsModalService) { }
 
   ngOnInit() {
-    this.subscription = this.firebase.getItems('/todos').subscribe((snapshots: any[]) => {
+    this.subscription = this.firebase.getItems('/todos', { query: { orderByChild: 'due' }}).subscribe((snapshots: any[]) => {
       this.todos = [];
       snapshots.forEach((snapshot: any) => {
-        this.todos.push(new Todo(snapshot.title, snapshot.due, snapshot.done).setKey(snapshot.$key));
+        this.todos.push(new Todo(snapshot.title, snapshot.groupKey, snapshot.due, snapshot.done).setKey(snapshot.$key));
       });
     });
   }

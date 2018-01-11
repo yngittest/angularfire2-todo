@@ -1,5 +1,10 @@
 <div class="container">
   <input id="title" type="text" [(ngModel)]="title">
+  <select [(ngModel)]="groupKey">
+    <option *ngFor="let group of groups" [ngValue]="group.key" >
+      {{group.name}}
+    </option>
+  </select>
   <input id="due" type="datetime-local" [(ngModel)]="due">
   <button id="update" class="btn btn-success" (click)="update()">OK</button>
   <button id="cancel" class="btn btn-danger" (click)="cancel()">Cancel</button>
