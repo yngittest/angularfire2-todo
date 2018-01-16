@@ -6,7 +6,7 @@ import { By } from '@angular/platform-browser';
 import { DebugElement} from '@angular/core';
 
 import { TodoItemComponent } from './todo-item.component';
-import { Todo } from '../class/todo';
+import { Todo } from '../../model/todo';
 
 @Component({
   selector: 'my-app',

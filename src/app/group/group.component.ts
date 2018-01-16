@@ -2,7 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 import { Group } from '../model/group';
 
-import { FirebaseService } from '../service/firebase.service';
+import { FirebaseService } from '../service/firebase/firebase.service';
 
 @Component({
   selector: 'app-group',

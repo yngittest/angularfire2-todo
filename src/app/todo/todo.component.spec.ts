@@ -6,7 +6,7 @@ import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ModalModule } from 'ngx-bootstrap';
 
 import { TodoComponent } from './todo.component';
-import { FirebaseService } from '../service/firebase.service';
+import { FirebaseService } from '../service/firebase/firebase.service';
 
 describe('TodoComponent', () => {
   let component: TodoComponent;

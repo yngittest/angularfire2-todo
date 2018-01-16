@@ -1,6 +1,6 @@
 import { Component, OnInit, OnChanges, Input, Output, EventEmitter } from '@angular/core';
-import { Todo } from '../class/todo';
-import { Group } from '../model/group';
+import { Todo } from '../../model/todo';
+import { Group } from '../../model/group';
 
 @Component({
   selector: 'app-todo-item',

@@ -8,7 +8,7 @@ import { DebugElement} from '@angular/core';
 import * as moment from 'moment';
 
 import { TodoEditComponent } from './todo-edit.component';
-import { Todo } from '../class/todo';
+import { Todo } from '../../model/todo';
 
 @Component({
   selector: 'my-app',

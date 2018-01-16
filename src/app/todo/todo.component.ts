@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, TemplateRef } from '@angular/core';
 
-import { Todo } from '../class/todo';
+import { Todo } from '../model/todo';
 import { Group } from '../model/group';
 
-import { FirebaseService } from '../service/firebase.service';
+import { FirebaseService } from '../service/firebase/firebase.service';
 
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
