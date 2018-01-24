@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import * as moment from 'moment';
 import { Todo } from '../../model/todo';
 import { Group } from '../../model/group';
+import { GroupService } from '../../service/group/group.service';
 
 @Component({
   selector: 'app-todo-edit',
@@ -12,17 +13,18 @@ export class TodoEditComponent implements OnInit {
   title: string;
   due: string;
   groupKey: string;
+  groups: Group[];
 
   @Input() todo: Todo;
-  @Input() groups: Group[];
 
   @Output() edited = new EventEmitter<Todo>();
 
-  constructor() { }
+  constructor(private group: GroupService) { }
 
   ngOnInit() {
     this.title = this.todo.data.title;
     this.groupKey = this.todo.data.groupKey;
+    this.groups = this.group.getGroups();
     this.due = moment(this.todo.data.due).format('YYYY-MM-DDTHH:mm');
   }
 

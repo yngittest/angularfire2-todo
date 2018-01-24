@@ -1,8 +1,12 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 
 import { Group } from '../model/group';
 
 import { FirebaseService } from '../service/firebase/firebase.service';
+import { GroupService } from '../service/group/group.service';
+
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 
 @Component({
   selector: 'app-group',
@@ -14,13 +18,11 @@ import { FirebaseService } from '../service/firebase/firebase.service';
 })
 export class GroupComponent implements OnInit {
   groups: Group[];
-  // bsModalRef: BsModalRef;
+  bsModalRef: BsModalRef;
   // selected: Group;
   subscription: any;
 
-  @Output() submit = new EventEmitter<Group[]>();
-
-  constructor(private firebase: FirebaseService) { }
+  constructor(private firebase: FirebaseService, private group: GroupService, private modalService: BsModalService) { }
 
   ngOnInit() {
     this.subscription = this.firebase.getItems('/groups', { query: { orderByChild: 'type' }}).subscribe((snapshots: any[]) => {
@@ -28,7 +30,7 @@ export class GroupComponent implements OnInit {
       snapshots.forEach((snapshot: any) => {
         this.groups.push(new Group(snapshot.name, snapshot.archived, snapshot.type).setKey(snapshot.$key));
       });
-      this.submit.emit(this.groups);
+      this.group.setGroups(this.groups);
     });
   }
 
@@ -38,7 +40,7 @@ export class GroupComponent implements OnInit {
 
   addGroup(group: Group) {
     this.firebase.addItem(group);
-    // this.bsModalRef.hide();
+    this.bsModalRef.hide();
   }
 
   updateGroup(group: Group) {
@@ -61,8 +63,8 @@ export class GroupComponent implements OnInit {
   //   this.bsModalRef.hide();
   // }
 
-  // openModal(template: TemplateRef<any>) {
-  //   this.bsModalRef = this.modalService.show(template);
-  // }
+  openModal(template: TemplateRef<any>) {
+    this.bsModalRef = this.modalService.show(template);
+  }
 
 }

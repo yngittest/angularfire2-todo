@@ -10,30 +10,39 @@ import { ModalModule, CollapseModule } from 'ngx-bootstrap';
 
 import { environment } from '../environments/environment';
 
+import { ROUTES } from './app.routing';
+
 import { AppComponent } from './app.component';
-import { TodoComponent } from './todo/todo.component';
-import { AuthService } from './service/auth/auth.service';
+import { NavbarComponent } from './navbar/navbar.component';
+// import { TodoComponent } from './todo/todo.component';
 import { TodoFormComponent } from './todo/todo-form/todo-form.component';
 import { TodoEditComponent } from './todo/todo-edit/todo-edit.component';
 import { TodoItemComponent } from './todo/todo-item/todo-item.component';
-import { NavbarComponent } from './navbar/navbar.component';
+import { TodoListComponent } from './todo/todo-list/todo-list.component';
+import { TodoOfGroupComponent } from './todo/todo-of-group/todo-of-group.component';
 import { GroupComponent } from './group/group.component';
 import { GroupFormComponent } from './group/group-form/group-form.component';
+
+import { AuthService } from './service/auth/auth.service';
+import { GroupService } from './service/group/group.service';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TodoComponent,
+    NavbarComponent,
+    // TodoComponent,
     TodoFormComponent,
     TodoEditComponent,
     TodoItemComponent,
-    NavbarComponent,
+    TodoListComponent,
+    TodoOfGroupComponent,
     GroupComponent,
     GroupFormComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    ROUTES,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
@@ -41,7 +50,8 @@ import { GroupFormComponent } from './group/group-form/group-form.component';
     CollapseModule.forRoot()
   ],
   providers: [
-    AuthService
+    AuthService,
+    GroupService
   ],
   bootstrap: [AppComponent]
 })

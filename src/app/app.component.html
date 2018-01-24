@@ -1,5 +1,5 @@
 <app-navbar></app-navbar>
-<ng-container *ngIf="auth.authenticated$ | async">
-  <app-group (submit)="onGetGroup($event)"></app-group>
-  <app-todo [groups]="groups"></app-todo>
-</ng-container>
+<div class="container" *ngIf="auth.authenticated$ | async">
+  <app-group></app-group>
+  <router-outlet></router-outlet>
+</div>

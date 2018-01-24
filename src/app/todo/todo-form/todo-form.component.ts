@@ -1,7 +1,8 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import * as moment from 'moment';
 import { Todo } from '../../model/todo';
 import { Group } from '../../model/group';
+import { GroupService } from '../../service/group/group.service';
 
 @Component({
   selector: 'app-todo-form',
@@ -12,14 +13,14 @@ export class TodoFormComponent implements OnInit {
   title: string;
   due: string;
   groupKey: string;
-
-  @Input() groups: Group[];
+  groups: Group[];
 
   @Output() submit = new EventEmitter<Todo>();
 
-  constructor() { }
+  constructor(private group: GroupService) { }
 
   ngOnInit() {
+    this.groups = this.group.getGroups();
     this.due = moment().format('YYYY-MM-DDTHH:mm');
   }
 

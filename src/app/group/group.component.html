@@ -1,11 +1,20 @@
-<div class="container">
-  <button type="button" class="btn btn-primary">Add Group</button>
-  <app-group-form (submit)="addGroup($event)"></app-group-form>
+<button type="button" class="btn btn-primary" (click)="openModal(add)">Add Group</button>
 
-  <ul class="list-group">
-    <li class="list-group-item" *ngFor="let group of groups">
-      {{group.name}}
-    </li>
-  </ul>
+<ul class="list-group">
+  <li class="list-group-item" *ngFor="let group of groups">
+    <a routerLink="/group/{{group.key}}">{{group.name}}</a>
+    <span class="pull-right" (click)="deleteGroup(group)">&times;</span>
+  </li>
+</ul>
 
-</div>
+<ng-template #add>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Add</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-group-form (submit)="addGroup($event)"></app-group-form>
+  </div>
+</ng-template>
