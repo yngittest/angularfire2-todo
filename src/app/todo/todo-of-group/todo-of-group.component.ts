@@ -1,40 +1,33 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { Todo } from '../../model/todo';
-import { Group } from '../../model/group';
 
-import { FirebaseService } from '../../service/firebase/firebase.service';
+import { FirebaseDbService } from '../../service/firebase-db/firebase-db.service';
 import { GroupService } from '../../service/group/group.service';
 
 @Component({
   selector: 'app-todo-of-group',
   templateUrl: './todo-of-group.component.html',
   styleUrls: ['./todo-of-group.component.css'],
-  providers: [
-    FirebaseService
-  ]
 })
 export class TodoOfGroupComponent implements OnInit {
   todos: Todo[];
+  myGroupKey: string;
   myGroupName: string;
   subscription: any;
 
-  constructor(private route: ActivatedRoute, private firebase: FirebaseService, private group: GroupService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private db: FirebaseDbService, private group: GroupService) { }
 
   ngOnInit() {
     this.route.params.subscribe((params) => {
-      const groupKey: string = params['key'];
-      this.subscription = this.firebase.getItems(`/todos/${groupKey}`, { query: { orderByChild: 'due' }}).subscribe((snapshots: any[]) => {
+      this.myGroupKey = params['key'];
+      this.subscription = this.db.getItems(`/todos/${this.myGroupKey}`, { query: { orderByChild: 'due' }}).subscribe((snapshots: any[]) => {
         this.todos = [];
         snapshots.forEach((snapshot: any) => {
-          this.todos.push(new Todo(snapshot.title, snapshot.groupKey, snapshot.due, snapshot.done).setKey(snapshot.$key));
+          this.todos.push(new Todo(snapshot.title, this.myGroupKey, snapshot.due, snapshot.done).setKey(snapshot.$key));
         });
-        
-        let groups: Group[] = this.group.getGroups();
-        this.myGroupName = groups.filter(group => {
-          return group.key == groupKey;
-        })[0].data.name;
+        this.myGroupName = this.group.getName(this.myGroupKey);
       });
     });
   }
@@ -44,15 +37,24 @@ export class TodoOfGroupComponent implements OnInit {
   }
 
   addTodo(todo: Todo) {
-    this.firebase.addItem(todo);
+    this.db.addItem(`todos/${todo.data.groupKey}`, todo.key, todo.data);
+    if(todo.data.groupKey != this.myGroupKey) {
+      this.router.navigate([`/groups/${todo.data.groupKey}`]);
+    }
   }
 
   updateTodo(todo: Todo) {
-    this.firebase.updateItem(todo);
+    if(todo.data.groupKey == this.myGroupKey) {
+      this.db.updateItem(`todos/${todo.data.groupKey}`, todo.key, todo.data);
+    } else {
+      this.db.deleteItem(`todos/${this.myGroupKey}`, todo.key);
+      this.db.addItem(`todos/${todo.data.groupKey}`, todo.key, todo.data);
+      this.router.navigate([`/groups/${todo.data.groupKey}`]);
+    }
   }
 
   deleteTodo(todo: Todo) {
-    this.firebase.deleteItem(todo);
+    this.db.deleteItem(`todos/${todo.data.groupKey}`, todo.key);
   }
 
 }

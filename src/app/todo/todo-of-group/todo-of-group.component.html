@@ -1,2 +1,2 @@
 <h2>{{ myGroupName }}</h2>
-<app-todo-list [todos]="todos" (onCreate)="addTodo($event)" (onUpdate)="updateTodo($event)" (onDelete)="deleteTodo($event)"></app-todo-list>
+<app-todo-list [todos]="todos" [groupKey]="myGroupKey" (onCreate)="addTodo($event)" (onUpdate)="updateTodo($event)" (onDelete)="deleteTodo($event)"></app-todo-list>

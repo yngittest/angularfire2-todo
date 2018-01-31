@@ -1,4 +1,5 @@
 import { Component, OnInit, OnChanges, Input, Output, EventEmitter } from '@angular/core';
+
 import { Todo } from '../../model/todo';
 import { Group } from '../../model/group';
 import { GroupService } from '../../service/group/group.service';
@@ -24,10 +25,7 @@ export class TodoItemComponent implements OnInit {
   }
 
   ngOnChanges() {
-    this.groups = this.group.getGroups();
-    this.myGroupName = this.groups.filter(group => {
-      return group.key == this.todo.data.groupKey;
-    })[0].data.name;
+    this.myGroupName = this.group.getName(this.todo.data.groupKey);
   }
 
   update() {

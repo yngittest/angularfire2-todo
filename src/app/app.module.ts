@@ -14,30 +14,35 @@ import { ROUTES } from './app.routing';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
-// import { TodoComponent } from './todo/todo.component';
+import { TodoListComponent } from './todo/todo-list/todo-list.component';
+import { TodoItemComponent } from './todo/todo-item/todo-item.component';
 import { TodoFormComponent } from './todo/todo-form/todo-form.component';
 import { TodoEditComponent } from './todo/todo-edit/todo-edit.component';
-import { TodoItemComponent } from './todo/todo-item/todo-item.component';
-import { TodoListComponent } from './todo/todo-list/todo-list.component';
 import { TodoOfGroupComponent } from './todo/todo-of-group/todo-of-group.component';
-import { GroupComponent } from './group/group.component';
+import { GroupListComponent } from './group/group-list/group-list.component';
+import { GroupItemComponent } from './group/group-item/group-item.component';
 import { GroupFormComponent } from './group/group-form/group-form.component';
+import { GroupEditComponent } from './group/group-edit/group-edit.component';
+import { MygroupComponent } from './group/mygroup/mygroup.component';
 
 import { AuthService } from './service/auth/auth.service';
 import { GroupService } from './service/group/group.service';
+import { FirebaseDbService } from './service/firebase-db/firebase-db.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    // TodoComponent,
+    TodoListComponent,
+    TodoItemComponent,
     TodoFormComponent,
     TodoEditComponent,
-    TodoItemComponent,
-    TodoListComponent,
     TodoOfGroupComponent,
-    GroupComponent,
+    GroupListComponent,
+    GroupItemComponent,
     GroupFormComponent,
+    GroupEditComponent,
+    MygroupComponent,
   ],
   imports: [
     BrowserModule,
@@ -51,7 +56,8 @@ import { GroupService } from './service/group/group.service';
   ],
   providers: [
     AuthService,
-    GroupService
+    GroupService,
+    FirebaseDbService
   ],
   bootstrap: [AppComponent]
 })

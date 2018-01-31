@@ -15,6 +15,7 @@ export class TodoListComponent implements OnInit {
   bsModalRef: BsModalRef;
 
   @Input() todos: Todo[];
+  @Input() groupKey: string;
 
   @Output() onCreate = new EventEmitter<Todo>();
   @Output() onUpdate = new EventEmitter<Todo>();

@@ -14,7 +14,7 @@
     </button>
   </div>
   <div class="modal-body">
-    <app-todo-form (submit)="addTodo($event)"></app-todo-form>
+    <app-todo-form [myGroupKey]="groupKey" (submit)="addTodo($event)"></app-todo-form>
   </div>
 </ng-template>
 

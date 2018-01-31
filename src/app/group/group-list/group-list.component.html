@@ -2,8 +2,7 @@
 
 <ul class="list-group">
   <li class="list-group-item" *ngFor="let group of groups">
-    <a routerLink="/group/{{group.key}}">{{group.name}}</a>
-    <span class="pull-right" (click)="deleteGroup(group)">&times;</span>
+    <app-group-item [group]="group" (onUpdate)="updateGroup($event)" (onDelete)="deleteGroup($event)" (onEdit)="editGroup($event); openModal(edit)"></app-group-item>
   </li>
 </ul>
 
@@ -16,5 +15,17 @@
   </div>
   <div class="modal-body">
     <app-group-form (submit)="addGroup($event)"></app-group-form>
+  </div>
+</ng-template>
+
+<ng-template #edit>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Edit</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-group-edit [group]="selected" (edited)="onEdited($event)"></app-group-edit>
   </div>
 </ng-template>
