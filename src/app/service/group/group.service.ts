@@ -20,7 +20,7 @@ export class GroupService {
     let groupName: string;
     this.groups
       .filter(group => {
-        return group.key == key;
+        return group.key === key;
       })
       .map(group => {
         groupName = group.data.name;

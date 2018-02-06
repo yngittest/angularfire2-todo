@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { Todo } from '../../model/todo';
@@ -11,7 +11,7 @@ import { GroupService } from '../../service/group/group.service';
   templateUrl: './todo-of-group.component.html',
   styleUrls: ['./todo-of-group.component.css'],
 })
-export class TodoOfGroupComponent implements OnInit {
+export class TodoOfGroupComponent implements OnInit, OnDestroy {
   todos: Todo[];
   myGroupKey: string;
   myGroupName: string;
@@ -38,13 +38,13 @@ export class TodoOfGroupComponent implements OnInit {
 
   addTodo(todo: Todo) {
     this.db.addItem(`todos/${todo.data.groupKey}`, todo.key, todo.data);
-    if(todo.data.groupKey != this.myGroupKey) {
+    if (todo.data.groupKey !== this.myGroupKey) {
       this.router.navigate([`/groups/${todo.data.groupKey}`]);
     }
   }
 
   updateTodo(todo: Todo) {
-    if(todo.data.groupKey == this.myGroupKey) {
+    if (todo.data.groupKey === this.myGroupKey) {
       this.db.updateItem(`todos/${todo.data.groupKey}`, todo.key, todo.data);
     } else {
       this.db.deleteItem(`todos/${this.myGroupKey}`, todo.key);

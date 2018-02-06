@@ -9,9 +9,8 @@ import { GroupService } from '../../service/group/group.service';
   templateUrl: './todo-item.component.html',
   styleUrls: ['./todo-item.component.css']
 })
-export class TodoItemComponent implements OnInit {
+export class TodoItemComponent implements OnInit, OnChanges {
   myGroupName: string;
-  groups: Group[];
 
   @Input() todo: Todo;
 

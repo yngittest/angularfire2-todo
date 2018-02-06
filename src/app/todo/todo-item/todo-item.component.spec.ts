@@ -9,9 +9,10 @@ import { TodoItemComponent } from './todo-item.component';
 import { Todo } from '../../model/todo';
 
 @Component({
-  selector: 'my-app',
+  selector: 'app-test-app',
   template: `
-    <app-todo-item [todo]="todo" (onUpdate)="updateTodo($event)" (onDelete)="deleteTodo($event)" (onEdit)="editTodo($event)"></app-todo-item>
+    <app-todo-item [todo]="todo" (onUpdate)="updateTodo($event)" (onDelete)="deleteTodo($event)" (onEdit)="editTodo($event)">
+    </app-todo-item>
   `
 })
 export class TodoItemTestComponent {
@@ -58,21 +59,21 @@ describe('TodoItemComponent', () => {
     fakeAsync(() => {
       fixture.detectChanges();
       tick();
-      let de = fixture.debugElement.query(By.css('input'));
+      const de = fixture.debugElement.query(By.css('input'));
       expect(de.nativeElement.checked).toEqual(component.todo.data.done);
     })
   );
 
   it('should display title',
     () => {
-      let de = fixture.debugElement.query(By.css('#content>h4'));
+      const de = fixture.debugElement.query(By.css('#content>h4'));
       expect(de.nativeElement.textContent).toEqual(component.todo.data.title);
     }
   );
 
   it('should display due',
     () => {
-      let de = fixture.debugElement.query(By.css('#content>div'));
+      const de = fixture.debugElement.query(By.css('#content>div'));
       expect(de.nativeElement.textContent).toEqual('10/15/2017, 9:00 PM');
     }
   );
@@ -81,7 +82,7 @@ describe('TodoItemComponent', () => {
     fakeAsync(() => {
       fixture.detectChanges();
       tick();
-      let de = fixture.debugElement.query(By.css('input'));
+      const de = fixture.debugElement.query(By.css('input'));
       de.nativeElement.click();
       expect(component.updated).toEqual(component.todo);
       expect(component.updated).toBeTruthy();
@@ -90,7 +91,7 @@ describe('TodoItemComponent', () => {
 
   it('should tirgger "onDelete" event when "X" button clicked',
     () => {
-      let de = fixture.debugElement.query(By.css('#delete'));
+      const de = fixture.debugElement.query(By.css('#delete'));
       de.triggerEventHandler('click', null);
       fixture.detectChanges();
       expect(component.deleted).toEqual(component.todo);
@@ -99,7 +100,7 @@ describe('TodoItemComponent', () => {
 
   it('should tirgger "onEdit" event when todo content clicked',
     () => {
-      let de = fixture.debugElement.query(By.css('#content'));
+      const de = fixture.debugElement.query(By.css('#content'));
       de.triggerEventHandler('click', null);
       fixture.detectChanges();
       expect(component.edited).toEqual(component.todo);

@@ -43,7 +43,7 @@ export class GroupListComponent implements OnInit {
   }
 
   onEdited(group: Group) {
-    if(group) {
+    if (group) {
       this.updateGroup(group);
     }
     this.selected = null;

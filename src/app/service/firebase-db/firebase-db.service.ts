@@ -21,7 +21,7 @@ export class FirebaseDbService {
 
   addItem(path: string, key: string, data) {
     let result;
-    if(key) {
+    if (key) {
       result = this.db.object(path).update({[key]: data});
     } else {
       result = this.db.list(path).push(data);

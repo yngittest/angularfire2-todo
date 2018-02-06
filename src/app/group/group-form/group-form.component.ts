@@ -19,7 +19,7 @@ export class GroupFormComponent implements OnInit {
   ngOnInit() { }
 
   create() {
-    if(this.name) {
+    if (this.name) {
       let group: Group;
       group = new Group(this.name);
       this.submit.emit(group);

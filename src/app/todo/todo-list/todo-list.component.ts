@@ -44,7 +44,7 @@ export class TodoListComponent implements OnInit {
   }
 
   onEdited(todo: Todo) {
-    if(todo) {
+    if (todo) {
       this.updateTodo(todo);
     }
     this.selected = null;

@@ -11,7 +11,7 @@ import { TodoEditComponent } from './todo-edit.component';
 import { Todo } from '../../model/todo';
 
 @Component({
-  selector: 'my-app',
+  selector: 'app-test-app',
   template: `
     <app-todo-edit [todo]="selected" (edited)="onEdited($event)"></app-todo-edit>
   `
@@ -29,7 +29,6 @@ export class TodoEditTestComponent {
 describe('TodoEditComponent', () => {
   let component: TodoEditTestComponent;
   let fixture: ComponentFixture<TodoEditTestComponent>;
-  let de: DebugElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -53,29 +52,29 @@ describe('TodoEditComponent', () => {
     fakeAsync(() => {
       fixture.detectChanges();
       tick();
-      let deTitle = fixture.debugElement.query(By.css('#title'));
+      const deTitle = fixture.debugElement.query(By.css('#title'));
       expect(deTitle.nativeElement.value).toEqual(component.selected.data.title);
-      let deDue = fixture.debugElement.query(By.css('#due'));
+      const deDue = fixture.debugElement.query(By.css('#due'));
       expect(deDue.nativeElement.value).toEqual(moment(component.selected.data.due).format('YYYY-MM-DDTHH:mm'));
     })
   );
 
   it('should tirgger "edited" event when "OK" button clicked',
     fakeAsync(() => {
-      const inputTitle: string = 'title after';
-      const inputDue: string = '2017-10-28T01:01';
+      const inputTitle = 'title after';
+      const inputDue = '2017-10-28T01:01';
 
-      let deInputTitle = fixture.debugElement.query(By.css('#title'));
+      const deInputTitle = fixture.debugElement.query(By.css('#title'));
       deInputTitle.nativeElement.value = inputTitle;
       deInputTitle.nativeElement.dispatchEvent(new Event('input'));
 
-      let deInputDue = fixture.debugElement.query(By.css('#due'));
+      const deInputDue = fixture.debugElement.query(By.css('#due'));
       deInputDue.nativeElement.value = inputDue;
       deInputDue.nativeElement.dispatchEvent(new Event('input'));
 
       tick();
 
-      let deUpdate = fixture.debugElement.query(By.css('#update'));
+      const deUpdate = fixture.debugElement.query(By.css('#update'));
       deUpdate.triggerEventHandler('click', null);
       fixture.detectChanges();
       expect(component.updated.data.title).toEqual(inputTitle);
@@ -85,7 +84,7 @@ describe('TodoEditComponent', () => {
 
   it('should tirgger "edited" event when "Cancel" button clicked',
     () => {
-      let de = fixture.debugElement.query(By.css('#cancel'));
+      const de = fixture.debugElement.query(By.css('#cancel'));
       de.triggerEventHandler('click', null);
       fixture.detectChanges();
       expect(component.updated).toBeUndefined();
