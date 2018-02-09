@@ -28,6 +28,7 @@ import { MygroupComponent } from './group/mygroup/mygroup.component';
 import { AuthService } from './service/auth/auth.service';
 import { GroupService } from './service/group/group.service';
 import { FirebaseDbService } from './service/firebase-db/firebase-db.service';
+import { AllTodoComponent } from './todo/all-todo/all-todo.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { FirebaseDbService } from './service/firebase-db/firebase-db.service';
     GroupFormComponent,
     GroupEditComponent,
     MygroupComponent,
+    AllTodoComponent,
   ],
   imports: [
     BrowserModule,

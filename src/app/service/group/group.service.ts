@@ -28,4 +28,16 @@ export class GroupService {
     return groupName;
   }
 
+  getInbox() {
+    let groupKey: string;
+    this.groups
+      .filter(group => {
+        return group.data.type === 0;
+      })
+      .map(group => {
+        groupKey = group.key;
+      });
+    return groupKey;
+  }
+
 }

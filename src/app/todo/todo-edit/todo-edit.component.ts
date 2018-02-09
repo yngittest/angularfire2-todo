@@ -47,7 +47,8 @@ export class TodoEditComponent implements OnInit {
       }
 
       editedTodo = new Todo(this.title, inputGroupKey, inputDue, this.todo.data.done);
-      editedTodo.key = this.todo.key;
+      editedTodo.setKey(this.todo.key);
+      editedTodo.setBeforeGroupKey(this.todo.data.groupKey);
       this.edited.emit(editedTodo);
     }
   }

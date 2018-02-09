@@ -14,6 +14,7 @@ export class TodoFormComponent implements OnInit {
   due: string;
   groupKey: string;
   groups: Group[];
+  defaultGroupKey: string;
 
   @Input() myGroupKey: string;
 
@@ -25,6 +26,11 @@ export class TodoFormComponent implements OnInit {
     this.due = moment().format('YYYY-MM-DDTHH:mm');
     this.groupKey = this.myGroupKey;
     this.groups = this.group.getGroups();
+    if (this.myGroupKey) {
+      this.defaultGroupKey = this.myGroupKey;
+    } else {
+      this.defaultGroupKey = this.group.getInbox()
+    }
   }
 
   create() {
@@ -42,7 +48,7 @@ export class TodoFormComponent implements OnInit {
       if (this.groupKey) {
         inputGroupKey = this.groupKey;
       } else {
-        inputGroupKey = this.myGroupKey;
+        inputGroupKey = this.defaultGroupKey;
       }
 
       createdTodo = new Todo(this.title, inputGroupKey, inputDue);

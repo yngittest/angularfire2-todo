@@ -1,6 +1,5 @@
 <app-navbar></app-navbar>
 <div class="container" *ngIf="auth.authenticated$ | async">
-  <!-- <app-group></app-group> -->
   <app-mygroup></app-mygroup>
   <router-outlet></router-outlet>
 </div>
