@@ -30,6 +30,8 @@ import { GroupService } from './service/group/group.service';
 import { FirebaseDbService } from './service/firebase-db/firebase-db.service';
 import { AllTodoComponent } from './todo/all-todo/all-todo.component';
 
+import { OrderByPipe } from './pipe/order-by/order-by.pipe';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,6 +47,7 @@ import { AllTodoComponent } from './todo/all-todo/all-todo.component';
     GroupEditComponent,
     MygroupComponent,
     AllTodoComponent,
+    OrderByPipe,
   ],
   imports: [
     BrowserModule,

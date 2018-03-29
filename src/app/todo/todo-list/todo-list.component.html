@@ -1,7 +1,7 @@
 <button type="button" class="btn btn-primary" (click)="openModal(add)">Add Todo</button>
 
 <ul class="list-group">
-  <li class="list-group-item" *ngFor="let todo of todos">
+  <li class="list-group-item" *ngFor="let todo of (todos | orderBy: 'due')">
     <app-todo-item [todo]="todo" (onUpdate)="updateTodo($event)" (onDelete)="deleteTodo($event)" (onEdit)="editTodo($event); openModal(edit)"></app-todo-item>
   </li>
 </ul>
