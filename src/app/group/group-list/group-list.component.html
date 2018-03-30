@@ -1,6 +1,12 @@
 <button type="button" class="btn btn-primary" (click)="openModal(add)">Add Group</button>
 
 <ul class="list-group">
+  <li class="list-group-item">
+    <a routerLink="/">All</a>
+  </li>
+  <li class="list-group-item">
+    <a routerLink="/completed">Completed</a>
+  </li>
   <li class="list-group-item" *ngFor="let group of groups">
     <app-group-item [group]="group" (onUpdate)="updateGroup($event)" (onDelete)="deleteGroup($event)" (onEdit)="editGroup($event); openModal(edit)"></app-group-item>
   </li>

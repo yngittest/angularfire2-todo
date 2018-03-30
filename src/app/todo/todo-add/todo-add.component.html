@@ -1,0 +1,13 @@
+<button type="button" class="btn btn-primary" (click)="openModal(add)">Add Todo</button>
+
+<ng-template #add>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Add</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-todo-form [myGroupKey]="groupKey" (submit)="addTodo($event)"></app-todo-form>
+  </div>
+</ng-template>

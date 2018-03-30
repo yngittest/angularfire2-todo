@@ -22,10 +22,16 @@ export class TodoOfGroupComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.route.params.subscribe((params) => {
       this.myGroupKey = params['key'];
-      this.subscription = this.db.getItems(`/todos/${this.myGroupKey}`, { query: { orderByChild: 'due' }}).subscribe((snapshots: any[]) => {
+      const query = {
+        query: {
+          orderByChild: 'done',
+          equalTo: false
+        }
+      };
+      this.subscription = this.db.getItems(`/todos/${this.myGroupKey}`, query).subscribe((snapshots: any[]) => {
         this.todos = [];
         snapshots.forEach((snapshot: any) => {
-          this.todos.push(new Todo(snapshot.title, this.myGroupKey, snapshot.due, snapshot.done).setKey(snapshot.$key));
+          this.todos.push(new Todo(snapshot.title, snapshot.groupKey, snapshot.due, snapshot.done).setKey(snapshot.$key));
         });
         this.myGroupName = this.group.getName(this.myGroupKey);
       });

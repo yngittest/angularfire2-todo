@@ -18,7 +18,9 @@ import { TodoListComponent } from './todo/todo-list/todo-list.component';
 import { TodoItemComponent } from './todo/todo-item/todo-item.component';
 import { TodoFormComponent } from './todo/todo-form/todo-form.component';
 import { TodoEditComponent } from './todo/todo-edit/todo-edit.component';
+import { TodoAddComponent } from './todo/todo-add/todo-add.component';
 import { TodoOfGroupComponent } from './todo/todo-of-group/todo-of-group.component';
+import { AllTodoComponent } from './todo/all-todo/all-todo.component';
 import { GroupListComponent } from './group/group-list/group-list.component';
 import { GroupItemComponent } from './group/group-item/group-item.component';
 import { GroupFormComponent } from './group/group-form/group-form.component';
@@ -28,7 +30,6 @@ import { MygroupComponent } from './group/mygroup/mygroup.component';
 import { AuthService } from './service/auth/auth.service';
 import { GroupService } from './service/group/group.service';
 import { FirebaseDbService } from './service/firebase-db/firebase-db.service';
-import { AllTodoComponent } from './todo/all-todo/all-todo.component';
 
 import { OrderByPipe } from './pipe/order-by/order-by.pipe';
 
@@ -40,6 +41,7 @@ import { OrderByPipe } from './pipe/order-by/order-by.pipe';
     TodoItemComponent,
     TodoFormComponent,
     TodoEditComponent,
+    TodoAddComponent,
     TodoOfGroupComponent,
     GroupListComponent,
     GroupItemComponent,

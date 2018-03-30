@@ -17,18 +17,12 @@ export class TodoListComponent implements OnInit {
   @Input() todos: Todo[];
   @Input() groupKey: string;
 
-  @Output() onCreate = new EventEmitter<Todo>();
   @Output() onUpdate = new EventEmitter<Todo>();
   @Output() onDelete = new EventEmitter<Todo>();
 
   constructor(private modalService: BsModalService) { }
 
   ngOnInit() {
-  }
-
-  addTodo(todo: Todo) {
-    this.onCreate.emit(todo);
-    this.bsModalRef.hide();
   }
 
   updateTodo(todo: Todo) {

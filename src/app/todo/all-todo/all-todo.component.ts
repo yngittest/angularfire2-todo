@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { Todo } from '../../model/todo';
 
@@ -13,44 +14,46 @@ import { FirebaseDbService } from '../../service/firebase-db/firebase-db.service
 export class AllTodoComponent implements OnInit {
   userId: string;
   todos: Todo[];
+  groups: any[];
+  name: string;
+  done: boolean;
 
-  constructor(private auth: AuthService, private db: FirebaseDbService) { }
+  constructor(private route: ActivatedRoute, private auth: AuthService, private db: FirebaseDbService) { }
 
   ngOnInit() {
+    this.route.data.subscribe(obj => {
+      this.name = obj['name'];
+      this.done = obj['done'];
+    });
+
     this.auth.uid$.subscribe(uid => {
       this.userId = uid;
       this.db.getItem(`/users/${this.userId}`)
-        .map(user => {
-          const groupFBObjList = [];
+        .subscribe(user => {
+          this.groups = [];
           const groupKeys = Object.keys(user.groups);
           groupKeys.forEach(groupKey => {
-            groupFBObjList.push(this.db.getItem(`/todos/${groupKey}`));
-          });
-          return groupFBObjList;
-        })
-        .subscribe(groupFBObjList => {
-          this.todos = [];
-          groupFBObjList.forEach(groupFBObj => {
-            groupFBObj.subscribe(group => {
-              const todoKeys = Object.keys(group);
-              todoKeys.forEach(todoKey => {
-                if (todoKey !== "$value") {
-                  this.db.getItem(`/todos/${group.$key}/${todoKey}`)
-                    .subscribe(todo => {
-                      const index = this.todos.findIndex(({key}) => key === todoKey);
-                      if (todo.$exists()) {
-                        const newTodo = new Todo(todo.title, todo.groupKey, todo.due, todo.done).setKey(todo.$key);
-                        if (index < 0) {
-                          this.todos.push(newTodo);
-                        } else {
-                          this.todos[index] = newTodo;
-                        }
-                      } else {
-                        this.todos.splice(index, 1);
-                      }
-                    })
-                }
+            const group = {
+              key: groupKey,
+              todos: []
+            };
+            const query = {
+              query: {
+                orderByChild: 'done',
+                equalTo: this.done
+              }
+            };
+            this.db.getItems(`/todos/${groupKey}`, query).subscribe((snapshots: any[]) => {
+              group.todos = [];
+              snapshots.forEach((snapshot: any) => {
+                group.todos.push(new Todo(snapshot.title, snapshot.groupKey, snapshot.due, snapshot.done).setKey(snapshot.$key));
               });
+              const index = this.groups.findIndex(({key}) => key === groupKey);
+              if (index < 0) {
+                this.groups.push(group);
+              } else {
+                this.groups[index] = group;
+              }
             });
           });
         });
