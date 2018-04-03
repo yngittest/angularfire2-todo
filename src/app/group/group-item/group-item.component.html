@@ -1,7 +1,23 @@
-<a routerLink="/groups/{{group.key}}">{{group.name}}</a>
-<button class="btn btn-default pull-right" (click)="delete()">
-  <i class="glyphicon glyphicon-trash"></i>
-</button>
-<button class="btn btn-default pull-right" (click)="edit()">
-  <i class="glyphicon glyphicon-edit"></i>
-</button>
+<div [ngSwitch]="group.type">
+  <div *ngSwitchCase=0>
+    <a routerLink="/groups/{{group.key}}">{{group.name}}</a>
+    <button class="pull-right" (click)="delete()">&times;</button>
+  </div>
+  <div *ngSwitchDefault>
+    <table class="table table-hover">
+      <tbody>
+        <tr>
+          <td id="content">
+            <a routerLink="/groups/{{group.key}}">{{group.name}}</a>
+          </td>
+          <td id="edit" (click)="edit()">
+            <span class="pull-right">edit</span>
+          </td>
+          <td id="delete" (click)="delete()">
+            <span class="pull-right">&times;</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

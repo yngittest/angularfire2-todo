@@ -1,7 +1,7 @@
 export class Group {
   key?: string;
 
-  constructor(private name: string, private archived: boolean = false, private type: number = 0) {}
+  constructor(private name: string, private type: number = 1, private archived: boolean = false) {}
 
   setKey(key: string): Group {
     this.key = key;

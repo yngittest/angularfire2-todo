@@ -31,31 +31,25 @@ export class AllTodoComponent implements OnInit {
       this.db.getItem(`/users/${this.userId}`)
         .subscribe(user => {
           this.groups = [];
-          const groupKeys = Object.keys(user.groups);
-          groupKeys.forEach(groupKey => {
-            const group = {
-              key: groupKey,
-              todos: []
-            };
-            const query = {
-              query: {
-                orderByChild: 'done',
-                equalTo: this.done
-              }
-            };
-            this.db.getItems(`/todos/${groupKey}`, query).subscribe((snapshots: any[]) => {
-              group.todos = [];
-              snapshots.forEach((snapshot: any) => {
-                group.todos.push(new Todo(snapshot.title, snapshot.groupKey, snapshot.due, snapshot.done).setKey(snapshot.$key));
+          if(user.groups) {
+            const groupKeys = Object.keys(user.groups);
+            groupKeys.forEach(groupKey => {
+              const group = {key: groupKey, todos: []};
+              const query = {query: {orderByChild: 'done', equalTo: this.done}};
+              this.db.getItems(`/todos/${groupKey}`, query).subscribe((snapshots: any[]) => {
+                group.todos = [];
+                snapshots.forEach((snapshot: any) => {
+                  group.todos.push(new Todo(snapshot.title, snapshot.groupKey, snapshot.due, snapshot.done).setKey(snapshot.$key));
+                });
+                const index = this.groups.findIndex(({key}) => key === groupKey);
+                if (index < 0) {
+                  this.groups.push(group);
+                } else {
+                  this.groups[index] = group;
+                }
               });
-              const index = this.groups.findIndex(({key}) => key === groupKey);
-              if (index < 0) {
-                this.groups.push(group);
-              } else {
-                this.groups[index] = group;
-              }
             });
-          });
+          }
         });
     });
   }
