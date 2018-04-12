@@ -1,4 +1,5 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 import { Group } from '../../model/group';
 
@@ -12,9 +13,10 @@ export class GroupFormComponent implements OnInit {
   archived: string;
   type: string;
 
-  @Output() submit = new EventEmitter<Group>();
-
-  constructor() { }
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialogRef: MatDialogRef<GroupFormComponent>,
+  ) { }
 
   ngOnInit() { }
 
@@ -22,9 +24,13 @@ export class GroupFormComponent implements OnInit {
     if (this.name) {
       let group: Group;
       group = new Group(this.name);
-      this.submit.emit(group);
+      this.dialogRef.close(group);
       this.name = null;
     }
+  }
+
+  cancel() {
+    this.dialogRef.close();
   }
 
 }

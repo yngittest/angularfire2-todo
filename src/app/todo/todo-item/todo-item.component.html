@@ -1,17 +1,6 @@
-<table class="table table-hover">
-  <tbody>
-    <tr>
-      <td>
-        <input type="checkbox" [(ngModel)]="todo.done" (ngModelChange)="update()"/>
-      </td>
-      <td id="content" (click)="edit()">
-        <h4>{{todo.title}}</h4>
-        <div>{{todo.due | date: 'short'}}</div>
-        <div>{{myGroupName}}</div>
-      </td>
-      <td id="delete" (click)="delete()">
-        <span class="pull-right">&times;</span>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<mat-list-item>
+  <mat-checkbox mat-list-icon [(ngModel)]="todo.done" (ngModelChange)="update()"></mat-checkbox>
+  <h4 mat-line>{{todo.title}}</h4>
+  <p mat-line>{{todo.due | date: 'yyyy/MM/dd HH:mm'}}</p>
+  <mat-icon (click)="edit()">edit</mat-icon>
+</mat-list-item>

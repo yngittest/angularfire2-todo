@@ -1,23 +1,6 @@
-<div [ngSwitch]="group.type">
-  <div *ngSwitchCase=0>
-    <a routerLink="/groups/{{group.key}}">{{group.name}}</a>
-    <button class="pull-right" (click)="delete()">&times;</button>
-  </div>
-  <div *ngSwitchDefault>
-    <table class="table table-hover">
-      <tbody>
-        <tr>
-          <td id="content">
-            <a routerLink="/groups/{{group.key}}">{{group.name}}</a>
-          </td>
-          <td id="edit" (click)="edit()">
-            <span class="pull-right">edit</span>
-          </td>
-          <td id="delete" (click)="delete()">
-            <span class="pull-right">&times;</span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
+<mat-list-item [ngSwitch]="group.type" routerLink="/groups/{{group.key}}" onfocus="this.blur();">
+  <mat-icon mat-list-icon *ngSwitchCase="0">inbox</mat-icon>
+  <mat-icon mat-list-icon *ngSwitchDefault>folder</mat-icon>
+  <p mat-line>{{group.name}}</p>
+  <mat-icon *ngSwitchDefault (click)="edit()">edit</mat-icon>
+</mat-list-item>

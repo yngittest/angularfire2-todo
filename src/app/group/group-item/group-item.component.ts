@@ -12,7 +12,6 @@ export class GroupItemComponent implements OnInit {
   @Input() group: Group;
 
   @Output() onUpdate = new EventEmitter<Group>();
-  @Output() onDelete = new EventEmitter<Group>();
   @Output() onEdit = new EventEmitter<Group>();
 
   constructor() { }
@@ -22,10 +21,6 @@ export class GroupItemComponent implements OnInit {
 
   update() {
     this.onUpdate.emit(this.group);
-  }
-
-  delete() {
-    this.onDelete.emit(this.group);
   }
 
   edit() {

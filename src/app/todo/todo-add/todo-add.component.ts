@@ -1,9 +1,8 @@
-import { Component, OnInit, Input, Output, EventEmitter, TemplateRef } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { MatDialog } from '@angular/material';
 
 import { Todo } from '../../model/todo';
-
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
+import { TodoFormComponent } from '../todo-form/todo-form.component';
 
 @Component({
   selector: 'app-todo-add',
@@ -11,24 +10,26 @@ import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
   styleUrls: ['./todo-add.component.css']
 })
 export class TodoAddComponent implements OnInit {
-  bsModalRef: BsModalRef;
 
   @Input() groupKey: string;
 
   @Output() onCreate = new EventEmitter<Todo>();
 
-  constructor(private modalService: BsModalService) { }
+  constructor(public dialog: MatDialog) { }
 
   ngOnInit() {
   }
 
-  addTodo(todo: Todo) {
-    this.onCreate.emit(todo);
-    this.bsModalRef.hide();
-  }
-
-  openModal(template: TemplateRef<any>) {
-    this.bsModalRef = this.modalService.show(template);
+  openDialog() {
+    let dialogRef = this.dialog.open(TodoFormComponent, {
+      data: { myGroupKey: this.groupKey },
+      width: '250px'
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result) {
+        this.onCreate.emit(result);
+      }
+    });
   }
 
 }

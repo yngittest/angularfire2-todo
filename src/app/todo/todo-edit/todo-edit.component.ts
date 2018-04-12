@@ -1,5 +1,8 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+
 import * as moment from 'moment';
+
 import { Todo } from '../../model/todo';
 import { Group } from '../../model/group';
 import { GroupService } from '../../service/group/group.service';
@@ -14,18 +17,23 @@ export class TodoEditComponent implements OnInit {
   due: string;
   groupKey: string;
   groups: Group[];
+  result: any;
 
-  @Input() todo: Todo;
-
-  @Output() edited = new EventEmitter<Todo>();
-
-  constructor(private group: GroupService) { }
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialogRef: MatDialogRef<TodoEditComponent>,
+    private group: GroupService
+  ) { }
 
   ngOnInit() {
-    this.title = this.todo.data.title;
-    this.groupKey = this.todo.data.groupKey;
+    this.title = this.data.todo.data.title;
+    this.groupKey = this.data.todo.data.groupKey;
     this.groups = this.group.getGroups();
-    this.due = moment(this.todo.data.due).format('YYYY-MM-DDTHH:mm');
+    this.due = moment(this.data.todo.data.due).format('YYYY-MM-DDTHH:mm');
+    this.result = {
+      type: 'cancel',
+      data: null
+    };
   }
 
   update() {
@@ -46,14 +54,23 @@ export class TodoEditComponent implements OnInit {
         inputGroupKey = this.groups[0].key;
       }
 
-      editedTodo = new Todo(this.title, inputGroupKey, inputDue, this.todo.data.done);
-      editedTodo.setKey(this.todo.key);
-      editedTodo.setBeforeGroupKey(this.todo.data.groupKey);
-      this.edited.emit(editedTodo);
+      editedTodo = new Todo(this.title, inputGroupKey, inputDue, this.data.todo.data.done);
+      editedTodo.setKey(this.data.todo.key);
+      editedTodo.setBeforeGroupKey(this.data.todo.data.groupKey);
+
+      this.result.type = 'update';
+      this.result.data = editedTodo;
+      this.dialogRef.close(this.result);
     }
   }
 
-  cancel() {
-    this.edited.emit();
+  delete() {
+    this.result.type = 'delete';
+    this.dialogRef.close(this.result);
   }
+
+  cancel() {
+    this.dialogRef.close(this.result);
+  }
+
 }

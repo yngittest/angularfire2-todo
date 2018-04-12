@@ -1,17 +1,3 @@
-<ul class="list-group">
-  <li class="list-group-item" *ngFor="let todo of (todos | orderBy: 'due')">
-    <app-todo-item [todo]="todo" (onUpdate)="updateTodo($event)" (onDelete)="deleteTodo($event)" (onEdit)="editTodo($event); openModal(edit)"></app-todo-item>
-  </li>
-</ul>
-
-<ng-template #edit>
-  <div class="modal-header">
-    <h4 class="modal-title pull-left">Edit</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <app-todo-edit [todo]="selected" (edited)="onEdited($event)"></app-todo-edit>
-  </div>
-</ng-template>
+<ng-container *ngFor="let todo of (todos | orderBy: 'due')">
+  <app-todo-item [todo]="todo" (onUpdate)="updateTodo($event)" (onEdit)="editTodo($event); openDialog()"></app-todo-item>
+</ng-container>

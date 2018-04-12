@@ -1,11 +1,31 @@
-<div class="container">
-  <input id="title" type="text" [(ngModel)]="title">
-  <select [(ngModel)]="groupKey">
-    <option *ngFor="let group of groups" [ngValue]="group.key" >
-      {{group.name}}
-    </option>
-  </select>
-  <input id="due" type="datetime-local" [(ngModel)]="due">
-  <button id="update" class="btn btn-success" (click)="update()">OK</button>
-  <button id="cancel" class="btn btn-danger" (click)="cancel()">Cancel</button>
-</div>
+<h2 mat-dialog-title cdkFocusInitial>Edit Todo</h2>
+<mat-dialog-content>
+  <mat-form-field>
+    <input matInput placeholder="Todo" id="title" type="text" [(ngModel)]="title">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder="Select Group" [(ngModel)]="groupKey">
+      <mat-option *ngFor="let group of groups" [value]="group.key">
+        {{group.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Due" id="due" type="datetime-local" [(ngModel)]="due">
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <span class="spacer"></span>
+  <button mat-icon-button (click)="update()">
+    <mat-icon>check</mat-icon>
+  </button>
+  <span class="spacer"></span>
+  <button mat-icon-button (click)="delete()">
+    <mat-icon>delete</mat-icon>
+  </button>
+  <span class="spacer"></span>
+  <button mat-icon-button (click)="cancel()">
+    <mat-icon>clear</mat-icon>
+  </button>
+  <span class="spacer"></span>
+</mat-dialog-actions>

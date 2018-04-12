@@ -1,26 +1,36 @@
-<nav class="navbar navbar-default navbar-static-top">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" (click)="isCollapsed = !isCollapsed">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
+<div class="container">
+  <mat-toolbar color="primary">
+    <button mat-icon-button (click)="sidenav.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <h1 routerLink="/" onfocus="this.blur();">Todo</h1>
+    <span class="spacer"></span>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item *ngIf="auth.authenticated$ | async">
+        <span>Signed in as {{ auth.name$ | async }}</span>
       </button>
-      <a class="navbar-brand" href="#">Todo</a>
-    </div>
-    <div class="navbar-collapse collapse" [collapse]="isCollapsed">
-      <ul class="nav navbar-nav navbar-right">
-        <li *ngIf="auth.authenticated$ | async">
-          <a>Hello {{ auth.name$ | async }}</a>
-        </li>
-        <li *ngIf="!(auth.authenticated$ | async)">
-          <a (click)="login()">Login</a>
-        </li>
-        <li *ngIf="auth.authenticated$ | async">
-          <a (click)="logout()">Logout</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
+      <button mat-menu-item *ngIf="!(auth.authenticated$ | async)" (click)="login()">
+        <span>Login</span>
+      </button>
+      <button mat-menu-item *ngIf="auth.authenticated$ | async" (click)="logout()">
+        <span>Logout</span>
+      </button>
+    </mat-menu>
+  </mat-toolbar>
+
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #sidenav mode="push" [(opened)]="opened" fixedInViewport fixedTopGap="56">
+      <div *ngIf="auth.authenticated$ | async">
+        <app-mygroup></app-mygroup>
+      </div>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <div *ngIf="auth.authenticated$ | async">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

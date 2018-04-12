@@ -1,5 +1,8 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+
 import * as moment from 'moment';
+
 import { Todo } from '../../model/todo';
 import { Group } from '../../model/group';
 import { GroupService } from '../../service/group/group.service';
@@ -16,18 +19,18 @@ export class TodoFormComponent implements OnInit {
   groups: Group[];
   defaultGroupKey: string;
 
-  @Input() myGroupKey: string;
-
-  @Output() submit = new EventEmitter<Todo>();
-
-  constructor(private group: GroupService) { }
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialogRef: MatDialogRef<TodoFormComponent>,
+    private group: GroupService,
+  ) { }
 
   ngOnInit() {
     this.due = moment().format('YYYY-MM-DDTHH:mm');
-    this.groupKey = this.myGroupKey;
+    this.groupKey = this.data.myGroupKey;
     this.groups = this.group.getGroups();
-    if (this.myGroupKey) {
-      this.defaultGroupKey = this.myGroupKey;
+    if (this.data.myGroupKey) {
+      this.defaultGroupKey = this.data.myGroupKey;
     } else {
       this.defaultGroupKey = this.group.getInbox()
     }
@@ -52,7 +55,12 @@ export class TodoFormComponent implements OnInit {
       }
 
       createdTodo = new Todo(this.title, inputGroupKey, inputDue);
-      this.submit.emit(createdTodo);
+      this.dialogRef.close(createdTodo);
     }
   }
+
+  cancel() {
+    this.dialogRef.close();
+  }
+
 }

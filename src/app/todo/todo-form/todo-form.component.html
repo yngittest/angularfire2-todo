@@ -1,13 +1,27 @@
-<div class="container">
-  <input id="title" type="text" [(ngModel)]="title">
-  <select [(ngModel)]="groupKey">
-    <option value="">Select Group</option>
-    <option *ngFor="let group of groups" [ngValue]="group.key">
-      {{group.name}}
-    </option>
-  </select>
-  <input id="due" type="datetime-local" [(ngModel)]="due">
-  <button class="btn btn-default" (click)="create()">
-    <i class="glyphicon glyphicon-plus"></i>
+<h2 mat-dialog-title>Add Todo</h2>
+<mat-dialog-content>
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Todo" id="title" type="text" [(ngModel)]="title">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder="Select Group" [(ngModel)]="groupKey">
+      <mat-option *ngFor="let group of groups" [value]="group.key">
+        {{group.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Due" id="due" type="datetime-local" [(ngModel)]="due">
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <span class="spacer"></span>
+  <button mat-icon-button (click)="create()">
+    <mat-icon>add</mat-icon>
   </button>
-</div>
+  <span class="spacer"></span>
+  <button mat-icon-button (click)="cancel()">
+    <mat-icon>clear</mat-icon>
+  </button>
+  <span class="spacer"></span>
+</mat-dialog-actions>

@@ -1,5 +1,19 @@
-<div class="container">
-  <input type="text" [(ngModel)]="name">
-  <button class="btn btn-success" (click)="update()">OK</button>
-  <button class="btn btn-danger" (click)="cancel()">Cancel</button>
-</div>
+<h2 mat-dialog-title cdkFocusInitial>Edit Group</h2>
+<mat-dialog-content>
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Group" id="group" type="text" [(ngModel)]="name">
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-icon-button (click)="update()">
+    <mat-icon>check</mat-icon>
+  </button>
+  <span class="spacer"></span>
+  <button mat-icon-button (click)="delete()">
+    <mat-icon>delete</mat-icon>
+  </button>
+  <span class="spacer"></span>
+  <button mat-icon-button (click)="cancel()">
+    <mat-icon>clear</mat-icon>
+  </button>
+</mat-dialog-actions>

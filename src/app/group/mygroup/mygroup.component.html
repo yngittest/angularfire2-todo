@@ -1,1 +1,5 @@
-<app-group-list [groups]="groups" (onCreate)="addGroup($event)" (onUpdate)="updateGroup($event)" (onDelete)="deleteGroup($event)"></app-group-list>
+<mat-list>
+  <h3 mat-subheader>Groups</h3>
+  <app-group-add (onCreate)="addGroup($event)"></app-group-add>
+  <app-group-list [groups]="groups" (onUpdate)="updateGroup($event)" (onDelete)="deleteGroup($event)"></app-group-list>
+</mat-list>

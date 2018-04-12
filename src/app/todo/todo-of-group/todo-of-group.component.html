@@ -1,3 +1,5 @@
-<h2>{{ myGroupName }}</h2>
-<app-todo-add [groupKey]="myGroupKey" (onCreate)="addTodo($event)"></app-todo-add>
-<app-todo-list [todos]="todos" [groupKey]="myGroupKey" (onUpdate)="updateTodo($event)" (onDelete)="deleteTodo($event)"></app-todo-list>
+<mat-list>
+  <h3 mat-subheader>{{ myGroupName }}</h3>
+  <app-todo-add [groupKey]="myGroupKey" (onCreate)="addTodo($event)"></app-todo-add>
+  <app-todo-list [todos]="todos" [groupKey]="myGroupKey" (onUpdate)="updateTodo($event)" (onDelete)="deleteTodo($event)"></app-todo-list>
+</mat-list>

@@ -1,6 +1,17 @@
-<div class="container">
-  <input id="name" type="text" [(ngModel)]="name">
-  <button class="btn btn-default" (click)="create()">
-    <i class="glyphicon glyphicon-plus"></i>
+<h2 mat-dialog-title>Add Group</h2>
+<mat-dialog-content>
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Group" id="group" type="text" [(ngModel)]="name">
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <span class="spacer"></span>
+  <button mat-icon-button (click)="create()">
+    <mat-icon>add</mat-icon>
   </button>
-</div>
+  <span class="spacer"></span>
+  <button mat-icon-button (click)="cancel()">
+    <mat-icon>clear</mat-icon>
+  </button>
+  <span class="spacer"></span>
+</mat-dialog-actions>

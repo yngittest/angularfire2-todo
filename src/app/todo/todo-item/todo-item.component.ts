@@ -15,7 +15,6 @@ export class TodoItemComponent implements OnInit, OnChanges {
   @Input() todo: Todo;
 
   @Output() onUpdate = new EventEmitter<Todo>();
-  @Output() onDelete = new EventEmitter<Todo>();
   @Output() onEdit = new EventEmitter<Todo>();
 
   constructor(private group: GroupService) { }
@@ -29,10 +28,6 @@ export class TodoItemComponent implements OnInit, OnChanges {
 
   update() {
     this.onUpdate.emit(this.todo);
-  }
-
-  delete() {
-    this.onDelete.emit(this.todo);
   }
 
   edit() {

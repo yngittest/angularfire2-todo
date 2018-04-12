@@ -1,37 +1,11 @@
-<button type="button" class="btn btn-primary" (click)="openModal(add)">Add Group</button>
-
-<ul class="list-group">
-  <li class="list-group-item">
-    <a routerLink="/">All</a>
-  </li>
-  <li class="list-group-item">
-    <a routerLink="/completed">Completed</a>
-  </li>
-  <li class="list-group-item" *ngFor="let group of groups">
-    <app-group-item [group]="group" (onUpdate)="updateGroup($event)" (onDelete)="deleteGroup($event)" (onEdit)="editGroup($event); openModal(edit)"></app-group-item>
-  </li>
-</ul>
-
-<ng-template #add>
-  <div class="modal-header">
-    <h4 class="modal-title pull-left">Add</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <app-group-form (submit)="addGroup($event)"></app-group-form>
-  </div>
-</ng-template>
-
-<ng-template #edit>
-  <div class="modal-header">
-    <h4 class="modal-title pull-left">Edit</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <app-group-edit [group]="selected" (edited)="onEdited($event)"></app-group-edit>
-  </div>
-</ng-template>
+<mat-list-item routerLink="/" onfocus="this.blur();">
+  <mat-icon mat-list-icon>list</mat-icon>
+  <p mat-line>All</p>
+</mat-list-item>
+<mat-list-item routerLink="/completed" onfocus="this.blur();">
+  <mat-icon mat-list-icon>done_all</mat-icon>
+  <p mat-line>Completed</p>
+</mat-list-item>
+<ng-container *ngFor="let group of groups">
+  <app-group-item [group]="group" (onUpdate)="updateGroup($event)"  (onEdit)="editGroup($event); openDialog()"></app-group-item>
+</ng-container>

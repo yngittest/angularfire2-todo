@@ -1,9 +1,9 @@
-import { Component, OnInit, Input, Output, EventEmitter, TemplateRef } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { MatDialog } from '@angular/material';
 
 import { Group } from '../../model/group';
+import { GroupEditComponent } from '../group-edit/group-edit.component';
 
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 
 @Component({
   selector: 'app-group-list',
@@ -12,22 +12,15 @@ import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 })
 export class GroupListComponent implements OnInit {
   selected: Group;
-  bsModalRef: BsModalRef;
 
   @Input() groups: Group[];
 
-  @Output() onCreate = new EventEmitter<Group>();
   @Output() onUpdate = new EventEmitter<Group>();
   @Output() onDelete = new EventEmitter<Group>();
 
-  constructor(private modalService: BsModalService) { }
+  constructor(public dialog: MatDialog) { }
 
   ngOnInit() {
-  }
-
-  addGroup(group: Group) {
-    this.onCreate.emit(group);
-    this.bsModalRef.hide();
   }
 
   updateGroup(group: Group) {
@@ -42,16 +35,18 @@ export class GroupListComponent implements OnInit {
     this.selected = group;
   }
 
-  onEdited(group: Group) {
-    if (group) {
-      this.updateGroup(group);
-    }
-    this.selected = null;
-    this.bsModalRef.hide();
-  }
-
-  openModal(template: TemplateRef<any>) {
-    this.bsModalRef = this.modalService.show(template);
+  openDialog() {
+    let dialogRef = this.dialog.open(GroupEditComponent, {
+      data: { group: this.selected }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result.type === 'update') {
+        this.updateGroup(result.data);
+      } else if(result.type === 'delete') {
+        this.deleteGroup(this.selected);
+      }
+      this.selected = null;
+    });
   }
 
 }

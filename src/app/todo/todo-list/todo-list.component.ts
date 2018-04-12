@@ -1,9 +1,8 @@
-import { Component, OnInit, Input, Output, EventEmitter, TemplateRef } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { MatDialog } from '@angular/material';
 
 import { Todo } from '../../model/todo';
-
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
+import { TodoEditComponent } from '../todo-edit/todo-edit.component';
 
 @Component({
   selector: 'app-todo-list',
@@ -12,7 +11,6 @@ import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 })
 export class TodoListComponent implements OnInit {
   selected: Todo;
-  bsModalRef: BsModalRef;
 
   @Input() todos: Todo[];
   @Input() groupKey: string;
@@ -20,7 +18,7 @@ export class TodoListComponent implements OnInit {
   @Output() onUpdate = new EventEmitter<Todo>();
   @Output() onDelete = new EventEmitter<Todo>();
 
-  constructor(private modalService: BsModalService) { }
+  constructor( public dialog: MatDialog) { }
 
   ngOnInit() {
   }
@@ -37,16 +35,19 @@ export class TodoListComponent implements OnInit {
     this.selected = todo;
   }
 
-  onEdited(todo: Todo) {
-    if (todo) {
-      this.updateTodo(todo);
-    }
-    this.selected = null;
-    this.bsModalRef.hide();
-  }
-
-  openModal(template: TemplateRef<any>) {
-    this.bsModalRef = this.modalService.show(template);
+  openDialog() {
+    let dialogRef = this.dialog.open(TodoEditComponent, {
+      data: { todo: this.selected },
+      width: '250px'
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result.type === 'update') {
+        this.updateTodo(result.data);
+      } else if(result.type === 'delete') {
+        this.deleteTodo(this.selected);
+      }
+      this.selected = null;
+    });
   }
 
 }

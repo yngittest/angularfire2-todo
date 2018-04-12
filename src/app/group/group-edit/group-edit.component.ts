@@ -1,4 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 import { Group } from '../../model/group';
 
@@ -11,27 +12,38 @@ export class GroupEditComponent implements OnInit {
   name: string;
   archived: boolean;
   type: number;
+  result: any;
 
-  @Input() group: Group;
-
-  @Output() edited = new EventEmitter<Group>();
-
-  constructor() { }
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialogRef: MatDialogRef<GroupEditComponent>
+  ) { }
 
   ngOnInit() {
-    this.name = this.group.data.name;
+    this.name = this.data.group.data.name;
+    this.result = {
+      type: 'cancel',
+      data: null
+    };
   }
 
   update() {
     if (this.name) {
       const editedGroup = new Group(this.name);
-      editedGroup.key = this.group.key;
-      this.edited.emit(editedGroup);
+      editedGroup.key = this.data.group.key;
+      this.result.type = 'update';
+      this.result.data = editedGroup;
+      this.dialogRef.close(this.result);
     }
   }
 
+  delete() {
+    this.result.type = 'delete';
+    this.dialogRef.close(this.result);
+  }
+
   cancel() {
-    this.edited.emit();
+    this.dialogRef.close(this.result);
   }
 
 }
