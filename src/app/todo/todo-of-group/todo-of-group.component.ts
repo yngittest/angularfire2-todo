@@ -31,7 +31,14 @@ export class TodoOfGroupComponent implements OnInit, OnDestroy {
       this.subscription = this.db.getItems(`/todos/${this.myGroupKey}`, query).subscribe((snapshots: any[]) => {
         this.todos = [];
         snapshots.forEach((snapshot: any) => {
-          this.todos.push(new Todo(snapshot.title, snapshot.groupKey, snapshot.due, snapshot.done).setKey(snapshot.$key));
+          this.todos.push(
+            new Todo(
+              snapshot.title,
+              snapshot.groupKey,
+              snapshot.due,
+              snapshot.done,
+              snapshot.completed
+            ).setKey(snapshot.$key));
         });
         this.myGroupName = this.group.getName(this.myGroupKey);
       });
@@ -50,6 +57,11 @@ export class TodoOfGroupComponent implements OnInit, OnDestroy {
   }
 
   updateTodo(todo: Todo) {
+    todo.completed = todo.data.done ? Date.now() : null;
+    this.db.updateItem(`todos/${todo.data.groupKey}`, todo.key, todo.data);
+  }
+
+  editTodo(todo: Todo) {
     if (todo.data.groupKey === this.myGroupKey) {
       this.db.updateItem(`todos/${todo.data.groupKey}`, todo.key, todo.data);
     } else {

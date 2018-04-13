@@ -39,7 +39,14 @@ export class AllTodoComponent implements OnInit {
               this.db.getItems(`/todos/${groupKey}`, query).subscribe((snapshots: any[]) => {
                 group.todos = [];
                 snapshots.forEach((snapshot: any) => {
-                  group.todos.push(new Todo(snapshot.title, snapshot.groupKey, snapshot.due, snapshot.done).setKey(snapshot.$key));
+                  group.todos.push(
+                    new Todo(
+                      snapshot.title,
+                      snapshot.groupKey,
+                      snapshot.due,
+                      snapshot.done,
+                      snapshot.completed
+                    ).setKey(snapshot.$key));
                 });
                 const index = this.groups.findIndex(({key}) => key === groupKey);
                 if (index < 0) {
@@ -59,6 +66,11 @@ export class AllTodoComponent implements OnInit {
   }
 
   updateTodo(todo: Todo) {
+    todo.completed = todo.data.done ? Date.now() : null;
+    this.db.updateItem(`todos/${todo.data.groupKey}`, todo.key, todo.data);
+  }
+
+  editTodo(todo: Todo) {
     if (todo.data.groupKey === todo.beforeGroupKey) {
       this.db.updateItem(`todos/${todo.data.groupKey}`, todo.key, todo.data);
     } else {

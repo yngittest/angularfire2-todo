@@ -16,6 +16,7 @@ export class TodoListComponent implements OnInit {
   @Input() groupKey: string;
 
   @Output() onUpdate = new EventEmitter<Todo>();
+  @Output() onEdit = new EventEmitter<Todo>();
   @Output() onDelete = new EventEmitter<Todo>();
 
   constructor( public dialog: MatDialog) { }
@@ -25,10 +26,6 @@ export class TodoListComponent implements OnInit {
 
   updateTodo(todo: Todo) {
     this.onUpdate.emit(todo);
-  }
-
-  deleteTodo(todo: Todo) {
-    this.onDelete.emit(todo);
   }
 
   editTodo(todo: Todo) {
@@ -42,9 +39,9 @@ export class TodoListComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result.type === 'update') {
-        this.updateTodo(result.data);
+        this.onEdit.emit(result.data);
       } else if(result.type === 'delete') {
-        this.deleteTodo(this.selected);
+        this.onDelete.emit(this.selected);
       }
       this.selected = null;
     });

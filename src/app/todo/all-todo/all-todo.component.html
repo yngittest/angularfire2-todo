@@ -3,7 +3,7 @@
   <app-todo-add (onCreate)="addTodo($event)"></app-todo-add>
   <ng-container *ngFor="let group of groups">
     <ng-container *ngIf="group.todos.length > 0">
-      <app-todo-list [todos]="group.todos" [groupKey]="group.key" (onUpdate)="updateTodo($event)" (onDelete)="deleteTodo($event)"></app-todo-list>
+      <app-todo-list [todos]="group.todos" [groupKey]="group.key" (onUpdate)="updateTodo($event)" (onEdit)="editTodo($event)" (onDelete)="deleteTodo($event)"></app-todo-list>
     </ng-container>
   </ng-container>
 </mat-list>
