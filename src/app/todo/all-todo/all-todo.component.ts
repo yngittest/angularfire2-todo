@@ -62,25 +62,25 @@ export class AllTodoComponent implements OnInit {
   }
 
   addTodo(todo: Todo) {
-    this.db.addItem(`todos/${todo.data.groupKey}`, todo.key, todo.data);
+    this.db.addItem(`todos/${todo.groupKey}`, todo.key, todo.data);
   }
 
   updateTodo(todo: Todo) {
-    todo.completed = todo.data.done ? Date.now() : null;
-    this.db.updateItem(`todos/${todo.data.groupKey}`, todo.key, todo.data);
+    todo.completed = todo.done ? Date.now() : null;
+    this.db.updateItem(`todos/${todo.groupKey}`, todo.key, todo.data);
   }
 
   editTodo(todo: Todo) {
     if (todo.data.groupKey === todo.beforeGroupKey) {
-      this.db.updateItem(`todos/${todo.data.groupKey}`, todo.key, todo.data);
+      this.db.updateItem(`todos/${todo.groupKey}`, todo.key, todo.data);
     } else {
       this.db.deleteItem(`todos/${todo.beforeGroupKey}`, todo.key);
-      this.db.addItem(`todos/${todo.data.groupKey}`, todo.key, todo.data);
+      this.db.addItem(`todos/${todo.groupKey}`, todo.key, todo.data);
     }
   }
 
   deleteTodo(todo: Todo) {
-    this.db.deleteItem(`todos/${todo.data.groupKey}`, todo.key);
+    this.db.deleteItem(`todos/${todo.groupKey}`, todo.key);
   }
 
 }

@@ -3,10 +3,10 @@ export class Todo {
   beforeGroupKey?: string;
 
   constructor(
-    private title: string,
-    private groupKey: string,
-    private due: number = null,
-    private done: boolean = false,
+    public title: string,
+    public groupKey: string,
+    public due: number = null,
+    public done: boolean = false,
     public completed: number = null
   ) {}
 

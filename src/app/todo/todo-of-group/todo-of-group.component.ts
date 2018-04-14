@@ -50,29 +50,29 @@ export class TodoOfGroupComponent implements OnInit, OnDestroy {
   }
 
   addTodo(todo: Todo) {
-    this.db.addItem(`todos/${todo.data.groupKey}`, todo.key, todo.data);
-    if (todo.data.groupKey !== this.myGroupKey) {
-      this.router.navigate([`/groups/${todo.data.groupKey}`]);
+    this.db.addItem(`todos/${todo.groupKey}`, todo.key, todo.data);
+    if (todo.groupKey !== this.myGroupKey) {
+      this.router.navigate([`/groups/${todo.groupKey}`]);
     }
   }
 
   updateTodo(todo: Todo) {
-    todo.completed = todo.data.done ? Date.now() : null;
-    this.db.updateItem(`todos/${todo.data.groupKey}`, todo.key, todo.data);
+    todo.completed = todo.done ? Date.now() : null;
+    this.db.updateItem(`todos/${todo.groupKey}`, todo.key, todo.data);
   }
 
   editTodo(todo: Todo) {
-    if (todo.data.groupKey === this.myGroupKey) {
-      this.db.updateItem(`todos/${todo.data.groupKey}`, todo.key, todo.data);
+    if (todo.groupKey === this.myGroupKey) {
+      this.db.updateItem(`todos/${todo.groupKey}`, todo.key, todo.data);
     } else {
       this.db.deleteItem(`todos/${this.myGroupKey}`, todo.key);
-      this.db.addItem(`todos/${todo.data.groupKey}`, todo.key, todo.data);
-      this.router.navigate([`/groups/${todo.data.groupKey}`]);
+      this.db.addItem(`todos/${todo.groupKey}`, todo.key, todo.data);
+      this.router.navigate([`/groups/${todo.groupKey}`]);
     }
   }
 
   deleteTodo(todo: Todo) {
-    this.db.deleteItem(`todos/${todo.data.groupKey}`, todo.key);
+    this.db.deleteItem(`todos/${todo.groupKey}`, todo.key);
   }
 
 }
