@@ -27,12 +27,16 @@
   <table cellspacing="0" *ngIf="repeatType !== 0">
     <tr>
       <td>
-        <mat-form-field style="width:35px !important;">
-          <input matInput type="number" min="1" max="30" [(ngModel)]="repeatInterval">
+        <mat-form-field style="width:40px !important;">
+          <mat-select [(ngModel)]="repeatInterval">
+            <mat-option *ngFor="let num of intervals" [value]="num">
+              {{num}}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
       </td>
       <td>
-        <mat-form-field style="width:140px !important;">
+        <mat-form-field style="width:135px !important;">
           <mat-select [(ngModel)]="repeatUnit">
             <mat-option [value]="'days'">days</mat-option>
             <mat-option [value]="'weeks'">weeks</mat-option>

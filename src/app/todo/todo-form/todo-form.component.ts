@@ -21,6 +21,7 @@ export class TodoFormComponent implements OnInit {
   repeatUnit: string = 'days';
   defaultGroupKey: string;
   groups: Group[];
+  intervals: number[];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -40,6 +41,7 @@ export class TodoFormComponent implements OnInit {
     } else {
       this.defaultGroupKey = this.group.getInbox()
     }
+    this.intervals = Array.from(new Array(30)).map((v,i)=> i + 1);
   }
 
   create() {

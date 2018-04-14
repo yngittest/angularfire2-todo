@@ -20,6 +20,7 @@ export class TodoEditComponent implements OnInit {
   repeatInterval: number = 1;
   repeatUnit: string = 'days';
   groups: Group[];
+  intervals: number[];
   result: any;
 
   constructor(
@@ -35,6 +36,7 @@ export class TodoEditComponent implements OnInit {
     this.repeatType = this.data.todo.repeatType;
     this.repeatInterval = this.data.todo.repeatInterval || 1;
     this.repeatUnit = this.data.todo.repeatUnit || 'days';
+    this.intervals = Array.from(new Array(30)).map((v,i)=> i + 1);
     this.due = moment(this.data.todo.due).format('YYYY-MM-DDTHH:mm');
     this.result = {
       type: 'cancel',
