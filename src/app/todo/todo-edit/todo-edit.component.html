@@ -13,7 +13,7 @@
   </mat-form-field>
 
   <mat-form-field>
-    <input matInput placeholder="Due" id="due" type="datetime-local" [(ngModel)]="due">
+    <input matInput placeholder="Due" id="due" type="datetime-local" step=300 [(ngModel)]="due">
   </mat-form-field>
   <mat-form-field>
     <mat-select placeholder="Repeat" [(ngModel)]="repeatType">

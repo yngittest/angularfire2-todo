@@ -67,7 +67,8 @@ export class TodoEditComponent implements OnInit {
         repeatType: this.repeatType,
         repeatInterval: this.repeatInterval,
         repeatUnit: this.repeatUnit,
-        done: this.data.todo.done
+        done: this.data.todo.done,
+        completed: this.data.todo.completed
       });
       editedTodo.setKey(this.data.todo.key);
       editedTodo.setBeforeGroupKey(this.data.todo.groupKey);

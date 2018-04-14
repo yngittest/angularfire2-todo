@@ -29,7 +29,10 @@ export class TodoFormComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.due = moment().format('YYYY-MM-DDTHH:mm');
+    const now = moment();
+    now.minutes(Math.ceil(now.minutes() / 5) * 5);
+    now.seconds(0);
+    this.due = now.format('YYYY-MM-DDTHH:mm');
     this.groupKey = this.data.myGroupKey;
     this.groups = this.group.getGroups();
     if (this.data.myGroupKey) {
