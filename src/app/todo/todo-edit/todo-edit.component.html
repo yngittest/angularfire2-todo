@@ -3,6 +3,7 @@
   <mat-form-field>
     <input matInput placeholder="Todo" id="title" type="text" [(ngModel)]="title">
   </mat-form-field>
+
   <mat-form-field>
     <mat-select placeholder="Select Group" [(ngModel)]="groupKey">
       <mat-option *ngFor="let group of groups" [value]="group.key">
@@ -10,10 +11,39 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
+
   <mat-form-field>
     <input matInput placeholder="Due" id="due" type="datetime-local" [(ngModel)]="due">
   </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder="Repeat" [(ngModel)]="repeatType">
+      <mat-option [value]=0>No</mat-option>
+      <mat-option [value]=1>Due Date</mat-option>
+      <mat-option [value]=2>Completion Date</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <table cellspacing="0" *ngIf="repeatType !== 0">
+    <tr>
+      <td>
+        <mat-form-field style="width:35px !important;">
+          <input matInput type="number" min="1" max="30" [(ngModel)]="repeatInterval">
+        </mat-form-field>
+      </td>
+      <td>
+        <mat-form-field style="width:140px !important;">
+          <mat-select [(ngModel)]="repeatUnit">
+            <mat-option [value]="'days'">days</mat-option>
+            <mat-option [value]="'weeks'">weeks</mat-option>
+            <mat-option [value]="'months'">months</mat-option>
+            <mat-option [value]="'years'">years</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </td>
+    </tr>
+  </table>
 </mat-dialog-content>
+
 <mat-dialog-actions>
   <span class="spacer"></span>
   <button mat-icon-button (click)="update()">

@@ -14,10 +14,13 @@ import { GroupService } from '../../service/group/group.service';
 })
 export class TodoFormComponent implements OnInit {
   title: string;
-  due: string;
   groupKey: string;
-  groups: Group[];
+  due: string;
+  repeatType: number = 0;
+  repeatInterval: number = 1;
+  repeatUnit: string = 'days';
   defaultGroupKey: string;
+  groups: Group[];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -54,7 +57,14 @@ export class TodoFormComponent implements OnInit {
         inputGroupKey = this.defaultGroupKey;
       }
 
-      createdTodo = new Todo(this.title, inputGroupKey, inputDue);
+      createdTodo = new Todo({
+        title: this.title,
+        groupKey: inputGroupKey,
+        due: inputDue,
+        repeatType: this.repeatType,
+        repeatInterval: this.repeatInterval,
+        repeatUnit: this.repeatUnit
+      });
       this.dialogRef.close(createdTodo);
     }
   }

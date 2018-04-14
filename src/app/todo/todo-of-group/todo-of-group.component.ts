@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
+import * as moment from 'moment';
+
 import { Todo } from '../../model/todo';
 
 import { FirebaseDbService } from '../../service/firebase-db/firebase-db.service';
@@ -32,13 +34,8 @@ export class TodoOfGroupComponent implements OnInit, OnDestroy {
         this.todos = [];
         snapshots.forEach((snapshot: any) => {
           this.todos.push(
-            new Todo(
-              snapshot.title,
-              snapshot.groupKey,
-              snapshot.due,
-              snapshot.done,
-              snapshot.completed
-            ).setKey(snapshot.$key));
+            new Todo(snapshot).setKey(snapshot.$key)
+          );
         });
         this.myGroupName = this.group.getName(this.myGroupKey);
       });
@@ -59,6 +56,9 @@ export class TodoOfGroupComponent implements OnInit, OnDestroy {
   updateTodo(todo: Todo) {
     todo.completed = todo.done ? Date.now() : null;
     this.db.updateItem(`todos/${todo.groupKey}`, todo.key, todo.data);
+    if(todo.repeatType !== 0) {
+      this.repeatTodo(todo);
+    }
   }
 
   editTodo(todo: Todo) {
@@ -73,6 +73,24 @@ export class TodoOfGroupComponent implements OnInit, OnDestroy {
 
   deleteTodo(todo: Todo) {
     this.db.deleteItem(`todos/${todo.groupKey}`, todo.key);
+  }
+
+  repeatTodo(todo: Todo) {
+    let newDue;
+    if(todo.repeatType === 1) {
+      newDue = moment(todo.due);
+    } else if(todo.repeatType === 2) {
+      newDue = moment(todo.completed);
+      newDue.minutes(Math.ceil(newDue.minutes() / 5) * 5);
+      newDue.seconds(0);
+    }
+    newDue.add(todo.repeatInterval, todo.repeatUnit);
+
+    todo.due = Date.parse(newDue);
+    todo.done = false;
+    todo.completed = null;
+
+    this.db.addItem(`todos/${todo.groupKey}`, null, todo.data);
   }
 
 }

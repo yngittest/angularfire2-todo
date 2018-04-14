@@ -14,8 +14,11 @@ import { GroupService } from '../../service/group/group.service';
 })
 export class TodoEditComponent implements OnInit {
   title: string;
-  due: string;
   groupKey: string;
+  due: string;
+  repeatType: number = 0;
+  repeatInterval: number = 1;
+  repeatUnit: string = 'days';
   groups: Group[];
   result: any;
 
@@ -26,10 +29,13 @@ export class TodoEditComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.title = this.data.todo.data.title;
-    this.groupKey = this.data.todo.data.groupKey;
+    this.title = this.data.todo.title;
+    this.groupKey = this.data.todo.groupKey;
     this.groups = this.group.getGroups();
-    this.due = moment(this.data.todo.data.due).format('YYYY-MM-DDTHH:mm');
+    this.repeatType = this.data.todo.repeatType;
+    this.repeatInterval = this.data.todo.repeatInterval || 1;
+    this.repeatUnit = this.data.todo.repeatUnit || 'days';
+    this.due = moment(this.data.todo.due).format('YYYY-MM-DDTHH:mm');
     this.result = {
       type: 'cancel',
       data: null
@@ -54,9 +60,17 @@ export class TodoEditComponent implements OnInit {
         inputGroupKey = this.groups[0].key;
       }
 
-      editedTodo = new Todo(this.title, inputGroupKey, inputDue, this.data.todo.data.done);
+      editedTodo = new Todo({
+        title: this.title,
+        groupKey: inputGroupKey,
+        due: inputDue,
+        repeatType: this.repeatType,
+        repeatInterval: this.repeatInterval,
+        repeatUnit: this.repeatUnit,
+        done: this.data.todo.done
+      });
       editedTodo.setKey(this.data.todo.key);
-      editedTodo.setBeforeGroupKey(this.data.todo.data.groupKey);
+      editedTodo.setBeforeGroupKey(this.data.todo.groupKey);
 
       this.result.type = 'update';
       this.result.data = editedTodo;

@@ -1,14 +1,26 @@
 export class Todo {
+  title: string;
+  groupKey: string;
+  due: number;
+  repeatType: number;
+  repeatInterval: number;
+  repeatUnit: string;
+  done: boolean;
+  completed: number;
+
   key?: string;
   beforeGroupKey?: string;
 
-  constructor(
-    public title: string,
-    public groupKey: string,
-    public due: number = null,
-    public done: boolean = false,
-    public completed: number = null
-  ) {}
+  constructor(object: any) {
+    this.title = object.title;
+    this.groupKey = object.groupKey;
+    this.due = object.due || null;
+    this.repeatType = object.repeatType || 0;
+    this.repeatInterval = object.repeatInterval || null;
+    this.repeatUnit = object.repeatUnit || null;
+    this.done = object.done || false;
+    this.completed = object.completed || null;
+  }
 
   setKey(key: string): Todo {
     this.key = key;
@@ -25,6 +37,9 @@ export class Todo {
       title: this.title,
       groupKey: this.groupKey,
       done: this.done,
+      repeatType: this.repeatType,
+      repeatInterval: this.repeatInterval,
+      repeatUnit: this.repeatUnit,
       due: this.due,
       completed: this.completed
     };
