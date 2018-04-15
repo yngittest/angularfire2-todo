@@ -48,13 +48,6 @@ export class TodoEditComponent implements OnInit {
     if (this.title) {
       let editedTodo: Todo;
 
-      let inputDue: number;
-      if (this.due) {
-        inputDue = Date.parse(this.due);
-      } else {
-        inputDue = null;
-      }
-
       let inputGroupKey: string;
       if (this.groupKey) {
         inputGroupKey = this.groupKey;
@@ -65,7 +58,7 @@ export class TodoEditComponent implements OnInit {
       editedTodo = new Todo({
         title: this.title,
         groupKey: inputGroupKey,
-        due: inputDue,
+        due: this.due,
         repeatType: this.repeatType,
         repeatInterval: this.repeatInterval,
         repeatUnit: this.repeatUnit,

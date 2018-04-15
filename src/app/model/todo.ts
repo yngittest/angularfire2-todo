@@ -1,7 +1,7 @@
 export class Todo {
   title: string;
   groupKey: string;
-  due: number;
+  due: string;
   repeatType: number;
   repeatInterval: number;
   repeatUnit: string;

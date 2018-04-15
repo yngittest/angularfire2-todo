@@ -86,7 +86,7 @@ export class TodoOfGroupComponent implements OnInit, OnDestroy {
     }
     newDue.add(todo.repeatInterval, todo.repeatUnit);
 
-    todo.due = Date.parse(newDue);
+    todo.due = newDue.format('YYYY-MM-DDTHH:mm');
     todo.done = false;
     todo.completed = null;
 
