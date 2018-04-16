@@ -12,7 +12,8 @@ import {
   MatListModule,
   MatSidenavModule,
   MatToolbarModule,
-  MatMenuModule
+  MatMenuModule,
+  MatTabsModule
  } from '@angular/material';
 
 import { AngularFireModule } from 'angularfire2';
@@ -78,6 +79,7 @@ import { OrderByPipe } from './pipe/order-by/order-by.pipe';
     MatSidenavModule,
     MatToolbarModule,
     MatMenuModule,
+    MatTabsModule,
     ROUTES,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,

@@ -15,3 +15,16 @@
 .sidenav-container {
   flex: 1;
 }
+
+.tab-icon {
+  vertical-align: middle;
+}
+
+.tab-text {
+  margin-left: 5px;
+  vertical-align: middle;
+}
+
+.tab-content {
+  padding: 16px;
+}

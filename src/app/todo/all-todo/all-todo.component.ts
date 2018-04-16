@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, Input, OnInit } from '@angular/core';
 
 import * as moment from 'moment';
 
@@ -17,17 +16,13 @@ export class AllTodoComponent implements OnInit {
   userId: string;
   todos: Todo[];
   groups: any[];
-  name: string;
-  done: boolean;
 
-  constructor(private route: ActivatedRoute, private auth: AuthService, private db: FirebaseDbService) { }
+  @Input() name: string;
+  @Input() done: boolean;
+
+  constructor(private auth: AuthService, private db: FirebaseDbService) { }
 
   ngOnInit() {
-    this.route.data.subscribe(obj => {
-      this.name = obj['name'];
-      this.done = obj['done'];
-    });
-
     this.auth.uid$.subscribe(uid => {
       this.userId = uid;
       this.db.getItem(`/users/${this.userId}`)
