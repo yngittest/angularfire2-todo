@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { AuthService } from '../service/auth/auth.service';
+import { FirebaseMessagingService } from '../service/firebase-messaging/firebase-messaging.service';
 
 @Component({
   selector: 'app-navbar',
@@ -8,10 +9,16 @@ import { AuthService } from '../service/auth/auth.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  constructor(private auth: AuthService) {
+  message;
+
+  constructor(private auth: AuthService, private msg: FirebaseMessagingService) {
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.msg.getPermission();
+    this.msg.receiveMessage();
+    this.message = this.msg.currentMessage;
+  }
 
   login() {
     this.auth.signIn();

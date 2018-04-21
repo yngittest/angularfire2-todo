@@ -26,6 +26,7 @@
     </mat-sidenav>
     <mat-sidenav-content>
       <div *ngIf="auth.authenticated$ | async">
+        {{ message | async }}
         <mat-tab-group mat-stretch-tabs>
           <mat-tab label="Tab 1">
             <ng-template mat-tab-label>

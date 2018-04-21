@@ -43,6 +43,7 @@ import { MygroupComponent } from './group/mygroup/mygroup.component';
 import { AuthService } from './service/auth/auth.service';
 import { GroupService } from './service/group/group.service';
 import { FirebaseDbService } from './service/firebase-db/firebase-db.service';
+import { FirebaseMessagingService } from './service/firebase-messaging/firebase-messaging.service';
 
 import { OrderByPipe } from './pipe/order-by/order-by.pipe';
 
@@ -94,7 +95,8 @@ import { OrderByPipe } from './pipe/order-by/order-by.pipe';
   providers: [
     AuthService,
     GroupService,
-    FirebaseDbService
+    FirebaseDbService,
+    FirebaseMessagingService
   ],
   bootstrap: [AppComponent]
 })
