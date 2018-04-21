@@ -58,7 +58,7 @@ export class AllTodoComponent implements OnInit {
   }
 
   updateTodo(todo: Todo) {
-    todo.completed = todo.done ? Date.now() : null;
+    todo.completed = todo.done ? moment().format('YYYY-MM-DDTHH:mm') : null;
     this.db.updateItem(`todos/${todo.groupKey}`, todo.key, todo.data);
     if(todo.repeatType !== 0) {
       this.repeatTodo(todo);

@@ -13,8 +13,7 @@ export const onTodoCompleted = functions.database.ref('/todos/{groupId}/{todoId}
         const data = snapshot.val();
         const payload = {
           notification: {
-            title: `${data.title} completed`,
-            body: `${data.title} completed at ${data.completed}`
+            title: `${data.title} completed`
           }
         };
         console.log(payload);

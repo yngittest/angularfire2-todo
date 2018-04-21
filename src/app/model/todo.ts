@@ -6,7 +6,7 @@ export class Todo {
   repeatInterval: number;
   repeatUnit: string;
   done: boolean;
-  completed: number;
+  completed: string;
 
   key?: string;
   beforeGroupKey?: string;

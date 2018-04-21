@@ -9,15 +9,12 @@ import { FirebaseMessagingService } from '../service/firebase-messaging/firebase
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  message;
 
-  constructor(private auth: AuthService, private msg: FirebaseMessagingService) {
-  }
+  constructor(private auth: AuthService, private msg: FirebaseMessagingService) {}
 
   ngOnInit() {
     this.msg.getPermission();
     this.msg.receiveMessage();
-    this.message = this.msg.currentMessage;
   }
 
   login() {

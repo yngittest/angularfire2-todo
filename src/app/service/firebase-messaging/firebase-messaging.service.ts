@@ -4,15 +4,19 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase';
 
 import 'rxjs/add/operator/take';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject'
+
+import { MatSnackBar } from '@angular/material';
 
 @Injectable()
 export class FirebaseMessagingService {
 
   messaging = firebase.messaging();
-  currentMessage = new BehaviorSubject(null);
 
-  constructor(private db: AngularFireDatabase, private afAuth: AngularFireAuth) { }
+  constructor(
+    private db: AngularFireDatabase,
+    private afAuth: AngularFireAuth,
+    private snackBar: MatSnackBar
+  ) { }
 
   updateToken(token) {
     this.afAuth.authState.take(1).subscribe(user => {
@@ -40,7 +44,14 @@ export class FirebaseMessagingService {
   receiveMessage() {
     this.messaging.onMessage((payload) => {
       console.log("Message received. ", payload);
-      this.currentMessage.next(payload.notification.body);
+      this.openSnackBar(payload.notification.title);
     });
   }
+
+  openSnackBar(message: string) {
+    this.snackBar.open(message, 'dismiss', {
+      duration: 2000,
+    });
+  }
+
 }
