@@ -3,6 +3,8 @@ import * as admin from 'firebase-admin';
 
 admin.initializeApp(functions.config().firebase);
 
+import * as moment from 'moment';
+
 export const onTodoCompleted = functions.database.ref('/todos/{groupId}/{todoId}/done')
   .onUpdate((change, context) => {
     if(!change.after.val()) {
@@ -39,3 +41,24 @@ export const onTodoCompleted = functions.database.ref('/todos/{groupId}/{todoId}
           });
       });
   });
+
+export const reminderTodo = functions.https.onRequest((req, res) => {
+  res.send('accepted');
+  const now = moment().utcOffset('+09:00');
+  return admin.database().ref(`/todos`)
+    // .orderByChild('due')
+    // .endAt(now)
+    .on('child_added', snapshots => {
+      snapshots.forEach(snapshot => {
+        const data = snapshot.val();
+        if(!data.done) {
+          const due = moment(data.due + '+09:00');
+          const diff = due.diff(now, 'minutes', true);
+          if(0 <= diff && diff < 1) {
+            console.log(snapshot.key, data);
+          }
+        }
+        return false;
+      });
+    });
+});
