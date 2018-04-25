@@ -29,7 +29,7 @@ export class GroupEditComponent implements OnInit {
 
   update() {
     if (this.name) {
-      const editedGroup = new Group(this.name);
+      const editedGroup = new Group({name: this.name});
       editedGroup.key = this.data.group.key;
       this.result.type = 'update';
       this.result.data = editedGroup;

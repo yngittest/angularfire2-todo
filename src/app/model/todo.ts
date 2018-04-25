@@ -2,6 +2,7 @@ export class Todo {
   title: string;
   groupKey: string;
   due: string;
+  assignee: string;
   repeatType: number;
   repeatInterval: number;
   repeatUnit: string;
@@ -15,6 +16,7 @@ export class Todo {
     this.title = object.title;
     this.groupKey = object.groupKey;
     this.due = object.due || null;
+    this.assignee = object.assignee || null;
     this.repeatType = object.repeatType || 0;
     this.repeatInterval = object.repeatInterval || null;
     this.repeatUnit = object.repeatUnit || null;
@@ -37,6 +39,7 @@ export class Todo {
       title: this.title,
       groupKey: this.groupKey,
       done: this.done,
+      assignee: this.assignee,
       repeatType: this.repeatType,
       repeatInterval: this.repeatInterval,
       repeatUnit: this.repeatUnit,

@@ -14,6 +14,7 @@ import { GroupService } from '../../service/group/group.service';
 })
 export class MygroupComponent implements OnInit {
   userId: string;
+  userName: string;
   groups: Group[];
 
   constructor(private auth: AuthService, private db: FirebaseDbService, private group: GroupService, private router: Router) { }
@@ -28,7 +29,7 @@ export class MygroupComponent implements OnInit {
             const groupKeys = Object.keys(user.groups);
             groupKeys.forEach(groupKey => {
               this.db.getItem(`/groups/${groupKey}`).subscribe(group => {
-                const newGroup = new Group(group.name, group.type, group.archived).setKey(group.$key);
+                const newGroup = new Group(group).setKey(group.$key);
                 const index = this.groups.findIndex(({key}) => key === group.$key);
                 if (index < 0) {
                   this.groups.push(newGroup);
@@ -38,15 +39,19 @@ export class MygroupComponent implements OnInit {
               });
             });
           } else {
-            this.addGroup(new Group('inbox', 0));
+            this.addGroup(new Group({name: 'inbox', type: 0}));
           }
           this.group.setGroups(this.groups);
         });
     });
+    this.auth.name$.subscribe(name => {
+      this.userName = name;
+      this.db.updateItem(`users/${this.userId}`, 'name', this.userName);
+    })
   }
 
   addGroup(group: Group) {
-    group['members'] = {[this.userId]: true};
+    group['members'] = {[this.userId]: {name: this.userName}};
     const result = this.db.addItem('groups', null, group);
     this.db.addItem(`users/${this.userId}/groups`, result.key, true);
   }

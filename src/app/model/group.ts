@@ -1,11 +1,17 @@
 export class Group {
+  name: string;
+  type: number;
+  archived: boolean;
+  members: any;
+
   key?: string;
 
-  constructor(
-    public name: string,
-    public type: number = 1,
-    public archived: boolean = false
-  ) {}
+  constructor(object: any) {
+    this.name = object.name;
+    this.type = object.type === 0 ? 0 : 1;
+    this.archived = object.archived || false;
+    this.members = object.members || null;
+  }
 
   setKey(key: string): Group {
     this.key = key;
@@ -16,7 +22,8 @@ export class Group {
     return {
       name: this.name,
       type: this.type,
-      archived: this.archived
+      archived: this.archived,
+      members: this.members
     };
   }
 }

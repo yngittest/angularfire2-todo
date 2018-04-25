@@ -23,7 +23,7 @@ export class GroupFormComponent implements OnInit {
   create() {
     if (this.name) {
       let group: Group;
-      group = new Group(this.name);
+      group = new Group({name: this.name});
       this.dialogRef.close(group);
       this.name = null;
     }

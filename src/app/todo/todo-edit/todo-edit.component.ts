@@ -16,11 +16,13 @@ export class TodoEditComponent implements OnInit {
   title: string;
   groupKey: string;
   due: string;
+  assignee: string;
+  members: any[];
   repeatType: number = 0;
   repeatInterval: number = 1;
   repeatUnit: string = 'days';
-  groups: Group[];
   intervals: number[];
+  groups: Group[];
   result: any;
 
   constructor(
@@ -32,12 +34,14 @@ export class TodoEditComponent implements OnInit {
   ngOnInit() {
     this.title = this.data.todo.title;
     this.groupKey = this.data.todo.groupKey;
-    this.groups = this.group.getGroups();
+    this.due = moment(this.data.todo.due).format('YYYY-MM-DDTHH:mm');
+    this.assignee = this.data.todo.assignee;
     this.repeatType = this.data.todo.repeatType;
     this.repeatInterval = this.data.todo.repeatInterval || 1;
     this.repeatUnit = this.data.todo.repeatUnit || 'days';
-    this.intervals = Array.from(new Array(30)).map((v,i)=> i + 1);
-    this.due = moment(this.data.todo.due).format('YYYY-MM-DDTHH:mm');
+    this.setIntervals();
+    this.setGroups();
+    this.setGroupMembers();
     this.result = {
       type: 'cancel',
       data: null
@@ -46,19 +50,11 @@ export class TodoEditComponent implements OnInit {
 
   update() {
     if (this.title) {
-      let editedTodo: Todo;
-
-      let inputGroupKey: string;
-      if (this.groupKey) {
-        inputGroupKey = this.groupKey;
-      } else {
-        inputGroupKey = this.groups[0].key;
-      }
-
-      editedTodo = new Todo({
+      const editedTodo = new Todo({
         title: this.title,
-        groupKey: inputGroupKey,
+        groupKey: this.groupKey,
         due: this.due,
+        assignee: this.assignee,
         repeatType: this.repeatType,
         repeatInterval: this.repeatInterval,
         repeatUnit: this.repeatUnit,
@@ -81,6 +77,23 @@ export class TodoEditComponent implements OnInit {
 
   cancel() {
     this.dialogRef.close(this.result);
+  }
+
+  setIntervals() {
+    this.intervals = Array.from(new Array(30)).map((v,i)=> i + 1);
+  }
+
+  setGroups() {
+    this.groups = this.group.getGroups();
+  }
+
+  setGroupMembers() {
+    const index = this.groups.findIndex(({key}) => key === this.groupKey);
+    const members = this.groups[index].members;
+    this.members = [];
+    for(let key of Object.keys(members)) {
+      this.members.push({key: key, name: members[key].name});
+    }
   }
 
 }

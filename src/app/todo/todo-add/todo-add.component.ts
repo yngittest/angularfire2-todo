@@ -12,6 +12,7 @@ import { TodoFormComponent } from '../todo-form/todo-form.component';
 export class TodoAddComponent implements OnInit {
 
   @Input() groupKey: string;
+  @Input() userId: string;
 
   @Output() onCreate = new EventEmitter<Todo>();
 
@@ -22,7 +23,7 @@ export class TodoAddComponent implements OnInit {
 
   openDialog() {
     let dialogRef = this.dialog.open(TodoFormComponent, {
-      data: { myGroupKey: this.groupKey },
+      data: { myGroupKey: this.groupKey, userId: this.userId },
       width: '250px'
     });
     dialogRef.afterClosed().subscribe(result => {

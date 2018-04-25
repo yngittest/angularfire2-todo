@@ -5,9 +5,17 @@
   </mat-form-field>
 
   <mat-form-field>
-    <mat-select placeholder="Select Group" [(ngModel)]="groupKey">
+    <mat-select placeholder="Select Group" [(ngModel)]="groupKey" (selectionChange)="setGroupMembers();">
       <mat-option *ngFor="let group of groups" [value]="group.key">
         {{group.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-select placeholder="Select Assignee" [(ngModel)]="assignee">
+      <mat-option *ngFor="let member of members" [value]="member.key">
+        {{member.name}}
       </mat-option>
     </mat-select>
   </mat-form-field>

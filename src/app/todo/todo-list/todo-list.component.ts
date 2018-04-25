@@ -12,6 +12,7 @@ import { TodoEditComponent } from '../todo-edit/todo-edit.component';
 export class TodoListComponent implements OnInit {
   selected: Todo;
 
+  @Input() userId: string;
   @Input() todos: Todo[];
   @Input() groupKey: string;
 
@@ -34,7 +35,7 @@ export class TodoListComponent implements OnInit {
 
   openDialog() {
     let dialogRef = this.dialog.open(TodoEditComponent, {
-      data: { todo: this.selected },
+      data: { todo: this.selected, userId: this.userId },
       width: '250px'
     });
     dialogRef.afterClosed().subscribe(result => {
