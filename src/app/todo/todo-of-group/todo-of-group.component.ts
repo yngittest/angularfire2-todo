@@ -5,6 +5,7 @@ import * as moment from 'moment';
 
 import { Todo } from '../../model/todo';
 
+import { AuthService } from '../../service/auth/auth.service';
 import { FirebaseDbService } from '../../service/firebase-db/firebase-db.service';
 import { GroupService } from '../../service/group/group.service';
 
@@ -14,14 +15,24 @@ import { GroupService } from '../../service/group/group.service';
   styleUrls: ['./todo-of-group.component.css'],
 })
 export class TodoOfGroupComponent implements OnInit, OnDestroy {
+  userId: string;
   todos: Todo[];
   myGroupKey: string;
   myGroupName: string;
   subscription: any;
 
-  constructor(private route: ActivatedRoute, private router: Router, private db: FirebaseDbService, private group: GroupService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private auth: AuthService,
+    private db: FirebaseDbService,
+    private group: GroupService
+  ) { }
 
   ngOnInit() {
+    this.auth.uid$.subscribe(uid => {
+      this.userId = uid;
+    });
     this.route.params.subscribe((params) => {
       this.myGroupKey = params['key'];
       const query = {
