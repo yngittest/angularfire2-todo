@@ -1,8 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import * as moment from 'moment';
 
 import { Todo } from '../../model/todo';
+import { TodoManageComponent } from '../todo-manage/todo-manage.component';
 
 import { AuthService } from '../../service/auth/auth.service';
 import { FirebaseDbService } from '../../service/firebase-db/firebase-db.service';
@@ -12,15 +14,20 @@ import { FirebaseDbService } from '../../service/firebase-db/firebase-db.service
   templateUrl: './all-todo.component.html',
   styleUrls: ['./all-todo.component.css']
 })
-export class AllTodoComponent implements OnInit {
+export class AllTodoComponent extends TodoManageComponent implements OnInit {
   userId: string;
-  todos: Todo[];
   groups: any[];
 
   @Input() name: string;
   @Input() done: boolean;
 
-  constructor(private auth: AuthService, private db: FirebaseDbService) { }
+  constructor(
+    router: Router,
+    db: FirebaseDbService,
+    private auth: AuthService
+  ) {
+    super(db, router);
+  }
 
   ngOnInit() {
     this.auth.uid$.subscribe(uid => {
@@ -51,50 +58,6 @@ export class AllTodoComponent implements OnInit {
           }
         });
     });
-  }
-
-  addTodo(todo: Todo) {
-    this.db.addItem(`todos/${todo.groupKey}`, todo.key, todo.data);
-  }
-
-  updateTodo(todo: Todo) {
-    todo.completed = todo.done ? moment().format('YYYY-MM-DDTHH:mm') : null;
-    todo.completedBy = this.userId;
-    this.db.updateItem(`todos/${todo.groupKey}`, todo.key, todo.data);
-    if(todo.repeatType !== 0) {
-      this.repeatTodo(todo);
-    }
-  }
-
-  editTodo(todo: Todo) {
-    if (todo.data.groupKey === todo.beforeGroupKey) {
-      this.db.updateItem(`todos/${todo.groupKey}`, todo.key, todo.data);
-    } else {
-      this.db.deleteItem(`todos/${todo.beforeGroupKey}`, todo.key);
-      this.db.addItem(`todos/${todo.groupKey}`, todo.key, todo.data);
-    }
-  }
-
-  deleteTodo(todo: Todo) {
-    this.db.deleteItem(`todos/${todo.groupKey}`, todo.key);
-  }
-
-  repeatTodo(todo: Todo) {
-    let newDue;
-    if(todo.repeatType === 1) {
-      newDue = moment(todo.due);
-    } else if(todo.repeatType === 2) {
-      newDue = moment(todo.completed);
-      newDue.minutes(Math.ceil(newDue.minutes() / 5) * 5);
-      newDue.seconds(0);
-    }
-    newDue.add(todo.repeatInterval, todo.repeatUnit);
-
-    todo.due = newDue.format('YYYY-MM-DDTHH:mm');
-    todo.done = false;
-    todo.completed = null;
-
-    this.db.addItem(`todos/${todo.groupKey}`, null, todo.data);
   }
 
 }

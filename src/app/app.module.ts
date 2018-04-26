@@ -34,6 +34,8 @@ import { TodoItemComponent } from './todo/todo-item/todo-item.component';
 import { TodoEditComponent } from './todo/todo-edit/todo-edit.component';
 import { TodoOfGroupComponent } from './todo/todo-of-group/todo-of-group.component';
 import { AllTodoComponent } from './todo/all-todo/all-todo.component';
+import { TodoManageComponent } from './todo/todo-manage/todo-manage.component';
+
 import { GroupAddComponent } from './group/group-add/group-add.component';
 import { GroupFormComponent } from './group/group-form/group-form.component';
 import { GroupListComponent } from './group/group-list/group-list.component';
@@ -58,6 +60,7 @@ import { OrderByPipe } from './pipe/order-by/order-by.pipe';
     TodoEditComponent,
     TodoAddComponent,
     TodoOfGroupComponent,
+    TodoManageComponent,
     GroupListComponent,
     GroupItemComponent,
     GroupFormComponent,

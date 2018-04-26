@@ -1,3 +1,5 @@
+import * as moment from 'moment';
+
 export class Todo {
   title: string;
   groupKey: string;
@@ -49,6 +51,38 @@ export class Todo {
       completed: this.completed,
       completedBy: this.completedBy
     };
+  }
+
+  update(userId: string): Todo {
+    this.completed = this.done ? moment().format('YYYY-MM-DDTHH:mm') : null;
+    this.completedBy = this.done ? userId : null;
+    return this;
+  }
+
+  repeat(): Todo {
+    let newDue;
+    switch(this.repeatType) {
+      case 0:
+        return null;
+      case 1:
+        newDue = moment(this.due);
+        break;
+      case 2:
+        newDue = moment(this.completed);
+        newDue.minutes(Math.ceil(newDue.minutes() / 5) * 5);
+        newDue.seconds(0);
+        break;
+      default:
+        return null;
+    }
+    newDue.add(this.repeatInterval, this.repeatUnit);
+
+    this.due = newDue.format('YYYY-MM-DDTHH:mm');
+    this.done = false;
+    this.completed = null;
+    this.completedBy = null;
+
+    return this;
   }
 
 }
