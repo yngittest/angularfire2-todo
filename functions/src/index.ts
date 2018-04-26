@@ -37,7 +37,16 @@ export const onTodoCompleted = functions.database.ref('/todos/{groupId}/{todoId}
           .then(membersRef => Object.keys(membersRef.val()))
           .then(memberKeys => {
             memberKeys.forEach(userId => {
-              pushNotification(userId, `${data.title} completed`);
+              if(userId !== data.completedBy) {
+                admin.database().ref(`/users/${data.completedBy}/name`).once('value')
+                  .then(name => {
+                    const title = `${data.title} completed by ${name.val()}`;
+                    pushNotification(userId, title);
+                  })
+                  .catch(err => {
+                    console.log(err);
+                  });
+              }
             });
           })
           .catch(err => {

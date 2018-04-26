@@ -66,6 +66,7 @@ export class TodoOfGroupComponent implements OnInit, OnDestroy {
 
   updateTodo(todo: Todo) {
     todo.completed = todo.done ? moment().format('YYYY-MM-DDTHH:mm') : null;
+    todo.completedBy = this.userId;
     this.db.updateItem(`todos/${todo.groupKey}`, todo.key, todo.data);
     if(todo.repeatType !== 0) {
       this.repeatTodo(todo);

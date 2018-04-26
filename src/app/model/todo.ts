@@ -8,6 +8,7 @@ export class Todo {
   repeatUnit: string;
   done: boolean;
   completed: string;
+  completedBy: string;
 
   key?: string;
   beforeGroupKey?: string;
@@ -22,6 +23,7 @@ export class Todo {
     this.repeatUnit = object.repeatUnit || null;
     this.done = object.done || false;
     this.completed = object.completed || null;
+    this.completedBy = object.completedBy || null;
   }
 
   setKey(key: string): Todo {
@@ -44,7 +46,8 @@ export class Todo {
       repeatInterval: this.repeatInterval,
       repeatUnit: this.repeatUnit,
       due: this.due,
-      completed: this.completed
+      completed: this.completed,
+      completedBy: this.completedBy
     };
   }
 
