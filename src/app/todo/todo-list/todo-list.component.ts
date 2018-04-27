@@ -39,10 +39,12 @@ export class TodoListComponent implements OnInit {
       width: '250px'
     });
     dialogRef.afterClosed().subscribe(result => {
-      if(result.type === 'update') {
-        this.onEdit.emit(result.data);
-      } else if(result.type === 'delete') {
-        this.onDelete.emit(this.selected);
+      if(result) {
+        if(result.type === 'update') {
+          this.onEdit.emit(result.data);
+        } else if(result.type === 'delete') {
+          this.onDelete.emit(this.selected);
+        }
       }
       this.selected = null;
     });
