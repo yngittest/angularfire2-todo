@@ -30,13 +30,15 @@ export class GroupService {
 
   getInbox() {
     let groupKey: string;
-    this.groups
-      .filter(group => {
-        return group.data.type === 0;
-      })
-      .map(group => {
-        groupKey = group.key;
-      });
+    if(this.groups) {
+      this.groups
+        .filter(group => {
+          return group.data.type === 0;
+        })
+        .map(group => {
+          groupKey = group.key;
+        });
+    }
     return groupKey;
   }
 

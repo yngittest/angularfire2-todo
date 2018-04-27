@@ -35,7 +35,7 @@ export class TodoOfGroupComponent extends TodoManageComponent implements OnInit,
       this.userId = uid;
     });
     this.route.params.subscribe((params) => {
-      this.myGroupKey = params['key'];
+      this.myGroupKey = params['key'] || this.group.getInbox();
       const query = {
         query: {
           orderByChild: 'done',

@@ -2,13 +2,13 @@
   <mat-toolbar color="primary">
     <h1 routerLink="/" onfocus="this.blur();">Todo</h1>
     <span class="spacer"></span>
+    <ng-container *ngIf="auth.authenticated$ | async">
+      <span>{{ auth.name$ | async }}</span>
+    </ng-container>
     <button mat-icon-button [matMenuTriggerFor]="menu">
       <mat-icon>account_circle</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item *ngIf="auth.authenticated$ | async">
-        <span>Signed in as {{ auth.name$ | async }}</span>
-      </button>
       <button mat-menu-item *ngIf="!(auth.authenticated$ | async)" (click)="login()">
         <span>Login</span>
       </button>
