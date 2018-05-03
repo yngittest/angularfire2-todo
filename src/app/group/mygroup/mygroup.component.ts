@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+
+import { Subject } from "rxjs/Subject";
+import "rxjs/add/operator/takeUntil";
 
 import { Group } from '../../model/group';
 
@@ -12,42 +15,43 @@ import { GroupService } from '../../service/group/group.service';
   templateUrl: './mygroup.component.html',
   styleUrls: ['./mygroup.component.css']
 })
-export class MygroupComponent implements OnInit {
+export class MygroupComponent implements OnInit, OnDestroy {
   userId: string;
   userName: string;
   groups: Group[];
+  private unsubscribe = new Subject<void>();
 
-  constructor(private auth: AuthService, private db: FirebaseDbService, private group: GroupService, private router: Router) { }
+  constructor(
+    private auth: AuthService,
+    private db: FirebaseDbService,
+    private group: GroupService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
-    this.auth.uid$.subscribe(uid => {
-      this.userId = uid;
-      this.db.getItem(`/users/${this.userId}`)
-        .subscribe(user => {
-          this.groups = [];
-          if(user.groups) {
-            const groupKeys = Object.keys(user.groups);
-            groupKeys.forEach(groupKey => {
-              this.db.getItem(`/groups/${groupKey}`).subscribe(group => {
-                const newGroup = new Group(group).setKey(group.$key);
-                const index = this.groups.findIndex(({key}) => key === group.$key);
-                if (index < 0) {
-                  this.groups.push(newGroup);
-                } else {
-                  this.groups[index] = newGroup;
-                }
-              });
-            });
-          } else {
-            this.addGroup(new Group({name: 'inbox', type: 0}));
-          }
-          this.group.setGroups(this.groups);
-        });
-    });
-    this.auth.name$.subscribe(name => {
-      this.userName = name;
-      this.db.updateItem(`users/${this.userId}`, 'name', this.userName);
-    })
+    this.auth.uid$
+      .takeUntil(this.unsubscribe)
+      .subscribe(uid => {
+        this.userId = uid;
+      });
+    this.auth.name$
+      .takeUntil(this.unsubscribe)
+      .subscribe(name => {
+        if(name) {
+          this.userName = name;
+          this.db.updateItem(`users/${this.userId}`, 'name', this.userName);
+        }
+      });
+    this.group.groups$
+      .takeUntil(this.unsubscribe)
+      .subscribe(groups => {
+        this.groups = groups;
+      });
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 
   addGroup(group: Group) {

@@ -20,12 +20,12 @@
 
   <mat-sidenav-container class="sidenav-container">
     <mat-sidenav #sidenav mode="push" [(opened)]="opened" fixedInViewport fixedTopGap="56">
-      <div *ngIf="auth.authenticated$ | async">
+      <ng-container *ngIf="auth.authenticated$ | async">
         <app-mygroup></app-mygroup>
-      </div>
+      </ng-container>
     </mat-sidenav>
     <mat-sidenav-content>
-      <div *ngIf="auth.authenticated$ | async">
+      <ng-container *ngIf="auth.authenticated$ | async">
         <mat-tab-group mat-stretch-tabs>
           <mat-tab label="Tab 1">
             <ng-template mat-tab-label>
@@ -56,7 +56,7 @@
             <app-all-todo [name]="'Completed'" [done]=true></app-all-todo>
           </mat-tab>
         </mat-tab-group>
-      </div>
+      </ng-container>
     </mat-sidenav-content>
   </mat-sidenav-container>
 </div>

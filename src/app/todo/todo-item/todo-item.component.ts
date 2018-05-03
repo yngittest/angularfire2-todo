@@ -1,29 +1,22 @@
-import { Component, OnInit, OnChanges, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { Todo } from '../../model/todo';
-import { Group } from '../../model/group';
-import { GroupService } from '../../service/group/group.service';
 
 @Component({
   selector: 'app-todo-item',
   templateUrl: './todo-item.component.html',
   styleUrls: ['./todo-item.component.css']
 })
-export class TodoItemComponent implements OnInit, OnChanges {
-  myGroupName: string;
+export class TodoItemComponent implements OnInit {
 
   @Input() todo: Todo;
 
   @Output() onUpdate = new EventEmitter<Todo>();
   @Output() onEdit = new EventEmitter<Todo>();
 
-  constructor(private group: GroupService) { }
+  constructor() { }
 
   ngOnInit() {
-  }
-
-  ngOnChanges() {
-    this.myGroupName = this.group.getName(this.todo.data.groupKey);
   }
 
   update() {

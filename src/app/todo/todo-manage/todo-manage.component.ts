@@ -27,11 +27,8 @@ export class TodoManageComponent implements OnInit {
   }
 
   updateTodo(todo: Todo) {
-    console.log(todo);
     const updatedTodo = todo.update(this.userId);
     this.db.updateItem(`todos/${todo.groupKey}`, todo.key, todo.data);
-    console.log(todo);
-
     if(todo.done) {
       const repeatedTodo = todo.repeat();
       if(repeatedTodo) {

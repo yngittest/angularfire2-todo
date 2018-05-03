@@ -1,8 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
+
+import { Subject } from "rxjs/Subject";
+import "rxjs/add/operator/takeUntil";
+
+import { TodoManageComponent } from '../todo-manage/todo-manage.component';
 
 import { Todo } from '../../model/todo';
-import { TodoManageComponent } from '../todo-manage/todo-manage.component';
+import { Group } from '../../model/group';
+import { GroupList } from '../../model/group-list';
 
 import { AuthService } from '../../service/auth/auth.service';
 import { FirebaseDbService } from '../../service/firebase-db/firebase-db.service';
@@ -15,10 +21,11 @@ import { GroupService } from '../../service/group/group.service';
 })
 export class TodoOfGroupComponent extends TodoManageComponent implements OnInit, OnDestroy {
   userId: string;
+  groups: Group[];
+  groupKey: string;
+  groupName: string;
   todos: Todo[];
-  myGroupKey: string;
-  myGroupName: string;
-  subscription: any;
+  private unsubscribe = new Subject<void>();
 
   constructor(
     router: Router,
@@ -31,31 +38,43 @@ export class TodoOfGroupComponent extends TodoManageComponent implements OnInit,
   }
 
   ngOnInit() {
-    this.auth.uid$.subscribe(uid => {
-      this.userId = uid;
-    });
-    this.route.params.subscribe((params) => {
-      this.myGroupKey = params['key'] || this.group.getInbox();
-      const query = {
-        query: {
-          orderByChild: 'done',
-          equalTo: false
-        }
-      };
-      this.subscription = this.db.getItems(`/todos/${this.myGroupKey}`, query).subscribe((snapshots: any[]) => {
-        this.todos = [];
-        snapshots.forEach((snapshot: any) => {
-          this.todos.push(
-            new Todo(snapshot).setKey(snapshot.$key)
-          );
-        });
-        this.myGroupName = this.group.getName(this.myGroupKey);
+    this.auth.uid$
+      .takeUntil(this.unsubscribe)
+      .subscribe(uid => {
+        this.userId = uid;
       });
-    });
+
+    this.group.groups$
+      .takeUntil(this.unsubscribe)
+      .subscribe(groups => {
+        this.groups = groups;
+        const groupList = new GroupList(groups);
+        this.route.params
+          .takeUntil(this.unsubscribe)
+          .subscribe((params) => {
+            const newGroupKey = params['key'] || groupList.getInbox();
+            this.groupName = groupList.getName(newGroupKey);
+            if(this.groupKey !== newGroupKey) {
+              this.groupKey = newGroupKey;
+              const query = {query: {orderByChild: 'done', equalTo: false}};
+              this.db.getItems(`/todos/${this.groupKey}`, query)
+                .takeUntil(this.unsubscribe)
+                .subscribe((snapshots: any[]) => {
+                  this.todos = [];
+                  snapshots.forEach((snapshot: any) => {
+                    this.todos.push(
+                      new Todo(snapshot).setKey(snapshot.$key)
+                    );
+                  });
+                });
+            }
+          });
+      });
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 
 }

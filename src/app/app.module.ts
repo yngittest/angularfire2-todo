@@ -31,7 +31,6 @@ import { TodoAddComponent } from './todo/todo-add/todo-add.component';
 import { TodoFormComponent } from './todo/todo-form/todo-form.component';
 import { TodoListComponent } from './todo/todo-list/todo-list.component';
 import { TodoItemComponent } from './todo/todo-item/todo-item.component';
-import { TodoEditComponent } from './todo/todo-edit/todo-edit.component';
 import { TodoOfGroupComponent } from './todo/todo-of-group/todo-of-group.component';
 import { AllTodoComponent } from './todo/all-todo/all-todo.component';
 import { TodoManageComponent } from './todo/todo-manage/todo-manage.component';
@@ -57,18 +56,17 @@ import { OrderByPipe } from './pipe/order-by/order-by.pipe';
     TodoListComponent,
     TodoItemComponent,
     TodoFormComponent,
-    TodoEditComponent,
     TodoAddComponent,
     TodoOfGroupComponent,
+    AllTodoComponent,
     TodoManageComponent,
     GroupListComponent,
     GroupItemComponent,
     GroupFormComponent,
     GroupEditComponent,
-    MygroupComponent,
-    AllTodoComponent,
-    OrderByPipe,
     GroupAddComponent,
+    MygroupComponent,
+    OrderByPipe,
   ],
   imports: [
     BrowserModule,
@@ -93,15 +91,14 @@ import { OrderByPipe } from './pipe/order-by/order-by.pipe';
   ],
   entryComponents: [
     TodoFormComponent,
-    TodoEditComponent,
     GroupFormComponent,
     GroupEditComponent,
   ],
   providers: [
     AuthService,
-    GroupService,
     FirebaseDbService,
-    FirebaseMessagingService
+    FirebaseMessagingService,
+    GroupService,
   ],
   bootstrap: [AppComponent]
 })

@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>Add Todo</h2>
+<h2 mat-dialog-title cdkFocusInitial>{{ header }}</h2>
 <mat-dialog-content>
   <mat-form-field>
     <input matInput placeholder="Todo" id="title" type="text" [(ngModel)]="title">
@@ -58,10 +58,22 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <span class="spacer"></span>
-  <button mat-icon-button (click)="create()">
-    <mat-icon>add</mat-icon>
-  </button>
+  <ng-container *ngIf="data.type === 'create'">
+    <span class="spacer"></span>
+    <button mat-icon-button (click)="create()">
+      <mat-icon>add</mat-icon>
+    </button>
+  </ng-container>
+  <ng-container *ngIf="data.type === 'edit'">
+    <span class="spacer"></span>
+    <button mat-icon-button (click)="update()">
+      <mat-icon>check</mat-icon>
+    </button>
+    <span class="spacer"></span>
+    <button mat-icon-button (click)="delete()">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </ng-container>
   <span class="spacer"></span>
   <button mat-icon-button (click)="cancel()">
     <mat-icon>clear</mat-icon>

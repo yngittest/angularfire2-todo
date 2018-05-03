@@ -2,6 +2,8 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
 import { Todo } from '../../model/todo';
+import { Group } from '../../model/group';
+
 import { TodoFormComponent } from '../todo-form/todo-form.component';
 
 @Component({
@@ -11,8 +13,9 @@ import { TodoFormComponent } from '../todo-form/todo-form.component';
 })
 export class TodoAddComponent implements OnInit {
 
-  @Input() groupKey: string;
   @Input() userId: string;
+  @Input() groups: Group[];
+  @Input() groupKey: string;
 
   @Output() onCreate = new EventEmitter<Todo>();
 
@@ -23,12 +26,19 @@ export class TodoAddComponent implements OnInit {
 
   openDialog() {
     let dialogRef = this.dialog.open(TodoFormComponent, {
-      data: { myGroupKey: this.groupKey, userId: this.userId },
+      data: {
+        type: 'create',
+        userId: this.userId,
+        groups: this.groups,
+        myGroupKey: this.groupKey,
+      },
       width: '250px'
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        this.onCreate.emit(result);
+        if(result.type === 'create') {
+          this.onCreate.emit(result.data);
+        }
       }
     });
   }

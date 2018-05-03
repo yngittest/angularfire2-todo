@@ -10,8 +10,9 @@ import { Group } from '../../model/group';
 })
 export class GroupEditComponent implements OnInit {
   name: string;
-  archived: boolean;
   type: number;
+  archived: boolean;
+  members: any;
   result: any;
 
   constructor(
@@ -20,7 +21,10 @@ export class GroupEditComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.name = this.data.group.data.name;
+    this.name = this.data.group.name;
+    this.type = this.data.group.type;
+    this.archived = this.data.group.archived;
+    this.members = this.data.group.members;
     this.result = {
       type: 'cancel',
       data: null
@@ -29,7 +33,12 @@ export class GroupEditComponent implements OnInit {
 
   update() {
     if (this.name) {
-      const editedGroup = new Group({name: this.name});
+      const editedGroup = new Group({
+        name: this.name,
+        type: this.type,
+        archived: this.archived,
+        members: this.members
+      });
       editedGroup.key = this.data.group.key;
       this.result.type = 'update';
       this.result.data = editedGroup;

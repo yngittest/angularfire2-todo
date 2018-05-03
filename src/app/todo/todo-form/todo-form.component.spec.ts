@@ -5,20 +5,24 @@ import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { DebugElement} from '@angular/core';
 
+import * as moment from 'moment';
+
 import { TodoFormComponent } from './todo-form.component';
 import { Todo } from '../../model/todo';
 
 @Component({
   selector: 'app-test-app',
   template: `
-    <app-todo-form (submit)="onSubmit($event)"></app-todo-form>
+    <app-todo-form [todo]="selected" (edited)="onEdited($event)"></app-todo-form>
   `
 })
 export class TodoFormTestComponent {
-  submitted: Todo;
+  selected = new Todo('title before', Date.now()).setKey('testkey');
 
-  onSubmit(todo: Todo) {
-    this.submitted = todo;
+  updated: Todo;
+
+  onEdited(todo: Todo) {
+    this.updated = todo;
   }
 }
 
@@ -44,9 +48,20 @@ describe('TodoFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should tirgger "submit" event when "+" button clicked',
+  it('should display the value of "todo" property',
     fakeAsync(() => {
-      const inputTitle = 'hoge';
+      fixture.detectChanges();
+      tick();
+      const deTitle = fixture.debugElement.query(By.css('#title'));
+      expect(deTitle.nativeElement.value).toEqual(component.selected.data.title);
+      const deDue = fixture.debugElement.query(By.css('#due'));
+      expect(deDue.nativeElement.value).toEqual(moment(component.selected.data.due).format('YYYY-MM-DDTHH:mm'));
+    })
+  );
+
+  it('should tirgger "edited" event when "OK" button clicked',
+    fakeAsync(() => {
+      const inputTitle = 'title after';
       const inputDue = '2017-10-28T01:01';
 
       const deInputTitle = fixture.debugElement.query(By.css('#title'));
@@ -59,11 +74,20 @@ describe('TodoFormComponent', () => {
 
       tick();
 
-      const deBtn = fixture.debugElement.query(By.css('button'));
-      deBtn.triggerEventHandler('click', null);
+      const deUpdate = fixture.debugElement.query(By.css('#update'));
+      deUpdate.triggerEventHandler('click', null);
       fixture.detectChanges();
-      expect(component.submitted.data.title).toEqual(inputTitle);
-      expect(component.submitted.data.due).toEqual(Date.parse(inputDue));
+      expect(component.updated.data.title).toEqual(inputTitle);
+      expect(component.updated.data.due).toEqual(Date.parse(inputDue));
     })
+  );
+
+  it('should tirgger "edited" event when "Cancel" button clicked',
+    () => {
+      const de = fixture.debugElement.query(By.css('#cancel'));
+      de.triggerEventHandler('click', null);
+      fixture.detectChanges();
+      expect(component.updated).toBeUndefined();
+    }
   );
 });

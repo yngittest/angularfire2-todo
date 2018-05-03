@@ -2,7 +2,9 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
 import { Todo } from '../../model/todo';
-import { TodoEditComponent } from '../todo-edit/todo-edit.component';
+import { Group } from '../../model/group';
+
+import { TodoFormComponent } from '../todo-form/todo-form.component';
 
 @Component({
   selector: 'app-todo-list',
@@ -13,8 +15,8 @@ export class TodoListComponent implements OnInit {
   selected: Todo;
 
   @Input() userId: string;
+  @Input() groups: Group[];
   @Input() todos: Todo[];
-  @Input() groupKey: string;
 
   @Output() onUpdate = new EventEmitter<Todo>();
   @Output() onEdit = new EventEmitter<Todo>();
@@ -34,8 +36,13 @@ export class TodoListComponent implements OnInit {
   }
 
   openDialog() {
-    let dialogRef = this.dialog.open(TodoEditComponent, {
-      data: { todo: this.selected, userId: this.userId },
+    let dialogRef = this.dialog.open(TodoFormComponent, {
+      data: {
+        type: 'edit',
+        userId: this.userId,
+        groups: this.groups,
+        todo: this.selected
+      },
       width: '250px'
     });
     dialogRef.afterClosed().subscribe(result => {
