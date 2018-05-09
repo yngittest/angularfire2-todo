@@ -99,6 +99,26 @@ export class TodoFormComponent implements OnInit {
     }
   }
 
+  skip() {
+    let newDue;
+    switch(this.repeatType) {
+      case 0:
+        break;
+      case 1:
+        newDue = moment(this.due);
+        break;
+      case 2:
+        newDue = moment();
+        newDue.minutes(Math.ceil(newDue.minutes() / 5) * 5);
+        newDue.seconds(0);
+        break;
+      default:
+        break;
+    }
+    newDue.add(this.repeatInterval, this.repeatUnit);
+    this.due = newDue.format('YYYY-MM-DDTHH:mm');
+  }
+
   delete() {
     this.result.type = 'delete';
     this.dialogRef.close(this.result);
