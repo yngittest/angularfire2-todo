@@ -1,0 +1,12 @@
+p {
+  color: silver;
+}
+
+.expired {
+  color: red;
+}
+
+.completed {
+  color: silver;
+  text-decoration: line-through;
+}

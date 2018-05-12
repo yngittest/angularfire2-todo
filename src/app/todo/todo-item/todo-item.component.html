@@ -1,11 +1,11 @@
 <mat-list-item>
   <mat-checkbox mat-list-icon [(ngModel)]="todo.done" (ngModelChange)="update()"></mat-checkbox>
-  <h4 mat-line>{{todo.title}}</h4>
+  <h4 mat-line [class.completed]="todo.done">{{todo.title}}</h4>
   <p mat-line *ngIf="todo.completed">
     completed: {{todo.completed | date: 'yyyy/MM/dd HH:mm'}}
   </p>
-  <p mat-line *ngIf="!todo.completed">
-    due: {{todo.due | date: 'yyyy/MM/dd HH:mm'}}
+  <p mat-line *ngIf="!todo.completed" [class.expired]="expired">
+    due: {{todo.due | date: dateformat}}
   </p>
   <mat-icon (click)="edit()">edit</mat-icon>
 </mat-list-item>

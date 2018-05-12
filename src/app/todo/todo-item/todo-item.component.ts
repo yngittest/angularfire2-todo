@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
+import * as moment from 'moment';
+
 import { Todo } from '../../model/todo';
 
 @Component({
@@ -8,6 +10,8 @@ import { Todo } from '../../model/todo';
   styleUrls: ['./todo-item.component.css']
 })
 export class TodoItemComponent implements OnInit {
+  expired: boolean;
+  dateformat: string;
 
   @Input() todo: Todo;
 
@@ -17,6 +21,13 @@ export class TodoItemComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    this.expired = moment().isAfter(this.todo.due + '+09:00');
+    const isToday = moment().isSame(this.todo.due + '+09:00', 'day');
+    if(isToday) {
+      this.dateformat = 'H:mm';
+    } else {
+      this.dateformat = 'yyyy/M/d H:mm';
+    }
   }
 
   update() {
