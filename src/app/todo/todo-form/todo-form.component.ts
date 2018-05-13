@@ -1,4 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 import * as moment from 'moment';
@@ -20,6 +21,10 @@ export class TodoFormComponent implements OnInit {
   assignee: string;
   members: any[];
   repeatType: number = 0;
+  repeatDay: any = {};
+  dayOfWeek = new FormControl();
+  week = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+  selectedDays: Array<string> = [];
   repeatInterval: number = 1;
   repeatUnit: string = 'days';
   intervals: number[];
@@ -50,6 +55,7 @@ export class TodoFormComponent implements OnInit {
       this.repeatType = this.data.todo.repeatType;
       this.repeatInterval = this.data.todo.repeatInterval || 1;
       this.repeatUnit = this.data.todo.repeatUnit || 'days';
+      this.selectedDays = this.data.todo.repeatDay ? Object.keys(this.data.todo.repeatDay) : [];
     }
     this.intervals = Array.from(new Array(30)).map((v,i)=> i + 1);
     this.setGroupMembers();
@@ -61,12 +67,21 @@ export class TodoFormComponent implements OnInit {
 
   create() {
     if (this.title) {
+      if(this.repeatType === 1) {
+        if(this.selectedDays.length) {
+          this.selectedDays.forEach(day => this.repeatDay[day] = true);
+          this.repeatUnit = 'weeks';
+        } else {
+          this.repeatType = 0;
+        }
+      }
       const createdTodo = new Todo({
         title: this.title,
         groupKey: this.groupKey,
         due: this.due,
         assignee: this.assignee,
         repeatType: this.repeatType,
+        repeatDay: this.repeatDay,
         repeatInterval: this.repeatInterval,
         repeatUnit: this.repeatUnit
       });
@@ -79,12 +94,21 @@ export class TodoFormComponent implements OnInit {
 
   update() {
     if (this.title) {
+      if(this.repeatType === 1) {
+        if(this.selectedDays.length) {
+          this.selectedDays.forEach(day => this.repeatDay[day] = true);
+          this.repeatUnit = 'weeks';
+        } else {
+          this.repeatType = 0;
+        }
+      }
       const editedTodo = new Todo({
         title: this.title,
         groupKey: this.groupKey,
         due: this.due,
         assignee: this.assignee,
         repeatType: this.repeatType,
+        repeatDay: this.repeatDay,
         repeatInterval: this.repeatInterval,
         repeatUnit: this.repeatUnit,
         done: this.data.todo.done,
@@ -101,21 +125,34 @@ export class TodoFormComponent implements OnInit {
 
   skip() {
     let newDue;
+    const originDue = moment(this.due);
     switch(this.repeatType) {
       case 0:
         break;
       case 1:
-        newDue = moment(this.due);
+        const now = moment();
+        newDue = now.isBefore(this.due) ? originDue : now;
+        do {
+          newDue.add(1, 'days');
+        } while(this.selectedDays.indexOf(this.week[newDue.day()]) === -1);
+        newDue.hours(originDue.get('hour'));
+        newDue.minutes(originDue.get('minute'));
+        newDue.seconds(0);
         break;
       case 2:
+        newDue = moment(this.due);
+        newDue.add(this.repeatInterval, this.repeatUnit);
+        break;
+      case 3:
         newDue = moment();
-        newDue.minutes(Math.ceil(newDue.minutes() / 5) * 5);
+        newDue.hours(originDue.get('hour'));
+        newDue.minutes(originDue.get('minute'));
         newDue.seconds(0);
+        newDue.add(this.repeatInterval, this.repeatUnit);
         break;
       default:
         break;
     }
-    newDue.add(this.repeatInterval, this.repeatUnit);
     this.due = newDue.format('YYYY-MM-DDTHH:mm');
   }
 

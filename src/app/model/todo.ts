@@ -6,6 +6,7 @@ export class Todo {
   due: string;
   assignee: string;
   repeatType: number;
+  repeatDay: Object;
   repeatInterval: number;
   repeatUnit: string;
   done: boolean;
@@ -21,6 +22,7 @@ export class Todo {
     this.due = object.due || null;
     this.assignee = object.assignee || null;
     this.repeatType = object.repeatType || 0;
+    this.repeatDay = object.repeatDay || null;
     this.repeatInterval = object.repeatInterval || null;
     this.repeatUnit = object.repeatUnit || null;
     this.done = object.done || false;
@@ -45,6 +47,7 @@ export class Todo {
       done: this.done,
       assignee: this.assignee,
       repeatType: this.repeatType,
+      repeatDay: this.repeatDay,
       repeatInterval: this.repeatInterval,
       repeatUnit: this.repeatUnit,
       due: this.due,
@@ -61,23 +64,35 @@ export class Todo {
 
   repeat(): Todo {
     let newDue;
+    const originDue = moment(this.due);
     switch(this.repeatType) {
       case 0:
         return null;
       case 1:
-        newDue = moment(this.due);
-        break;
-      case 2:
-        newDue = moment(this.completed);
-        const originDue = moment(this.due);
+        const now = moment();
+        newDue = now.isBefore(this.due) ? originDue : now;
+        const week = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+        do {
+          newDue.add(1, 'days');
+        } while(Object.keys(this.repeatDay).indexOf(week[newDue.day()]) === -1);
         newDue.hours(originDue.get('hour'));
         newDue.minutes(originDue.get('minute'));
         newDue.seconds(0);
         break;
+      case 2:
+        newDue = moment(this.due);
+        newDue.add(this.repeatInterval, this.repeatUnit);
+        break;
+      case 3:
+        newDue = moment(this.completed);
+        newDue.hours(originDue.get('hour'));
+        newDue.minutes(originDue.get('minute'));
+        newDue.seconds(0);
+        newDue.add(this.repeatInterval, this.repeatUnit);
+        break;
       default:
         return null;
     }
-    newDue.add(this.repeatInterval, this.repeatUnit);
 
     this.due = newDue.format('YYYY-MM-DDTHH:mm');
     this.done = false;

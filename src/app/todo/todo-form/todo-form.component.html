@@ -27,12 +27,19 @@
   <mat-form-field>
     <mat-select placeholder="Repeat" [(ngModel)]="repeatType">
       <mat-option [value]=0>No</mat-option>
-      <mat-option [value]=1>Due Date</mat-option>
-      <mat-option [value]=2>Completion Date</mat-option>
+      <mat-option [value]=1>Day Of Week</mat-option>
+      <mat-option [value]=2>Due Date</mat-option>
+      <mat-option [value]=3>Completion Date</mat-option>
     </mat-select>
   </mat-form-field>
 
-  <table cellspacing="0" *ngIf="repeatType !== 0">
+  <mat-form-field *ngIf="repeatType === 1">
+    <mat-select placeholder="Select day of week" [formControl]="dayOfWeek" multiple [(ngModel)]="selectedDays">
+      <mat-option *ngFor="let day of week" [value]="day">{{ day }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <table cellspacing="0" *ngIf="repeatType > 1">
     <tr>
       <td>
         <mat-form-field style="width:40px !important;">
