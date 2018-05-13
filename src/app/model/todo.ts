@@ -69,7 +69,9 @@ export class Todo {
         break;
       case 2:
         newDue = moment(this.completed);
-        newDue.minutes(Math.ceil(newDue.minutes() / 5) * 5);
+        const originDue = moment(this.due);
+        newDue.hours(originDue.get('hour'));
+        newDue.minutes(originDue.get('minute'));
         newDue.seconds(0);
         break;
       default:
