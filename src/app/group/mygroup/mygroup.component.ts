@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Subject } from "rxjs/Subject";
-import "rxjs/add/operator/takeUntil";
+import { Subject } from "rxjs";
+import { takeUntil } from "rxjs/operators/takeUntil";
 
 import { Group } from '../../model/group';
 
@@ -30,12 +30,12 @@ export class MygroupComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.auth.uid$
-      .takeUntil(this.unsubscribe)
+      .pipe(takeUntil(this.unsubscribe))
       .subscribe(uid => {
         this.userId = uid;
       });
     this.auth.name$
-      .takeUntil(this.unsubscribe)
+      .pipe(takeUntil(this.unsubscribe))
       .subscribe(name => {
         if(name) {
           this.userName = name;
@@ -43,7 +43,7 @@ export class MygroupComponent implements OnInit, OnDestroy {
         }
       });
     this.group.groups$
-      .takeUntil(this.unsubscribe)
+      .pipe(takeUntil(this.unsubscribe))
       .subscribe(groups => {
         this.groups = groups;
       });

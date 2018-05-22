@@ -9,13 +9,13 @@ export class FirebaseDbService {
 
   getItems(path: string, options: any) {
     let result;
-    result = this.db.list(path, options);
+    result = this.db.list(path, ref => ref.orderByChild(options.query.orderByChild).equalTo(options.query.equalTo)).snapshotChanges();
     return result;
   }
 
   getItem(path: string) {
     let result;
-    result = this.db.object(path);
+    result = this.db.object(path).snapshotChanges();
     return result;
   }
 

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs/Observable';
-import { Subject } from "rxjs/Subject";
-import "rxjs/add/operator/takeUntil";
+import { Observable ,  Subject } from 'rxjs';
+import { takeUntil } from "rxjs/operators/takeUntil";
+import { map } from "rxjs/operators/map";
 
 import { Group } from '../../model/group';
 import { GroupList } from '../../model/group-list';
@@ -19,21 +19,26 @@ export class GroupService {
     const groupList = new GroupList();
     this.groups$ = Observable.create(observer => {
       this.auth.uid$
-        .takeUntil(this.unsubscribe)
+        .pipe(takeUntil(this.unsubscribe))
         .subscribe(uid => {
           if(uid) {
             this.db.getItem(`/users/${uid}/groups`)
-              .takeUntil(this.unsubscribe)
-              .subscribe(groups => {
+              .pipe(takeUntil(this.unsubscribe))
+              .subscribe(snapshots => {
+                const groups = snapshots.payload.val();
                 if(groups) {
                   groupList.reset();
                   Object.keys(groups).forEach(groupKey => {
                     this.db.getItem(`/groups/${groupKey}`)
-                      .takeUntil(this.unsubscribe)
-                      .subscribe(group => {
-                        const newGroup = new Group(group).setKey(group.$key);
-                        groupList.add(newGroup);
-                        observer.next(groupList.groups);
+                      .pipe(takeUntil(this.unsubscribe))
+                      .subscribe(snapshot => {
+                        const key = snapshot.key;
+                        const group = snapshot.payload.val();
+                        if(key && group) {
+                          const newGroup = new Group(group).setKey(key);
+                          groupList.add(newGroup);
+                          observer.next(groupList.groups);
+                        }
                       });
                   });
                 }

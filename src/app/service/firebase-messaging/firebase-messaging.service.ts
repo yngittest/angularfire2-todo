@@ -3,7 +3,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase';
 
-import 'rxjs/add/operator/take';
+import { take } from "rxjs/operators/take";
 
 import { MatSnackBar } from '@angular/material';
 
@@ -19,7 +19,7 @@ export class FirebaseMessagingService {
   ) { }
 
   updateToken(token) {
-    this.afAuth.authState.take(1).subscribe(user => {
+    this.afAuth.authState.pipe(take(1)).subscribe(user => {
       if (!user) return;
       const data = { fcmToken: token }
       this.db.object(`/users/${user.uid}`).update(data);

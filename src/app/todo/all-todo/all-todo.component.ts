@@ -1,8 +1,8 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Subject } from "rxjs/Subject";
-import "rxjs/add/operator/takeUntil";
+import { Subject } from "rxjs";
+import { takeUntil } from "rxjs/operators/takeUntil";
 
 import { TodoManageComponent } from '../todo-manage/todo-manage.component';
 
@@ -38,13 +38,13 @@ export class AllTodoComponent extends TodoManageComponent implements OnInit, OnD
 
   ngOnInit() {
     this.auth.uid$
-      .takeUntil(this.unsubscribe)
+      .pipe(takeUntil(this.unsubscribe))
       .subscribe(uid => {
         this.userId = uid;
       });
 
     this.group.groups$
-      .takeUntil(this.unsubscribe)
+      .pipe(takeUntil(this.unsubscribe))
       .subscribe(groups => {
         this.groups = groups;
         this.groupSets = [];
@@ -52,12 +52,12 @@ export class AllTodoComponent extends TodoManageComponent implements OnInit, OnD
           const groupSet = {key: group.key, todos: []};
           const query = {query: {orderByChild: 'done', equalTo: this.done}};
           this.db.getItems(`/todos/${group.key}`, query)
-            .takeUntil(this.unsubscribe)
-            .subscribe((snapshots: any[]) => {
+            .pipe(takeUntil(this.unsubscribe))
+            .subscribe((snapshots) => {
               groupSet.todos = [];
               snapshots.forEach((snapshot: any) => {
                 groupSet.todos.push(
-                  new Todo(snapshot).setKey(snapshot.$key)
+                  new Todo(snapshot.payload.val()).setKey(snapshot.key)
                 );
               });
               const index = this.groupSets.findIndex(({key}) => key === group.key);
