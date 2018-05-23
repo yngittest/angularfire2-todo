@@ -14,8 +14,11 @@ import {
   MatToolbarModule,
   MatMenuModule,
   MatTabsModule,
-  MatSnackBarModule
- } from '@angular/material';
+  MatSnackBarModule,
+  MatDatepickerModule,
+  MatNativeDateModule
+} from '@angular/material';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
@@ -27,12 +30,14 @@ import { ROUTES } from './app.routing';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
+
 import { TodoAddComponent } from './todo/todo-add/todo-add.component';
 import { TodoFormComponent } from './todo/todo-form/todo-form.component';
 import { TodoListComponent } from './todo/todo-list/todo-list.component';
 import { TodoItemComponent } from './todo/todo-item/todo-item.component';
+import { TodoAllComponent } from './todo/todo-all/todo-all.component';
 import { TodoOfGroupComponent } from './todo/todo-of-group/todo-of-group.component';
-import { AllTodoComponent } from './todo/all-todo/all-todo.component';
+import { TodoCompletedComponent } from './todo/todo-completed/todo-completed.component';
 import { TodoManageComponent } from './todo/todo-manage/todo-manage.component';
 
 import { GroupAddComponent } from './group/group-add/group-add.component';
@@ -57,8 +62,9 @@ import { OrderByPipe } from './pipe/order-by/order-by.pipe';
     TodoItemComponent,
     TodoFormComponent,
     TodoAddComponent,
+    TodoAllComponent,
     TodoOfGroupComponent,
-    AllTodoComponent,
+    TodoCompletedComponent,
     TodoManageComponent,
     GroupListComponent,
     GroupItemComponent,
@@ -85,6 +91,9 @@ import { OrderByPipe } from './pipe/order-by/order-by.pipe';
     MatMenuModule,
     MatTabsModule,
     MatSnackBarModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatMomentDateModule,
     ROUTES,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,

@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 
-import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFireDatabase, AngularFireAction } from 'angularfire2/database';
+import * as firebase from 'firebase';
+
+import { Observable, BehaviorSubject } from 'rxjs';
+import { switchMap } from 'rxjs/operators/switchMap';
 
 @Injectable()
 export class FirebaseDbService {
@@ -41,4 +45,37 @@ export class FirebaseDbService {
     return result;
   }
 
+  filterByPeriod(path: string, key: string) {
+    return new DynamicQuery(this.db, path, key);
+  }
+
+}
+
+class DynamicQuery {
+  period$: BehaviorSubject<Period|null>;
+  items$: Observable<AngularFireAction<firebase.database.DataSnapshot>[]>;
+
+  constructor(db, path: string, key: string) {
+    this.period$ = new BehaviorSubject(null);
+    this.items$ = this.period$.pipe(
+      switchMap(period =>
+        db.list(path, ref =>
+          period ? ref.orderByChild(key).startAt(period.startAt).endAt(period.endAt) : ref
+        ).snapshotChanges()
+      )
+    );
+  }
+  filterBy(startAt: string, endAt: string) {
+    const period = new Period(startAt, endAt);
+    this.period$.next(period);
+  }
+}
+
+class Period {
+  startAt: string;
+  endAt: string;
+  constructor(startAt: string, endAt: string) {
+    this.startAt = startAt;
+    this.endAt = endAt;
+  }
 }

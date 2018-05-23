@@ -1,0 +1,17 @@
+<mat-list>
+  <h3 mat-subheader>Completed</h3>
+  <mat-list-item>
+    <mat-form-field>
+      <input matInput [matDatepicker]="startPicker" placeholder="Start" [(ngModel)]="startAt" (ngModelChange)="filterTodos()">
+      <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+      <mat-datepicker touchUi="true" #startPicker></mat-datepicker>
+    </mat-form-field>
+    <span>　〜　</span>
+    <mat-form-field>
+      <input matInput [matDatepicker]="endPicker" placeholder="End" [(ngModel)]="endAt" (ngModelChange)="filterTodos()">
+      <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+      <mat-datepicker touchUi="true" #endPicker></mat-datepicker>
+    </mat-form-field>
+  </mat-list-item>
+  <app-todo-list [userId]="userId" [groups]="groups" [todos]="todos" [sort]="sort" (onUpdate)="updateTodo($event)" (onEdit)="editTodo($event)" (onDelete)="deleteTodo($event)"></app-todo-list>
+</mat-list>

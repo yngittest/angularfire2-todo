@@ -32,7 +32,7 @@
               <mat-icon class="tab-icon">list</mat-icon>
               <span class="tab-text">All</span>
             </ng-template>
-            <app-all-todo [name]="'All'" [done]=false></app-all-todo>
+            <app-todo-all></app-todo-all>
           </mat-tab>
 
           <mat-tab label="Tab 2">
@@ -53,8 +53,9 @@
               <mat-icon class="tab-icon">done_all</mat-icon>
               <span class="tab-text">Completed</span>
             </ng-template>
-            <app-all-todo [name]="'Completed'" [done]=true></app-all-todo>
+            <app-todo-completed></app-todo-completed>
           </mat-tab>
+
         </mat-tab-group>
       </ng-container>
     </mat-sidenav-content>

@@ -50,5 +50,13 @@ export class TodoManageComponent implements OnInit {
   deleteTodo(todo: Todo) {
     this.db.deleteItem(`todos/${todo.groupKey}`, todo.key);
   }
+  
+  flattenTodos(groupSets): Todo[] {
+    let todos = [];
+    for(let groupSet of groupSets) {
+      todos = todos.concat(groupSet.todos);
+    }
+    return todos;
+  }
 
 }
