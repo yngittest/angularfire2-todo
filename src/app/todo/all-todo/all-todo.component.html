@@ -1,9 +1,5 @@
 <mat-list>
   <h3 mat-subheader>{{ name }}</h3>
   <app-todo-add [userId]="userId" [groups]="groups" (onCreate)="addTodo($event)"></app-todo-add>
-  <ng-container *ngFor="let groupSet of groupSets">
-    <ng-container *ngIf="groupSet.todos.length > 0">
-      <app-todo-list [userId]="userId" [groups]="groups" [todos]="groupSet.todos" (onUpdate)="updateTodo($event)" (onEdit)="editTodo($event)" (onDelete)="deleteTodo($event)"></app-todo-list>
-    </ng-container>
-  </ng-container>
+  <app-todo-list [userId]="userId" [groups]="groups" [todos]="todos" [sort]="sort" (onUpdate)="updateTodo($event)" (onEdit)="editTodo($event)" (onDelete)="deleteTodo($event)"></app-todo-list>
 </mat-list>

@@ -22,6 +22,8 @@ export class AllTodoComponent extends TodoManageComponent implements OnInit, OnD
   userId: string;
   groups: Group[];
   groupSets: any[];
+  todos: Todo[];
+  sort = {key: 'due', desc: false};
   private unsubscribe = new Subject<void>();
 
   @Input() name: string;
@@ -37,6 +39,9 @@ export class AllTodoComponent extends TodoManageComponent implements OnInit, OnD
   }
 
   ngOnInit() {
+    this.sort.key = this.done ? 'completed' : 'due';
+    this.sort.desc = this.done;
+
     this.auth.uid$
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(uid => {
@@ -66,6 +71,7 @@ export class AllTodoComponent extends TodoManageComponent implements OnInit, OnD
               } else {
                 this.groupSets[index] = groupSet;
               }
+              this.flattenTodos();
             });
         });
       });
@@ -74,6 +80,14 @@ export class AllTodoComponent extends TodoManageComponent implements OnInit, OnD
   ngOnDestroy() {
     this.unsubscribe.next();
     this.unsubscribe.complete();
+  }
+
+  flattenTodos() {
+    let todos = [];
+    for(let groupSet of this.groupSets) {
+      todos = todos.concat(groupSet.todos);
+    }
+    this.todos = todos;
   }
 
 }

@@ -17,6 +17,7 @@ export class TodoListComponent implements OnInit {
   @Input() userId: string;
   @Input() groups: Group[];
   @Input() todos: Todo[];
+  @Input() sort: any;
 
   @Output() onUpdate = new EventEmitter<Todo>();
   @Output() onEdit = new EventEmitter<Todo>();

@@ -25,6 +25,7 @@ export class TodoOfGroupComponent extends TodoManageComponent implements OnInit,
   groupKey: string;
   groupName: string;
   todos: Todo[];
+  sort = {key: 'due', desc: false};
   private unsubscribe = new Subject<void>();
 
   constructor(
