@@ -55,6 +55,25 @@ export const onTodoCompleted = functions.database.ref('/todos/{groupId}/{todoId}
       });
   });
 
+export const onTodoAssigned = functions.database.ref('/todos/{groupId}/{todoId}/assignee')
+  .onWrite((change, context) => {
+    if(!change.after.val()) {
+      return null;
+    }
+    return change.after.ref.parent.once('value')
+      .then(snapshot => {
+        const data = snapshot.val();
+        admin.database().ref(`/users/${data.assignee}/name`).once('value')
+          .then(name => {
+            const title = `${data.title} assigned to you (${name.val()})`;
+            pushNotification(data.assignee, title);
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      });
+  });
+
 export const reminderTodo = functions.https.onRequest((req, res) => {
   res.send('accepted');
   return admin.database().ref(`/todos`)
