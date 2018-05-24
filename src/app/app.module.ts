@@ -53,6 +53,7 @@ import { FirebaseDbService } from './service/firebase-db/firebase-db.service';
 import { FirebaseMessagingService } from './service/firebase-messaging/firebase-messaging.service';
 
 import { OrderByPipe } from './pipe/order-by/order-by.pipe';
+import { FilterByPipe } from './pipe/filter-by/filter-by.pipe';
 
 @NgModule({
   declarations: [
@@ -73,6 +74,7 @@ import { OrderByPipe } from './pipe/order-by/order-by.pipe';
     GroupAddComponent,
     MygroupComponent,
     OrderByPipe,
+    FilterByPipe,
   ],
   imports: [
     BrowserModule,

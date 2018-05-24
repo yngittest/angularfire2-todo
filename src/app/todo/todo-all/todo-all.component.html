@@ -1,5 +1,5 @@
 <mat-list>
   <h3 mat-subheader>All</h3>
   <app-todo-add [userId]="userId" [groups]="groups" (onCreate)="addTodo($event)"></app-todo-add>
-  <app-todo-list [userId]="userId" [groups]="groups" [todos]="todos" [sort]="sort" (onUpdate)="updateTodo($event)" (onEdit)="editTodo($event)" (onDelete)="deleteTodo($event)"></app-todo-list>
+  <app-todo-list [userId]="userId" [groups]="groups" [todos]="todos | filterBy: 'assignee': userId" [sort]="sort" (onUpdate)="updateTodo($event)" (onEdit)="editTodo($event)" (onDelete)="deleteTodo($event)"></app-todo-list>
 </mat-list>
