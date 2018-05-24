@@ -50,7 +50,7 @@ export class TodoFormComponent implements OnInit {
       this.header = 'Edit Todo';
       this.title = this.data.todo.title;
       this.groupKey = this.data.todo.groupKey;
-      this.due = moment(this.data.todo.due).format('YYYY-MM-DDTHH:mm');
+      this.due = this.data.todo.due ? moment(this.data.todo.due).format('YYYY-MM-DDTHH:mm') : null;
       this.assignee = this.data.todo.assignee;
       this.repeatType = this.data.todo.repeatType;
       this.repeatInterval = this.data.todo.repeatInterval || 1;

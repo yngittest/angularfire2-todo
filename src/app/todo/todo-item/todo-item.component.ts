@@ -21,12 +21,14 @@ export class TodoItemComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.expired = moment().isAfter(this.todo.due + '+09:00');
-    const isToday = moment().isSame(this.todo.due + '+09:00', 'day');
-    if(isToday) {
-      this.dateformat = 'H:mm';
-    } else {
-      this.dateformat = 'yyyy/M/d H:mm';
+    if(this.todo.due) {
+      this.expired = moment().isAfter(this.todo.due + '+09:00');
+      const isToday = moment().isSame(this.todo.due + '+09:00', 'day');
+      if(isToday) {
+        this.dateformat = 'H:mm';
+      } else {
+        this.dateformat = 'yyyy/M/d H:mm';
+      }
     }
   }
 
