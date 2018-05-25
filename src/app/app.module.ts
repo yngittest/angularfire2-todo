@@ -20,7 +20,13 @@ import {
 } from '@angular/material';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
-import { AngularFireModule } from 'angularfire2';
+// import { AngularFireModule } from 'angularfire2';
+import {
+  AngularFireModule,
+  FirebaseOptionsToken,
+  FirebaseAppNameToken,
+  FirebaseAppConfigToken
+} from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 
@@ -97,7 +103,8 @@ import { FilterByPipe } from './pipe/filter-by/filter-by.pipe';
     MatNativeDateModule,
     MatMomentDateModule,
     ROUTES,
-    AngularFireModule.initializeApp(environment.firebase),
+    // AngularFireModule.initializeApp(environment.firebase),
+    AngularFireModule,
     AngularFireDatabaseModule,
     AngularFireAuthModule
   ],
@@ -111,6 +118,7 @@ import { FilterByPipe } from './pipe/filter-by/filter-by.pipe';
     FirebaseDbService,
     FirebaseMessagingService,
     GroupService,
+    { provide: FirebaseOptionsToken, useValue: environment.firebase }
   ],
   bootstrap: [AppComponent]
 })

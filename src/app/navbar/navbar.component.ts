@@ -10,7 +10,7 @@ import { FirebaseMessagingService } from '../service/firebase-messaging/firebase
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private auth: AuthService, private msg: FirebaseMessagingService) {}
+  constructor(public auth: AuthService, private msg: FirebaseMessagingService) {}
 
   ngOnInit() {
     this.msg.getPermission();
