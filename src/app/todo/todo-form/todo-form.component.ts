@@ -28,6 +28,7 @@ export class TodoFormComponent implements OnInit {
   repeatInterval: number = 1;
   repeatUnit: string = 'days';
   intervals: number[];
+  updatedBy: string;
   groups: Group[];
   result: any;
 
@@ -57,6 +58,7 @@ export class TodoFormComponent implements OnInit {
       this.repeatUnit = this.data.todo.repeatUnit || 'days';
       this.selectedDays = this.data.todo.repeatDay ? Object.keys(this.data.todo.repeatDay) : [];
     }
+    this.updatedBy = this.data.userId;
     this.intervals = Array.from(new Array(30)).map((v,i)=> i + 1);
     this.setGroupMembers();
     this.result = {
@@ -83,7 +85,8 @@ export class TodoFormComponent implements OnInit {
         repeatType: this.repeatType,
         repeatDay: this.repeatDay,
         repeatInterval: this.repeatInterval,
-        repeatUnit: this.repeatUnit
+        repeatUnit: this.repeatUnit,
+        updatedBy: this.updatedBy
       });
 
       this.result.type = 'create';
@@ -112,7 +115,8 @@ export class TodoFormComponent implements OnInit {
         repeatInterval: this.repeatInterval,
         repeatUnit: this.repeatUnit,
         done: this.data.todo.done,
-        completed: this.data.todo.completed
+        completed: this.data.todo.completed,
+        updatedBy: this.updatedBy
       });
       editedTodo.setKey(this.data.todo.key);
       editedTodo.setBeforeGroupKey(this.data.todo.groupKey);

@@ -12,6 +12,7 @@ export class Todo {
   done: boolean;
   completed: string;
   completedBy: string;
+  updatedBy: string;
 
   key?: string;
   beforeGroupKey?: string;
@@ -28,6 +29,7 @@ export class Todo {
     this.done = object.done || false;
     this.completed = object.completed || null;
     this.completedBy = object.completedBy || null;
+    this.updatedBy = object.updatedBy || null;
   }
 
   setKey(key: string): Todo {
@@ -52,7 +54,8 @@ export class Todo {
       repeatUnit: this.repeatUnit,
       due: this.due,
       completed: this.completed,
-      completedBy: this.completedBy
+      completedBy: this.completedBy,
+      updatedBy: this.updatedBy
     };
   }
 
