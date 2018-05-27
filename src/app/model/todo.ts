@@ -62,6 +62,7 @@ export class Todo {
   update(userId: string): Todo {
     this.completed = this.done ? moment().format('YYYY-MM-DDTHH:mm') : null;
     this.completedBy = this.done ? userId : null;
+    this.updatedBy = userId;
     return this;
   }
 
