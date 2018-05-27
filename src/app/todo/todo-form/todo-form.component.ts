@@ -180,4 +180,11 @@ export class TodoFormComponent implements OnInit {
     }
   }
 
+  delay(duration, type) {
+    if(this.due) {
+      const delayedDue = moment(this.due).add(duration, type);
+      this.due = delayedDue.format('YYYY-MM-DDTHH:mm');
+    }
+  }
+
 }

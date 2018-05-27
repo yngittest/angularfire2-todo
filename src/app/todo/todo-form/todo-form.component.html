@@ -22,6 +22,26 @@
 
   <mat-form-field>
     <input matInput placeholder="Due" id="due" type="datetime-local" step=300 [(ngModel)]="due">
+    <mat-grid-list cols="3" rowHeight="1.2em">
+      <mat-grid-tile>
+        <mat-chip (click)="delay(10, 'minutes')">+ 10 min</mat-chip>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-chip (click)="delay(1, 'hours')">+ 1 hour</mat-chip>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-chip (click)="delay(1, 'days')">+ 1 day</mat-chip>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-chip (click)="delay(-10, 'minutes')">- 10 min</mat-chip>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-chip (click)="delay(-1, 'hours')">- 1 hour</mat-chip>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-chip (click)="delay(-1, 'days')">- 1 day</mat-chip>
+      </mat-grid-tile>
+    </mat-grid-list>
   </mat-form-field>
 
   <mat-form-field>

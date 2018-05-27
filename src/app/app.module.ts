@@ -16,7 +16,9 @@ import {
   MatTabsModule,
   MatSnackBarModule,
   MatDatepickerModule,
-  MatNativeDateModule
+  MatNativeDateModule,
+  MatGridListModule,
+  MatChipsModule
 } from '@angular/material';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
@@ -102,6 +104,8 @@ import { FilterByPipe } from './pipe/filter-by/filter-by.pipe';
     MatDatepickerModule,
     MatNativeDateModule,
     MatMomentDateModule,
+    MatGridListModule,
+    MatChipsModule,
     ROUTES,
     // AngularFireModule.initializeApp(environment.firebase),
     AngularFireModule,
