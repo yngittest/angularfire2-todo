@@ -13,5 +13,6 @@
       <mat-datepicker touchUi="true" #endPicker></mat-datepicker>
     </mat-form-field>
   </mat-list-item>
+  <app-sharing [groupSets]="groupSets"></app-sharing>
   <app-todo-list [userId]="userId" [groups]="groups" [todos]="todos" [sort]="sort" (onUpdate)="updateTodo($event)" (onEdit)="editTodo($event)" (onDelete)="deleteTodo($event)"></app-todo-list>
 </mat-list>

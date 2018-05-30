@@ -32,6 +32,8 @@ import {
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 
+import { ChartsModule } from 'ng2-charts';
+
 import { environment } from '../environments/environment';
 
 import { ROUTES } from './app.routing';
@@ -62,6 +64,7 @@ import { FirebaseMessagingService } from './service/firebase-messaging/firebase-
 
 import { OrderByPipe } from './pipe/order-by/order-by.pipe';
 import { FilterByPipe } from './pipe/filter-by/filter-by.pipe';
+import { SharingComponent } from './analysis/sharing/sharing.component';
 
 @NgModule({
   declarations: [
@@ -83,6 +86,7 @@ import { FilterByPipe } from './pipe/filter-by/filter-by.pipe';
     MygroupComponent,
     OrderByPipe,
     FilterByPipe,
+    SharingComponent,
   ],
   imports: [
     BrowserModule,
@@ -110,7 +114,8 @@ import { FilterByPipe } from './pipe/filter-by/filter-by.pipe';
     // AngularFireModule.initializeApp(environment.firebase),
     AngularFireModule,
     AngularFireDatabaseModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    ChartsModule
   ],
   entryComponents: [
     TodoFormComponent,

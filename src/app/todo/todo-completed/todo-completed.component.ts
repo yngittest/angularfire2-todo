@@ -35,7 +35,7 @@ export class TodoCompletedComponent extends TodoManageComponent implements OnIni
   sort = {key: 'completed', desc: true};
   startAt: string;
   endAt: string;
-  query: any;
+  queries: any[];
   private unsubscribe = new Subject<void>();
 
   constructor(
@@ -62,11 +62,13 @@ export class TodoCompletedComponent extends TodoManageComponent implements OnIni
       .subscribe(groups => {
         this.groups = groups;
         this.groupSets = [];
+        this.queries = [];
         groups.forEach(group => {
-          const groupSet = {key: group.key, todos: []};
-          this.query = this.db.filterByPeriod(`/todos/${group.key}`, 'completed');
+          const groupSet = {key: group.key, name: group.name, members: group.members, todos: []};
+          const query = this.db.filterByPeriod(`/todos/${group.key}`, 'completed');
+          this.queries.push(query);
           this.filterTodos();
-          this.query.items$
+          query.items$
             .pipe(takeUntil(this.unsubscribe))
             .subscribe((snapshots) => {
               groupSet.todos = [];
@@ -81,6 +83,7 @@ export class TodoCompletedComponent extends TodoManageComponent implements OnIni
               } else {
                 this.groupSets[index] = groupSet;
               }
+              this.groupSets = this.groupSets.slice();
               this.todos = this.flattenTodos(this.groupSets);
             });
         });
@@ -95,7 +98,9 @@ export class TodoCompletedComponent extends TodoManageComponent implements OnIni
   filterTodos() {
     const startAt = moment(this.startAt).startOf('day').format('YYYY-MM-DDTHH:mm');
     const endAt = moment(this.endAt).endOf('day').format('YYYY-MM-DDTHH:mm');
-    this.query.filterBy(startAt, endAt);
+    this.queries.forEach(query => {
+      query.filterBy(startAt, endAt);
+    })
   }
 
 }
