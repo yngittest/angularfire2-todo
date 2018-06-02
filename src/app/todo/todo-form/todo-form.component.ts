@@ -24,7 +24,6 @@ export class TodoFormComponent implements OnInit {
   repeatDay: any = {};
   dayOfWeek = new FormControl();
   week = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
-  selectedDays: Array<string> = [];
   repeatInterval: number = 1;
   repeatUnit: string = 'days';
   intervals: number[];
@@ -56,7 +55,7 @@ export class TodoFormComponent implements OnInit {
       this.repeatType = this.data.todo.repeatType;
       this.repeatInterval = this.data.todo.repeatInterval || 1;
       this.repeatUnit = this.data.todo.repeatUnit || 'days';
-      this.selectedDays = this.data.todo.repeatDay ? Object.keys(this.data.todo.repeatDay) : [];
+      this.dayOfWeek.setValue(this.data.todo.repeatDay ? Object.keys(this.data.todo.repeatDay) : []);
     }
     this.updatedBy = this.data.userId;
     this.intervals = Array.from(new Array(30)).map((v,i)=> i + 1);
@@ -70,8 +69,8 @@ export class TodoFormComponent implements OnInit {
   create() {
     if (this.title) {
       if(this.repeatType === 1) {
-        if(this.selectedDays.length) {
-          this.selectedDays.forEach(day => this.repeatDay[day] = true);
+        if(this.dayOfWeek.value.length) {
+          this.dayOfWeek.value.forEach(day => this.repeatDay[day] = true);
           this.repeatUnit = 'weeks';
         } else {
           this.repeatType = 0;
@@ -98,8 +97,8 @@ export class TodoFormComponent implements OnInit {
   update() {
     if (this.title) {
       if(this.repeatType === 1) {
-        if(this.selectedDays.length) {
-          this.selectedDays.forEach(day => this.repeatDay[day] = true);
+        if(this.dayOfWeek.value.length) {
+          this.dayOfWeek.value.forEach(day => this.repeatDay[day] = true);
           this.repeatUnit = 'weeks';
         } else {
           this.repeatType = 0;
@@ -138,7 +137,7 @@ export class TodoFormComponent implements OnInit {
         newDue = now.isBefore(this.due) ? originDue : now;
         do {
           newDue.add(1, 'days');
-        } while(this.selectedDays.indexOf(this.week[newDue.day()]) === -1);
+        } while(this.dayOfWeek.value.indexOf(this.week[newDue.day()]) === -1);
         newDue.hours(originDue.get('hour'));
         newDue.minutes(originDue.get('minute'));
         newDue.seconds(0);

@@ -54,7 +54,7 @@
   </mat-form-field>
 
   <mat-form-field *ngIf="repeatType === 1">
-    <mat-select placeholder="Select day of week" [formControl]="dayOfWeek" multiple [(ngModel)]="selectedDays">
+    <mat-select placeholder="Select day of week" [formControl]="dayOfWeek" multiple>
       <mat-option *ngFor="let day of week" [value]="day">{{ day }}</mat-option>
     </mat-select>
   </mat-form-field>
