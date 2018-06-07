@@ -14,6 +14,9 @@
 
   <mat-form-field>
     <mat-select placeholder="Select Assignee" [(ngModel)]="assignee">
+      <mat-option [value]="null">
+        anyone
+      </mat-option>
       <mat-option *ngFor="let member of members" [value]="member.key">
         {{member.name}}
       </mat-option>

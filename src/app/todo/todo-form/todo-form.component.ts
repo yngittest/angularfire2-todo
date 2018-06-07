@@ -115,6 +115,7 @@ export class TodoFormComponent implements OnInit {
         repeatUnit: this.repeatUnit,
         done: this.data.todo.done,
         completed: this.data.todo.completed,
+        completedBy: this.data.todo.completedBy,
         updatedBy: this.updatedBy
       });
       editedTodo.setKey(this.data.todo.key);
