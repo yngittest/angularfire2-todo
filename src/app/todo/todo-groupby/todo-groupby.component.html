@@ -1,0 +1,13 @@
+<mat-accordion [displayMode]="'flat'">
+  <mat-expansion-panel *ngFor="let todoTitle of todoTitles">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{todoTitle.title}}
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <ng-template matExpansionPanelContent>
+      <app-sharing-todo [todoTitle]="todoTitle"></app-sharing-todo>
+      <app-todo-list [userId]="userId" [groups]="groups" [todos]="todoTitle.todos" [sort]="sort" (onUpdate)="updateTodo($event)" (onEdit)="editTodo($event)" (onDelete)="deleteTodo($event)"></app-todo-list>
+    </ng-template>
+  </mat-expansion-panel>
+</mat-accordion>

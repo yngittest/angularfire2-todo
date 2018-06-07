@@ -1,5 +1,6 @@
 <mat-list>
   <h3 mat-subheader>Completed</h3>
+
   <mat-list-item>
     <mat-form-field>
       <input matInput [matDatepicker]="startPicker" placeholder="Start" [(ngModel)]="startAt" (ngModelChange)="filterTodos()">
@@ -13,6 +14,23 @@
       <mat-datepicker touchUi="true" #endPicker></mat-datepicker>
     </mat-form-field>
   </mat-list-item>
-  <app-sharing [groupSets]="groupSets"></app-sharing>
-  <app-todo-list [userId]="userId" [groups]="groups" [todos]="todos" [sort]="sort" (onUpdate)="updateTodo($event)" (onEdit)="editTodo($event)" (onDelete)="deleteTodo($event)"></app-todo-list>
+
+  <app-sharing *ngIf="groupSets" [groupSets]="groupSets" [members]="members"></app-sharing>
+
+  <mat-tab-group mat-stretch-tabs>
+    <mat-tab label="Tab 1">
+      <ng-template mat-tab-label>
+        <span class="tab-text">Sort by completed</span>
+      </ng-template>
+      <app-todo-list [userId]="userId" [groups]="groups" [todos]="todos" [sort]="sort" (onUpdate)="updateTodo($event)" (onEdit)="editTodo($event)" (onDelete)="deleteTodo($event)"></app-todo-list>
+    </mat-tab>
+
+    <mat-tab label="Tab 2">
+      <ng-template mat-tab-label>
+        <span class="tab-text">Group by title</span>
+      </ng-template>
+      <app-todo-groupby *ngIf="groupSets" [userId]="userId" [groups]="groups" [groupSets]="groupSets" [members]="members" [sort]="sort" (onUpdate)="updateTodo($event)" (onEdit)="editTodo($event)" (onDelete)="deleteTodo($event)"></app-todo-groupby>
+    </mat-tab>
+  </mat-tab-group>
+
 </mat-list>

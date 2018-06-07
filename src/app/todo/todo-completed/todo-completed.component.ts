@@ -31,6 +31,7 @@ export class TodoCompletedComponent extends TodoManageComponent implements OnIni
   userId: string;
   groups: Group[];
   groupSets: any[];
+  members: any[];
   todos: Todo[];
   sort = {key: 'completed', desc: true};
   startAt: string;
@@ -62,9 +63,19 @@ export class TodoCompletedComponent extends TodoManageComponent implements OnIni
       .subscribe(groups => {
         this.groups = groups;
         this.groupSets = [];
+        this.members = [];
         this.queries = [];
         groups.forEach(group => {
           const groupSet = {key: group.key, name: group.name, members: group.members, todos: []};
+          Object.keys(group.members).forEach(userId => {
+            const index = this.members.findIndex(({key}) => key === userId);
+            if(index < 0) {
+              this.members.push({
+                key: userId,
+                name : group.members[userId].name
+              });
+            }
+          });
           const query = this.db.filterByPeriod(`/todos/${group.key}`, 'completed');
           this.queries.push(query);
           this.filterTodos();

@@ -18,7 +18,8 @@ import {
   MatDatepickerModule,
   MatNativeDateModule,
   MatGridListModule,
-  MatChipsModule
+  MatChipsModule,
+  MatExpansionModule
 } from '@angular/material';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
@@ -48,6 +49,7 @@ import { TodoItemComponent } from './todo/todo-item/todo-item.component';
 import { TodoAllComponent } from './todo/todo-all/todo-all.component';
 import { TodoOfGroupComponent } from './todo/todo-of-group/todo-of-group.component';
 import { TodoCompletedComponent } from './todo/todo-completed/todo-completed.component';
+import { TodoGroupbyComponent } from './todo/todo-groupby/todo-groupby.component';
 import { TodoManageComponent } from './todo/todo-manage/todo-manage.component';
 
 import { GroupAddComponent } from './group/group-add/group-add.component';
@@ -57,6 +59,9 @@ import { GroupItemComponent } from './group/group-item/group-item.component';
 import { GroupEditComponent } from './group/group-edit/group-edit.component';
 import { MygroupComponent } from './group/mygroup/mygroup.component';
 
+import { SharingComponent } from './analysis/sharing/sharing.component';
+import { SharingTodoComponent } from './analysis/sharing-todo/sharing-todo.component';
+
 import { AuthService } from './service/auth/auth.service';
 import { GroupService } from './service/group/group.service';
 import { FirebaseDbService } from './service/firebase-db/firebase-db.service';
@@ -64,7 +69,6 @@ import { FirebaseMessagingService } from './service/firebase-messaging/firebase-
 
 import { OrderByPipe } from './pipe/order-by/order-by.pipe';
 import { FilterByPipe } from './pipe/filter-by/filter-by.pipe';
-import { SharingComponent } from './analysis/sharing/sharing.component';
 
 @NgModule({
   declarations: [
@@ -77,6 +81,7 @@ import { SharingComponent } from './analysis/sharing/sharing.component';
     TodoAllComponent,
     TodoOfGroupComponent,
     TodoCompletedComponent,
+    TodoGroupbyComponent,
     TodoManageComponent,
     GroupListComponent,
     GroupItemComponent,
@@ -84,9 +89,10 @@ import { SharingComponent } from './analysis/sharing/sharing.component';
     GroupEditComponent,
     GroupAddComponent,
     MygroupComponent,
+    SharingComponent,
+    SharingTodoComponent,
     OrderByPipe,
     FilterByPipe,
-    SharingComponent,
   ],
   imports: [
     BrowserModule,
@@ -110,6 +116,7 @@ import { SharingComponent } from './analysis/sharing/sharing.component';
     MatMomentDateModule,
     MatGridListModule,
     MatChipsModule,
+    MatExpansionModule,
     ROUTES,
     // AngularFireModule.initializeApp(environment.firebase),
     AngularFireModule,
