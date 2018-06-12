@@ -1,6 +1,16 @@
-.mat-expansion-panel-header {
-  height: 36px;
+.tile {
+  padding: 1px;
 }
-.mat-expansion-panel-content:not(.mat-expanded):not(.ng-animating){
-  display: none;
+
+mat-grid-tile {
+  background: white;
+}
+
+.title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  text-align: center;
 }

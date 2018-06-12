@@ -1,13 +1,15 @@
-<mat-accordion [displayMode]="'flat'">
-  <mat-expansion-panel *ngFor="let todoTitle of todoTitles">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        {{todoTitle.title}}
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <ng-template matExpansionPanelContent>
-      <app-sharing-todo [todoTitle]="todoTitle"></app-sharing-todo>
-      <app-todo-list [userId]="userId" [groups]="groups" [todos]="todoTitle.todos" [sort]="sort" (onUpdate)="updateTodo($event)" (onEdit)="editTodo($event)" (onDelete)="deleteTodo($event)"></app-todo-list>
-    </ng-template>
-  </mat-expansion-panel>
-</mat-accordion>
+<ng-container *ngFor="let todoTitlesOfGroup of todoTitlesOfGroups">
+  <h3 mat-subheader *ngIf="todoTitlesOfGroup.todoTitles.length">
+    {{todoTitlesOfGroup.group}}
+  </h3>
+  <div fxLayout="row wrap">
+    <div fxFlex="10" fxFlex.sm="12.5" fxFlex.xs="20" *ngFor="let todoTitle of todoTitlesOfGroup.todoTitles" class="tile">
+      <mat-grid-list cols="1" rowHeight="1:1">
+        <mat-grid-tile (click)="openDialog(todoTitle)">
+          <div class="title">{{todoTitle.title}}</div>
+          <app-sharing-todo [todoTitle]="todoTitle"></app-sharing-todo>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+  </div>
+</ng-container>

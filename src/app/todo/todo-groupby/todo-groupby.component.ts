@@ -1,7 +1,10 @@
 import { Component, OnInit, OnChanges, Input, Output, EventEmitter } from '@angular/core';
+import { MatDialog } from '@angular/material';
 
 import { Todo } from '../../model/todo';
 import { Group } from '../../model/group';
+
+import { TodoShareComponent } from '../todo-share/todo-share.component';
 
 @Component({
   selector: 'app-todo-groupby',
@@ -9,7 +12,7 @@ import { Group } from '../../model/group';
   styleUrls: ['./todo-groupby.component.css']
 })
 export class TodoGroupbyComponent implements OnInit, OnChanges {
-  todoTitles: any[];
+  todoTitlesOfGroups: any[];
 
   @Input() userId: string;
   @Input() groups: Group[];
@@ -21,24 +24,24 @@ export class TodoGroupbyComponent implements OnInit, OnChanges {
   @Output() onEdit = new EventEmitter<Todo>();
   @Output() onDelete = new EventEmitter<Todo>();
 
-  constructor() { }
+  constructor(public dialog: MatDialog) { }
 
   ngOnInit() {
   }
 
   ngOnChanges() {
-    this.todoTitles = [];
+    this.todoTitlesOfGroups = [];
     this.groupSets.forEach(groupSet => {
-      const todoTitlesOfGroup = [];
+      const todoTitlesOfGroup = {group: groupSet.name, todoTitles: []};
       groupSet.todos.forEach(todo => {
-        const index = todoTitlesOfGroup.findIndex(({title}) => title === todo.title);
+        const index = todoTitlesOfGroup.todoTitles.findIndex(({title}) => title === todo.title);
         if (index < 0) {
-          todoTitlesOfGroup.push({title: todo.title, todos: [todo]});
+          todoTitlesOfGroup.todoTitles.push({title: todo.title, todos: [todo]});
         } else {
-          todoTitlesOfGroup[index].todos.push(todo);
+          todoTitlesOfGroup.todoTitles[index].todos.push(todo);
         }
       });
-      todoTitlesOfGroup.forEach(todoTitle => {
+      todoTitlesOfGroup.todoTitles.forEach(todoTitle => {
         todoTitle['users'] = {};
         this.members.forEach(member => {
           todoTitle.users[member.key] = {
@@ -50,7 +53,7 @@ export class TodoGroupbyComponent implements OnInit, OnChanges {
           todoTitle.users[todo.completedBy].count++;
         });
       });
-      this.todoTitles = this.todoTitles.concat(todoTitlesOfGroup);
+      this.todoTitlesOfGroups.push(todoTitlesOfGroup);
     });
   }
 
@@ -64,6 +67,28 @@ export class TodoGroupbyComponent implements OnInit, OnChanges {
 
   deleteTodo(todo: Todo) {
     this.onDelete.emit(todo);
+  }
+
+  openDialog(todoTitle: any) {
+    let dialogRef = this.dialog.open(TodoShareComponent, {
+      data: {
+        userId: this.userId,
+        groups: this.groups,
+        sort: this.sort,
+        todoTitle: todoTitle
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result) {
+        if(result.type === 'update') {
+          this.onUpdate.emit(result.data);
+        } else if(result.type === 'edit') {
+          this.onEdit.emit(result.data);
+        } else if(result.type === 'delete') {
+          this.onDelete.emit(result.data);
+        }
+      }
+    });
   }
 
 }

@@ -19,9 +19,9 @@ import {
   MatNativeDateModule,
   MatGridListModule,
   MatChipsModule,
-  MatExpansionModule
 } from '@angular/material';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 // import { AngularFireModule } from 'angularfire2';
 import {
@@ -50,6 +50,7 @@ import { TodoAllComponent } from './todo/todo-all/todo-all.component';
 import { TodoOfGroupComponent } from './todo/todo-of-group/todo-of-group.component';
 import { TodoCompletedComponent } from './todo/todo-completed/todo-completed.component';
 import { TodoGroupbyComponent } from './todo/todo-groupby/todo-groupby.component';
+import { TodoShareComponent } from './todo/todo-share/todo-share.component';
 import { TodoManageComponent } from './todo/todo-manage/todo-manage.component';
 
 import { GroupAddComponent } from './group/group-add/group-add.component';
@@ -82,6 +83,7 @@ import { FilterByPipe } from './pipe/filter-by/filter-by.pipe';
     TodoOfGroupComponent,
     TodoCompletedComponent,
     TodoGroupbyComponent,
+    TodoShareComponent,
     TodoManageComponent,
     GroupListComponent,
     GroupItemComponent,
@@ -116,7 +118,7 @@ import { FilterByPipe } from './pipe/filter-by/filter-by.pipe';
     MatMomentDateModule,
     MatGridListModule,
     MatChipsModule,
-    MatExpansionModule,
+    FlexLayoutModule,
     ROUTES,
     // AngularFireModule.initializeApp(environment.firebase),
     AngularFireModule,
@@ -126,6 +128,7 @@ import { FilterByPipe } from './pipe/filter-by/filter-by.pipe';
   ],
   entryComponents: [
     TodoFormComponent,
+    TodoShareComponent,
     GroupFormComponent,
     GroupEditComponent,
   ],

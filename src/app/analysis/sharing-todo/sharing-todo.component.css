@@ -1,0 +1,10 @@
+.chart {
+  display: block;
+}
+.dummy {
+  visibility: hidden;
+  height: 0;
+}
+canvas {
+  width: 200%;
+}

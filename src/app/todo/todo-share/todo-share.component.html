@@ -1,0 +1,7 @@
+<h2 mat-dialog-title>{{ data.todoTitle.title }}</h2>
+<mat-dialog-content>
+  <app-sharing-todo [todoTitle]="data.todoTitle" [legend]="'true'"></app-sharing-todo>
+  <mat-list>
+    <app-todo-list [userId]="data.userId" [groups]="data.groups" [todos]="data.todoTitle.todos" [sort]="data.sort" (onUpdate)="updateTodo($event)" (onEdit)="editTodo($event)" (onDelete)="deleteTodo($event)"></app-todo-list>
+  </mat-list>
+</mat-dialog-content>

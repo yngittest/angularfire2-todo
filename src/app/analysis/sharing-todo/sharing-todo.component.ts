@@ -12,10 +12,14 @@ export class SharingTodoComponent implements OnChanges {
   pieChartData: number[];
 
   @Input() todoTitle: any;
+  @Input() legend: boolean;
 
   constructor() { }
 
   ngOnChanges() {
+    if(this.legend) {
+      this.pieChartLegend = this.legend;
+    }
     const pieChartLabels = [];
     const pieChartData = [];
     Object.keys(this.todoTitle.users).forEach(key => {
